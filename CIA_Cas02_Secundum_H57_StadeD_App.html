@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<title>CIA · Cas 02 · Secundum H57 · Stade D · CSC Algeria</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#06101E;--bg2:#0B1928;--bg3:#0F2035;--bg4:#152848;
+  --teal:#00C4AE;--t2:rgba(0,196,174,.13);
+  --sky:#38BDF8;--s2:rgba(56,189,248,.12);
+  --mint:#34D399;--m2:rgba(52,211,153,.12);
+  --gold:#F0A030;--g2:rgba(240,160,48,.12);
+  --red:#E03050;--r2:rgba(224,48,80,.12);
+  --pur:#A78BFA;--p2:rgba(167,139,250,.12);
+  --rose:#FB7185;--ro2:rgba(251,113,133,.1);
+  --orange:#FB923C;--or2:rgba(251,146,60,.12);
+  --w1:#EEF5FF;--w2:rgba(238,245,255,.65);--w3:rgba(238,245,255,.32);
+  --brd:rgba(255,255,255,.08);--brd2:rgba(255,255,255,.15);
+  --r:14px;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{min-height:100%;background:var(--bg);color:var(--w1);font-family:"DM Sans",sans-serif;font-size:14px;overflow-x:hidden}
+#topbar{background:rgba(6,16,30,.97);backdrop-filter:blur(16px);border-bottom:1px solid var(--brd);padding:10px 16px;display:flex;align-items:center;gap:10px;position:sticky;top:0;z-index:100}
+.tb-logo{width:34px;height:34px;border-radius:9px;background:#fff;padding:2px;flex-shrink:0;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.tb-logo img{width:100%;height:100%;object-fit:contain}
+.tb-t{font-family:"Syne",sans-serif;font-size:14px;font-weight:700;color:var(--red)}
+.tb-s{font-size:10px;color:var(--w3)}
+.tb-badge{background:var(--r2);border:1px solid rgba(224,48,80,.4);border-radius:8px;padding:3px 9px;font-size:9px;font-weight:700;color:var(--red);white-space:nowrap}
+.tb-badge2{background:var(--or2);border:1px solid rgba(251,146,60,.35);border-radius:8px;padding:3px 9px;font-size:9px;font-weight:700;color:var(--orange);white-space:nowrap}
+#stepnav{background:rgba(6,16,30,.95);border-bottom:1px solid var(--brd);padding:10px 14px;display:flex;gap:6px;overflow-x:auto;-webkit-overflow-scrolling:touch;position:sticky;top:54px;z-index:90}
+#stepnav::-webkit-scrollbar{display:none}
+.snav{padding:7px 12px;border-radius:20px;font-family:"Syne",sans-serif;font-size:10px;font-weight:700;cursor:pointer;border:1px solid var(--brd2);background:transparent;color:var(--w3);white-space:nowrap;transition:all .15s}
+.snav.active{background:var(--red);color:#fff;border-color:var(--red)}
+.snav.done{background:rgba(52,211,153,.12);border-color:rgba(52,211,153,.3);color:var(--mint)}
+#content{padding:14px 14px 100px}
+.slide{display:none;animation:fadeUp .3s ease}
+.slide.active{display:block}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.card{background:var(--bg2);border-radius:var(--r);padding:14px;border:1px solid var(--brd);margin-bottom:12px}
+.card-title{font-family:"Syne",sans-serif;font-size:13px;font-weight:700;margin-bottom:10px;display:flex;align-items:center;gap:7px}
+.sh{font-family:"Syne",sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.9px;color:var(--w3);margin:16px 0 8px;padding-bottom:6px;border-bottom:1px solid var(--brd)}
+.hero-card{border-radius:var(--r);padding:18px;margin-bottom:14px;position:relative;overflow:hidden}
+.hero-card.danger{background:linear-gradient(135deg,rgba(224,48,80,.18),rgba(251,146,60,.1));border:2px solid rgba(224,48,80,.4)}
+.hero-label{font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:1px;text-transform:uppercase;margin-bottom:8px;color:var(--red)}
+.hero-title{font-family:"Syne",sans-serif;font-size:20px;font-weight:800;line-height:1.2;margin-bottom:6px;color:var(--w1)}
+.hero-subtitle{font-size:13px;color:var(--w2);line-height:1.6;margin-bottom:12px}
+.hero-pills{display:flex;flex-wrap:wrap;gap:6px}
+.hpill{padding:4px 10px;border-radius:20px;font-size:10px;font-weight:700;border:1px solid}
+.p-red{background:var(--r2);border-color:rgba(224,48,80,.35);color:var(--red)}
+.p-orange{background:var(--or2);border-color:rgba(251,146,60,.35);color:var(--orange)}
+.p-gold{background:var(--g2);border-color:rgba(240,160,48,.3);color:var(--gold)}
+.p-pur{background:var(--p2);border-color:rgba(167,139,250,.3);color:var(--pur)}
+.p-sky{background:var(--s2);border-color:rgba(56,189,248,.3);color:var(--sky)}
+.p-teal{background:var(--t2);border-color:rgba(0,196,174,.3);color:var(--teal)}
+.drow{display:flex;padding:8px 0;border-bottom:1px solid var(--brd);align-items:flex-start;gap:8px}
+.drow:last-child{border-bottom:none}
+.drow-label{width:145px;flex-shrink:0;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:var(--w3);line-height:1.4;padding-top:1px}
+.drow-val{flex:1;font-size:13px;color:var(--w1);line-height:1.5}
+.drow-val.ok{color:var(--mint);font-weight:700}
+.drow-val.warn{color:var(--gold);font-weight:700}
+.drow-val.alert{color:var(--red);font-weight:700}
+.drow-val.orange{color:var(--orange);font-weight:700}
+.drow-val.hl{color:var(--teal);font-weight:700}
+.cor{display:inline-flex;align-items:center;justify-content:center;padding:2px 8px;border-radius:5px;font-family:"JetBrains Mono",monospace;font-size:9px;font-weight:700;margin-right:4px}
+.cor1{background:rgba(52,211,153,.2);color:var(--mint)}
+.cor2a{background:rgba(56,189,248,.2);color:var(--sky)}
+.cor2b{background:rgba(240,160,48,.2);color:var(--gold)}
+.cor3{background:rgba(224,48,80,.15);color:var(--red)}
+.ib{border-radius:10px;padding:10px 13px;font-size:12px;line-height:1.65;border-left:3px solid;margin-bottom:10px}
+.ib-teal{background:var(--t2);border-color:var(--teal)}
+.ib-sky{background:var(--s2);border-color:var(--sky)}
+.ib-gold{background:var(--g2);border-color:var(--gold)}
+.ib-red{background:var(--r2);border-color:var(--red)}
+.ib-mint{background:var(--m2);border-color:var(--mint)}
+.ib-pur{background:var(--p2);border-color:var(--pur)}
+.ib-orange{background:var(--or2);border-color:var(--orange)}
+.gauge-row{display:flex;align-items:center;gap:10px;margin-bottom:7px}
+.gauge-label{font-size:11px;color:var(--w3);width:130px;flex-shrink:0;font-weight:600}
+.gauge-bar{flex:1;height:10px;background:var(--bg3);border-radius:5px;overflow:hidden}
+.gauge-fill{height:100%;border-radius:5px;transition:width .7s ease}
+.gauge-val{font-family:"JetBrains Mono",monospace;font-size:11px;font-weight:700;width:60px;text-align:right;flex-shrink:0}
+.canva-wrap{border-radius:12px;overflow:hidden;border:1px solid var(--brd2);background:var(--bg3);margin-bottom:12px}
+.canva-label{padding:10px 13px;border-bottom:1px solid var(--brd);font-family:"Syne",sans-serif;font-size:11px;font-weight:700;color:var(--red);display:flex;align-items:center;gap:6px}
+.canva-wrap iframe{width:100%;border:none;display:block}
+.eto-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px}
+.eto-berge{border-radius:10px;padding:10px 12px;border:2px solid;text-align:center}
+.eto-ok{border-color:rgba(52,211,153,.4);background:rgba(52,211,153,.08)}
+.eto-warn{border-color:rgba(240,160,48,.4);background:rgba(240,160,48,.08)}
+.eb-name{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--w3);margin-bottom:4px}
+.eb-val{font-family:"Syne",sans-serif;font-size:20px;font-weight:800;line-height:1}
+.eb-unit{font-size:10px;color:var(--w3)}
+.strata-table{border:1px solid var(--brd);border-radius:10px;overflow:hidden;margin-bottom:10px}
+.st-head,.st-row{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;font-size:11px}
+.st-head{background:var(--bg3);font-family:"Syne",sans-serif;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.4px}
+.st-head>div,.st-row>div{padding:7px 8px;border-right:1px solid var(--brd);line-height:1.4}
+.st-row>div:last-child,.st-head>div:last-child{border-right:none}
+.st-row{border-top:1px solid var(--brd)}
+.st-cur{background:rgba(224,48,80,.08);font-weight:700;color:var(--red)}
+.qcm-q{font-family:"Syne",sans-serif;font-size:15px;font-weight:700;margin-bottom:16px;line-height:1.45}
+.qopt{width:100%;padding:12px 14px;border-radius:11px;border:2px solid var(--brd2);background:var(--bg2);color:var(--w1);font-family:"DM Sans",sans-serif;font-size:13px;text-align:left;cursor:pointer;margin-bottom:8px;transition:all .18s;display:flex;align-items:flex-start;gap:10px}
+.qopt:active{transform:scale(.98)}
+.qopt.correct{border-color:var(--mint)!important;background:rgba(52,211,153,.1)!important}
+.qopt.wrong{border-color:var(--red)!important;background:rgba(224,48,80,.08)!important}
+.qopt.reveal{border-color:var(--mint)!important;background:rgba(52,211,153,.05)!important}
+.ql{width:28px;height:28px;border-radius:7px;background:var(--bg3);border:1px solid var(--brd2);display:flex;align-items:center;justify-content:center;font-family:"Syne",sans-serif;font-size:12px;font-weight:700;flex-shrink:0;transition:all .2s}
+.qopt.correct .ql,.qopt.reveal .ql{background:var(--mint);border-color:var(--mint);color:#06101E}
+.qopt.wrong .ql{background:var(--red);border-color:var(--red);color:#fff}
+.qt{font-size:13px;color:var(--w2);line-height:1.5;flex:1}
+.qfb{margin-top:12px;padding:12px 14px;border-radius:11px;font-size:12px;line-height:1.65;display:none;border:1px solid}
+.qfb.show{display:block}
+.qfb.ok{background:rgba(52,211,153,.08);border-color:rgba(52,211,153,.3)}
+.qfb.err{background:rgba(224,48,80,.08);border-color:rgba(224,48,80,.25)}
+.qprog{display:flex;gap:5px;margin-bottom:14px}
+.qpd{flex:1;height:4px;border-radius:2px;background:var(--brd2)}
+.qpd.done{background:var(--red)}.qpd.active{background:var(--gold)}
+.qnum{font-size:10px;color:var(--w3);font-weight:700;text-transform:uppercase;letter-spacing:.8px;margin-bottom:10px}
+.score-wrap{text-align:center;padding:20px 0 10px}
+.score-ring{position:relative;width:110px;height:110px;margin:0 auto 10px}
+.score-ring svg{transform:rotate(-90deg)}
+.sr-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.sr-num{font-family:"Syne",sans-serif;font-size:32px;font-weight:800;line-height:1}
+.sr-den{font-size:11px;color:var(--w3)}
+.score-label{font-family:"Syne",sans-serif;font-size:18px;font-weight:700;margin-bottom:4px}
+.score-sub{font-size:12px;color:var(--w3)}
+.val-banner{background:linear-gradient(90deg,rgba(224,48,80,.1),rgba(251,146,60,.06));border:1px solid rgba(224,48,80,.25);border-radius:10px;padding:10px 13px;display:flex;gap:9px;align-items:flex-start;margin-bottom:14px}
+.vb-t{font-size:11px;color:var(--w2);line-height:1.55}
+.vb-t strong{color:var(--red);display:block;font-size:12px}
+.kmsg{display:flex;gap:10px;align-items:flex-start;padding:10px 12px;background:var(--bg2);border-radius:10px;border:1px solid var(--brd);margin-bottom:7px}
+.km-num{width:24px;height:24px;border-radius:6px;font-family:"Syne",sans-serif;font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#fff}
+.km-body{font-size:12px;color:var(--w2);line-height:1.55;flex:1}
+.dt-node{border-radius:11px;padding:12px 14px;border:2px solid;margin-bottom:6px}
+.dt-arrow{text-align:center;font-size:18px;color:var(--w3);padding:2px 0;margin-bottom:4px}
+.suivi-table{border:1px solid var(--brd);border-radius:10px;overflow:hidden;margin-bottom:10px}
+.suiv-head,.suiv-row{display:grid;grid-template-columns:1.4fr 1fr 1fr;font-size:11px}
+.suiv-head{background:var(--bg3);font-family:"Syne",sans-serif;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:var(--w3)}
+.suiv-head>div,.suiv-row>div{padding:8px 10px;border-right:1px solid var(--brd);line-height:1.4;color:var(--w2)}
+.suiv-head>div:last-child,.suiv-row>div:last-child{border-right:none}
+.suiv-row{border-top:1px solid var(--brd)}
+.suiv-row.hl{background:rgba(224,48,80,.05)}
+.suiv-val{font-weight:700;color:var(--red);font-family:"JetBrains Mono",monospace;font-size:10px}
+#botnav{position:fixed;bottom:0;left:0;right:0;background:rgba(6,16,30,.97);backdrop-filter:blur(14px);border-top:1px solid var(--brd);padding:10px 14px;display:flex;gap:8px;z-index:100}
+.bnav-btn{flex:1;padding:12px;border-radius:11px;border:none;cursor:pointer;font-family:"Syne",sans-serif;font-size:13px;font-weight:700;transition:all .15s}
+.bnav-btn:active{transform:scale(.97)}
+.bnav-prev{background:var(--bg3);border:1px solid var(--brd2);color:var(--w2)}
+.bnav-next{background:var(--red);color:#fff}
+.bnav-btn:disabled{opacity:.3;cursor:not-allowed}
+/* CRITICAL BANNER */
+.crit-banner{background:linear-gradient(135deg,rgba(224,48,80,.2),rgba(251,146,60,.12));border:2px solid rgba(224,48,80,.5);border-radius:12px;padding:14px;margin-bottom:14px;display:flex;gap:10px;align-items:flex-start}
+.cb-icon{font-size:24px;flex-shrink:0}
+.cb-body{font-size:12px;color:var(--w1);line-height:1.65}
+.cb-title{font-family:"Syne",sans-serif;font-size:14px;font-weight:800;color:var(--red);margin-bottom:6px}
+/* PARAM BOXES */
+.param-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px}
+.param-box{border-radius:10px;padding:12px;border:1px solid;text-align:center}
+.pb-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--w3);margin-bottom:4px}
+.pb-val{font-family:"Syne",sans-serif;font-size:22px;font-weight:800;line-height:1;margin-bottom:2px}
+.pb-unit{font-size:10px;color:var(--w3)}
+.pb-status{font-size:10px;font-weight:700;margin-top:4px}
+/* STRATA RESULT */
+.strata-result{border-radius:12px;padding:14px;border:2px solid;margin-bottom:10px;text-align:center}
+.sr-title{font-family:"Syne",sans-serif;font-size:18px;font-weight:800;margin-bottom:6px}
+.sr-pct{font-size:12px;color:var(--w2)}
+</style>
+</head>
+<body>
+
+<div id="topbar">
+  <div class="tb-logo"><img src="data:image/png;base64,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" alt="CSC"></div>
+  <div style="flex:1">
+    <div class="tb-t">CIA · Cas 02 · Secundum H57 ans</div>
+    <div class="tb-s">CSC Algeria · ACHD CORE-Team · ACC/AHA 2025</div>
+  </div>
+  <div class="tb-badge2">⭐⭐⭐</div>
+  <div class="tb-badge">Stade D</div>
+</div>
+
+<div id="stepnav">
+  <button class="snav active" data-slide="0">🚨 Présentation</button>
+  <button class="snav" data-slide="1">🎞 Iconographie</button>
+  <button class="snav" data-slide="2">🫀 Volet 1 — Anatomique</button>
+  <button class="snav" data-slide="3">🫁 Volet 2 — HTAP</button>
+  <button class="snav" data-slide="4">📊 Volet 3 — Stade D</button>
+  <button class="snav" data-slide="5">❓ QCM</button>
+  <button class="snav" data-slide="6">⚕️ Décision & Suivi</button>
+  <button class="snav" data-slide="7">💡 Messages clés</button>
+</div>
+
+<div id="content">
+
+<!-- SLIDE 0 PRÉSENTATION -->
+<div class="slide active" id="slide-0">
+  <div class="val-banner">
+    <div style="font-size:18px">✅</div>
+    <div class="vb-t"><strong>Validé · CORE-TEAM ACHD-Algérie · CSC · ACC/AHA 2025</strong>Cas CIA 02 · Section 4.1.1 · Cas complexe Stade D · COR 2a zone grise</div>
+  </div>
+  <div class="hero-card danger">
+    <div class="hero-label">🚨 CIA · Cas Clinique N°02 · Complexité Anatomique Classe I · Situation Complexe</div>
+    <div class="hero-title">CIA Ostium Secundum 28 mm<br>Dysfonction VD Sévère · FA · Stade D</div>
+    <div class="hero-subtitle">Homme de 57 ans · Dyspnée NYHA III · Fibrillation atriale persistante<br>FEVD = 25% · Strain VD = -8% · RVP = 4.1 WU · Décision en zone grise COR 2a</div>
+    <div class="hero-pills">
+      <span class="hpill p-red">Stade D ACC 2025</span>
+      <span class="hpill p-orange">FEVD 25%</span>
+      <span class="hpill p-pur">FA permanente</span>
+      <span class="hpill p-gold">RVP 4.1 WU</span>
+      <span class="hpill p-sky">COR 2a — Zone grise</span>
+    </div>
+  </div>
+
+  <div class="crit-banner">
+    <div class="cb-icon">⚠️</div>
+    <div class="cb-body">
+      <div class="cb-title">Situation clinique à haut risque décisionnel</div>
+      PVR = 4.1 WU (zone 2–5 WU = COR 2a) mais FEVD = 25% sévèrement altérée + FA + Strain VD = -8% → Discussion multidisciplinaire obligatoire ACHD + HTAP. La fermeture améliore la surcharge volumique mais le VD peut décompenser davantage à court terme.
+    </div>
+  </div>
+
+  <div class="sh">👤 Identité & Motif</div>
+  <div class="card">
+    <div class="drow"><div class="drow-label">Nom / Prénom</div><div class="drow-val">M. Kamel Rachid</div></div>
+    <div class="drow"><div class="drow-label">Âge / Sexe</div><div class="drow-val">57 ans · Masculin</div></div>
+    <div class="drow"><div class="drow-label">Poids / Taille</div><div class="drow-val">82 kg · 172 cm · IMC 27.7</div></div>
+    <div class="drow"><div class="drow-label">SpO₂ repos</div><div class="drow-val warn">93% en air ambiant ⚠️ — hypoxémie légère-modérée (86–92% = stade C, ici 93% = limite)</div></div>
+    <div class="drow"><div class="drow-label">SpO₂ à l'effort</div><div class="drow-val alert">Désaturation à 87% au test de marche 6 min (arrêt à 210 m)</div></div>
+    <div class="drow"><div class="drow-label">FC / TA</div><div class="drow-val">FA 96 bpm irrégulier · 118/72 mmHg</div></div>
+    <div class="drow"><div class="drow-label">NYHA</div><div class="drow-val alert">Classe III — dyspnée pour effort modéré (marche en palier limitée à 200 m)</div></div>
+    <div class="drow"><div class="drow-label">Motif</div><div class="drow-val">Aggravation progressive dyspnée depuis 6 mois · Découverte CIA lors bilan FA · Hospitalisation pour bilan complet</div></div>
+  </div>
+
+  <div class="sh">📋 Antécédents & Histoire de la maladie</div>
+  <div class="card">
+    <div class="drow"><div class="drow-label">ATCD cardiaques</div><div class="drow-val">CIA descoberta il y a 3 ans lors d'un bilan de FA. Suivi irrégulier. Pas de geste réalisé. FA diagnostiquée à 52 ans, sous anticoagulants.</div></div>
+    <div class="drow"><div class="drow-label">FA</div><div class="drow-val alert">FA persistante depuis 3 ans · Tentatives CV × 2 (rechutes à 1 et 3 mois) · Actuellement FA permanente · Score CHA₂DS₂-VASc = 2 (âge + HTA)</div></div>
+    <div class="drow"><div class="drow-label">Traitements</div><div class="drow-val">Rivaroxaban 20 mg/j · Bisoprolol 5 mg/j · Furosémide 40 mg/j (depuis 3 mois) · Spironolactone 25 mg/j</div></div>
+    <div class="drow"><div class="drow-label">ATCD médicaux</div><div class="drow-val">HTA depuis 8 ans (Amlodipine 5 mg) · Pas de diabète · Ex-fumeur sevré 10 ans · Dyslipidémie traitée</div></div>
+    <div class="drow"><div class="drow-label">Évolution</div><div class="drow-val">Aggravation progressive sur 3 ans de la dyspnée d'effort. Passage NYHA II → III en 6 mois. Œdèmes des membres inférieurs. Hospitalisation pour décompensation IC droite il y a 4 mois.</div></div>
+    <div class="drow"><div class="drow-label">Examen clinique</div><div class="drow-val">Souffle systolique éjectionnel au foyer pulmonaire · B2 accentué · Dédoublement fixe B2 · TJE à 4 cm · Hépatomégalie 2 cm sous le rebord · Œdèmes bimallolaires ++ · Pas de cyanose</div></div>
+  </div>
+
+  <div class="sh">🔬 Bilan biologique</div>
+  <div class="card">
+    <div class="drow"><div class="drow-label">BNP</div><div class="drow-val alert">684 pg/mL ⚠️ — très élevé (N &lt;50) — surcharge VD sévère</div></div>
+    <div class="drow"><div class="drow-label">NT-proBNP</div><div class="drow-val alert">2850 pg/mL — très élevé, &gt; 2× LSN → critère Stade D</div></div>
+    <div class="drow"><div class="drow-label">Troponine hs</div><div class="drow-val warn">28 ng/L — légèrement élevée (cytolyse VD chronique)</div></div>
+    <div class="drow"><div class="drow-label">Créatinine / DFG</div><div class="drow-val warn">108 μmol/L · DFG 62 mL/min — IRC légère (congestion rénale)</div></div>
+    <div class="drow"><div class="drow-label">Bilan hépatique</div><div class="drow-val warn">ASAT 52 UI/L · ALAT 48 UI/L — légèrement élevées (congestion hépatique)</div></div>
+    <div class="drow"><div class="drow-label">NFS</div><div class="drow-val">Hb 13.8 g/dL · Plaquettes 198 G/L · Pas de polyglobulie</div></div>
+    <div class="drow"><div class="drow-label">INR / Anticoag.</div><div class="drow-val">Rivaroxaban — pas d'INR (AOD)</div></div>
+    <div class="drow"><div class="drow-label">ECG</div><div class="drow-val alert">FA à 96 bpm irrégulière · BBD complet (QRS 138 ms) · Axe droit +110° · HVD marquée · Pas de sus-décalage ST</div></div>
+    <div class="drow"><div class="drow-label">Rx thorax</div><div class="drow-val alert">Cardiomégalie importante (ICT 0.64) · AP proéminentes · Lignes de Kerley B · Épanchement pleural droit minime</div></div>
+    <div class="drow"><div class="drow-label">TM6M</div><div class="drow-val alert">210 mètres (N &gt; 450 m) — &lt; 165 m = seuil risque élevé (non atteint : 165–440 m = intermédiaire)</div></div>
+  </div>
+</div>
+
+<!-- SLIDE 1 ICONOGRAPHIE -->
+<div class="slide" id="slide-1">
+  <div class="canva-wrap">
+    <div class="canva-label">🎞 Iconographie · ETT + ETO + IRM · Cas CIA 02 · Homme 57 ans</div>
+    <iframe src="https://www.canva.com/design/DAHGAU1TmQ4/m1w-bE7jz9IMiyJid7YBGQ/view?embed" height="420" allow="fullscreen" allowfullscreen scrolling="no" loading="lazy"></iframe>
+  </div>
+  <div class="ib ib-red">
+    <strong>🎓 Ce que vous devez observer :</strong><br>
+    VD massivement dilaté comprimant le VG (VG écrasé = D-sign positif en parasternale petit axe). TAPSE effondré. Shunt G→D franc mais Qp/Qs augmenté malgré FA. IT volumineuse fonctionnelle. Évaluer si le septum IV est aplati (surcharge pression = barométrique) ou déplacé (surcharge volume). Ici : <strong>les deux composantes</strong> (PVR 4.1 WU = surcharge pression + Qp/Qs 3.1 = surcharge volume).
+  </div>
+  <div class="sh">📡 ETT — Données quantitatives complètes</div>
+  <div class="card">
+    <div class="drow"><div class="drow-label">FEVG (Simpson)</div><div class="drow-val ok">58% — conservée (compression VG par VD)</div></div>
+    <div class="drow"><div class="drow-label">DTDVG / DTSVG</div><div class="drow-val warn">44 mm / 30 mm — VG comprimé — petits volumes</div></div>
+    <div class="drow"><div class="drow-label">VD — dimensions</div><div class="drow-val alert">DTDVD = 52 mm ⚠️ (N &lt;35) · Surface VD diastolique 36 cm² — dilatation massive</div></div>
+    <div class="drow"><div class="drow-label">TAPSE</div><div class="drow-val alert">10 mm 🔴 (N ≥18) — dysfonction VD sévère (Table 13 ACC 2025)</div></div>
+    <div class="drow"><div class="drow-label">S' tricuspide TDI</div><div class="drow-val alert">6 cm/s (N &gt;10) — dysfonction sévère confirmée</div></div>
+    <div class="drow"><div class="drow-label">Strain VD (GLS)</div><div class="drow-val alert">-8% 🔴 (N &lt;-20%) — altération sévère (seuil alarme &lt; -10%)</div></div>
+    <div class="drow"><div class="drow-label">Vmax IT (peak)</div><div class="drow-val alert">3.9 m/s 🔴 (&gt;2.9 m/s — Table 13 ACC 2025)</div></div>
+    <div class="drow"><div class="drow-label">PAPS estimée</div><div class="drow-val alert">61 mmHg — très élevée (4×3.9²+POD) ⚠️</div></div>
+    <div class="drow"><div class="drow-label">Acc. RVOT</div><div class="drow-val alert">78 ms 🔴 (N &gt;105 ms) — signe d'HTAP vasculaire confirmée</div></div>
+    <div class="drow"><div class="drow-label">IVS aplati (D-sign)</div><div class="drow-val alert">PRÉSENT ++ — surcharge pression ET volume VD</div></div>
+    <div class="drow"><div class="drow-label">Qp/Qs ETT</div><div class="drow-val alert">3.1 — shunt massif malgré FEVD effondrée</div></div>
+    <div class="drow"><div class="drow-label">CIA visible ETT</div><div class="drow-val">CIA OS 28 mm — shunt G→D franc au Doppler couleur</div></div>
+    <div class="drow"><div class="drow-label">Valve tricuspide</div><div class="drow-val alert">IT modérée fonctionnelle · Anneau 44 mm (&gt;40 mm) ⚠️ — dilatation annulaire</div></div>
+    <div class="drow"><div class="drow-label">Valve mitrale</div><div class="drow-val ok">Normale — légère IM fonctionnelle (1+)</div></div>
+    <div class="drow"><div class="drow-label">VCI</div><div class="drow-val alert">28 mm — collapsus &lt;50% — POD estimée 15 mmHg — congestion veineuse</div></div>
+    <div class="drow"><div class="drow-label">Péricarde</div><div class="drow-val warn">Épanchement péricardique minime 5 mm — signe de surcharge chronique</div></div>
+  </div>
+</div>
+
+<!-- SLIDE 2 VOLET 1 ANATOMIQUE -->
+<div class="slide" id="slide-2">
+  <div class="sh">🫀 Volet 1 — Évaluation Anatomique · ETO + IRM</div>
+  <div class="ib ib-teal"><span class="cor cor1">COR I B-NR</span> ETO obligatoire avant toute décision de fermeture — même dans les cas complexes. Confirme la faisabilité et évalue la dysfonction VG associée.</div>
+
+  <div class="card">
+    <div class="card-title">🎯 ETO — Caractérisation du défect</div>
+    <div class="drow"><div class="drow-label">Type anatomique</div><div class="drow-val hl">Ostium Secundum — fossette ovale centrale</div></div>
+    <div class="drow"><div class="drow-label">Taille max ETO</div><div class="drow-val alert">28 mm — grande CIA (proche limite 38 mm)</div></div>
+    <div class="drow"><div class="drow-label">Taille balloon stretch</div><div class="drow-val warn">30–32 mm estimée — vérification ETO 3D obligatoire</div></div>
+    <div class="drow"><div class="drow-label">Morphologie</div><div class="drow-label">Ovale — défect unique — belles berges</div></div>
+    <div class="drow"><div class="drow-label">Anévrisme septum</div><div class="drow-val ok">Absent</div></div>
+    <div class="drow"><div class="drow-label">Shunt ETO Doppler</div><div class="drow-val alert">G→D exclusif · Pas de renversement shunt</div></div>
+    <div class="drow"><div class="drow-label">RVPPA</div><div class="drow-val ok">4 veines pulmonaires dans OG — pas de retour anormal</div></div>
+    <div class="drow"><div class="drow-label">Thrombus OG / OD</div><div class="drow-val warn">Thrombus auricule gauche EXCLU par ETO (anticoag. efficace) — VÉRIFICATION OBLIGATOIRE avant toute procédure (patient en FA)</div></div>
+    <div class="drow"><div class="drow-label">Dysfonction VG</div><div class="drow-val ok">Pas de dysfonction diastolique sévère — PCWP 14 mmHg (≤15 mmHg) — pas de CI formelle fermeture par dysfonction VG</div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📏 Berges ETO — Toutes suffisantes</div>
+    <div class="eto-grid">
+      <div class="eto-berge eto-ok"><div class="eb-name">Berge Antérieure (Aortique)</div><div class="eb-val" style="color:var(--mint)">8<span class="eb-unit"> mm</span></div><div class="eb-unit" style="color:var(--mint)">✅ ≥ 5 mm</div></div>
+      <div class="eto-berge eto-ok"><div class="eb-name">Berge Postérieure</div><div class="eb-val" style="color:var(--mint)">12<span class="eb-unit"> mm</span></div><div class="eb-unit" style="color:var(--mint)">✅ ≥ 5 mm</div></div>
+      <div class="eto-berge eto-ok"><div class="eb-name">Berge Supérieure (VCS)</div><div class="eb-val" style="color:var(--mint)">9<span class="eb-unit"> mm</span></div><div class="eb-unit" style="color:var(--mint)">✅ ≥ 5 mm</div></div>
+      <div class="eto-berge eto-ok"><div class="eb-name">Berge Inférieure (VCI)</div><div class="eb-val" style="color:var(--mint)">11<span class="eb-unit"> mm</span></div><div class="eb-unit" style="color:var(--mint)">✅ ≥ 5 mm</div></div>
+    </div>
+    <div class="ib ib-gold" style="margin-bottom:0">
+      <strong>Anatomiquement éligible !</strong> Toutes les berges ≥ 5 mm · Diamètre 28 mm ≤ 38 mm → Faisable techniquement. MAIS la décision ne se limite pas à la faisabilité anatomique — la dysfonction VD sévère (FEVD 25%) et la FA sont des facteurs modificateurs critiques de la décision.
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🩻 IRM Cardiaque — Données décisionnelles</div>
+    <div class="param-grid">
+      <div class="param-box" style="border-color:rgba(52,211,153,.3);background:rgba(52,211,153,.06)"><div class="pb-label">FEVG IRM</div><div class="pb-val" style="color:var(--mint)">58<span style="font-size:14px">%</span></div><div class="pb-status" style="color:var(--mint)">✅ Conservée</div></div>
+      <div class="param-box" style="border-color:rgba(224,48,80,.4);background:rgba(224,48,80,.08)"><div class="pb-label">FEVD IRM</div><div class="pb-val" style="color:var(--red)">25<span style="font-size:14px">%</span></div><div class="pb-status" style="color:var(--red)">🔴 Sévèrement altérée</div></div>
+      <div class="param-box" style="border-color:rgba(224,48,80,.4);background:rgba(224,48,80,.08)"><div class="pb-label">VTSI-VD (mL/m²)</div><div class="pb-val" style="color:var(--red)">148</div><div class="pb-status" style="color:var(--red)">🔴 Très dilaté (&gt;80)</div></div>
+      <div class="param-box" style="border-color:rgba(240,160,48,.3);background:rgba(240,160,48,.07)"><div class="pb-label">Qp/Qs IRM</div><div class="pb-val" style="color:var(--gold)">3.1</div><div class="pb-status" style="color:var(--gold)">⚠️ Shunt massif</div></div>
+    </div>
+    <div class="drow"><div class="drow-label">LGE (fibrose)</div><div class="drow-val warn">LGE VD insertion points ++ — fibrose de surcharge chronique confirmée</div></div>
+    <div class="drow"><div class="drow-label">Masse VD</div><div class="drow-val alert">68 g/m² (N &lt;45) — hypertrophie VD importante</div></div>
+    <div class="drow"><div class="drow-label">VG écrasé par VD</div><div class="drow-val alert">OUI — déviation septum IVS vers gauche — effet Bernheim inversé</div></div>
+    <div class="drow"><div class="drow-label">Aorte</div><div class="drow-val ok">Racine aortique 34 mm — normale</div></div>
+    <div class="drow"><div class="drow-label">AP dilatée</div><div class="drow-val warn">Tronc AP 38 mm — dilaté par hyperdébit + HTAP</div></div>
+  </div>
+</div>
+
+<!-- SLIDE 3 VOLET 2 HTAP -->
+<div class="slide" id="slide-3">
+  <div class="sh">🫁 Volet 2 — Évaluation HTAP · Table 13 ACC 2025</div>
+
+  <div class="ib ib-orange">
+    <strong>⚠️ SITUATION INTERMÉDIAIRE :</strong> PVR = 4.1 WU (zone 2–5 WU = COR 2a). HTAP précapillaire CONFIRMÉE au cathétérisme. MAIS dysfonction VD sévère (FEVD 25%, Strain -8%) = facteur modificateur majeur. Cette combinaison est la plus difficile à décider dans la CIA.
+  </div>
+
+  <div class="card">
+    <div class="card-title">🩺 Évaluation clinique — Table 13 ACC 2025</div>
+    <div class="drow"><div class="drow-label">Classe WHO</div><div class="drow-val alert">WHO III — dyspnée limitante pour effort modéré</div></div>
+    <div class="drow"><div class="drow-label">TM6M</div><div class="drow-val alert">210 m (seuil risque intermédiaire : 165–440 m)</div></div>
+    <div class="drow"><div class="drow-label">SpO₂ repos</div><div class="drow-val warn">93% — hypoxémie légère (seuil 92% = modérée)</div></div>
+    <div class="drow"><div class="drow-label">SpO₂ effort</div><div class="drow-val alert">87% — désaturation significative à l'effort</div></div>
+    <div class="drow"><div class="drow-label">Signes IC droite</div><div class="drow-val alert">PRÉSENTS : TJE 4 cm · hépatomégalie · œdèmes ++</div></div>
+    <div class="drow"><div class="drow-label">B2 accentué</div><div class="drow-val alert">Oui + dédoublement fixe B2</div></div>
+    <div class="drow"><div class="drow-label">Épanchement péric.</div><div class="drow-val warn">Minime 5 mm — signe de surcharge chronique (facteur 3-Strata)</div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📡 Signes ETT d'HTAP — Table 13 ACC 2025</div>
+    <div class="gauge-row"><div class="gauge-label">Vmax IT (m/s)</div><div class="gauge-bar"><div class="gauge-fill" style="width:95%;background:var(--red)"></div></div><div class="gauge-val" style="color:var(--red)">3.9 🔴</div></div>
+    <div class="gauge-row"><div class="gauge-label">TAPSE (mm)</div><div class="gauge-bar"><div class="gauge-fill" style="width:28%;background:var(--red)"></div></div><div class="gauge-val" style="color:var(--red)">10 🔴</div></div>
+    <div class="gauge-row"><div class="gauge-label">Acc. RVOT (ms)</div><div class="gauge-bar"><div class="gauge-fill" style="width:40%;background:var(--red)"></div></div><div class="gauge-val" style="color:var(--red)">78 🔴</div></div>
+    <div class="gauge-row"><div class="gauge-label">Strain VD (%)</div><div class="gauge-bar"><div class="gauge-fill" style="width:20%;background:var(--red)"></div></div><div class="gauge-val" style="color:var(--red)">-8% 🔴</div></div>
+    <div class="gauge-row"><div class="gauge-label">IVS aplati (D-sign)</div><div class="gauge-bar"><div class="gauge-fill" style="width:100%;background:var(--red)"></div></div><div class="gauge-val" style="color:var(--red)">🔴</div></div>
+    <div class="gauge-row"><div class="gauge-label">Épanch. péricardique</div><div class="gauge-bar"><div class="gauge-fill" style="width:30%;background:var(--gold)"></div></div><div class="gauge-val" style="color:var(--gold)">5 mm ⚠️</div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">💉 Cathétérisme Droit — Données complètes</div>
+    <div class="drow"><div class="drow-label">Pressions AP</div><div class="drow-val alert">58 / 28 / 39 mmHg (systolique/diastolique/moyenne)</div></div>
+    <div class="drow"><div class="drow-label">mPAP</div><div class="drow-val alert">39 mmHg — HTAP significative</div></div>
+    <div class="drow"><div class="drow-label">PVR (RVP)</div><div class="drow-val orange">4.1 Wood Units ⚠️ — zone 2–5 WU = COR 2a</div></div>
+    <div class="drow"><div class="drow-label">PCWP</div><div class="drow-val warn">14 mmHg — limite haute (≤15 mmHg = précapillaire confirmé)</div></div>
+    <div class="drow"><div class="drow-label">DC (Fick)</div><div class="drow-val warn">4.2 L/min — réduit (débit systémique bas malgré Qp/Qs élevé)</div></div>
+    <div class="drow"><div class="drow-label">Qp/Qs cathé</div><div class="drow-val alert">3.1 — shunt massif G→D</div></div>
+    <div class="drow"><div class="drow-label">TA systémique</div><div class="drow-val">118/72 mmHg</div></div>
+    <div class="drow"><div class="drow-label">Satimétries</div><div class="drow-val">OD 68% · VD 74% · AP 83% (step-up +9% OD→AP) · VG 97% · Ao 97%</div></div>
+    <div class="drow"><div class="drow-label">PTDVD</div><div class="drow-val alert">18 mmHg — élevé (N &lt;8 mmHg) — dysfonction diastolique VD</div></div>
+    <div class="drow"><div class="drow-label">Résistances syst.</div><div class="drow-val">RVS = 9.6 WU — normales</div></div>
+    <div class="drow"><div class="drow-label">HTAP précapillaire</div><div class="drow-val orange">CONFIRMÉE : mPAP 39 &gt;20 + PVR 4.1 &gt;2 + PCWP 14 ≤15 mmHg</div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📊 Stratification 3-Strata ACC 2025</div>
+    <div class="strata-table">
+      <div class="st-head"><div>Paramètre</div><div style="color:var(--mint)">Faible</div><div style="color:var(--gold)">Interméd. ← CE CAS</div><div style="color:var(--red)">Élevé</div></div>
+      <div class="st-row"><div>WHO</div><div>I–II</div><div class="st-cur">III ✓</div><div>III–IV</div></div>
+      <div class="st-row"><div>TM6M</div><div>&gt;440 m</div><div class="st-cur">210 m ✓</div><div>&lt;165 m</div></div>
+      <div class="st-row"><div>NT-proBNP</div><div>&lt;300</div><div class="st-cur">2850 pg/mL ✓</div><div>&gt;1400</div></div>
+      <div class="st-row"><div>TAPSE</div><div>≥18 mm</div><div>—</div><div class="st-cur">10 mm 🔴 ✓</div></div>
+      <div class="st-row"><div>Épanch. péricardique</div><div>Absent</div><div>—</div><div class="st-cur">Présent 5 mm ✓</div></div>
+      <div class="st-row"><div>PVR</div><div>&lt;5</div><div class="st-cur">4.1 WU ✓</div><div>&gt;15</div></div>
+    </div>
+    <div class="strata-result" style="border-color:rgba(224,48,80,.4);background:rgba(224,48,80,.07)">
+      <div class="sr-title" style="color:var(--red)">3-Strata : Risque ÉLEVÉ</div>
+      <div class="sr-pct">TAPSE &lt;18 mm + épanchement péricardique + NT-proBNP &gt;1400 pg/mL = 3 critères élevés → RISQUE ÉLEVÉ malgré WHO III et TM6M intermédiaires</div>
+    </div>
+    <div class="ib ib-red" style="margin-bottom:0">
+      <strong>Stade D ACC 2025 (Table 4) :</strong> HTAP risque élevé (3-Strata) → Stade D · NYHA III · NT-proBNP très élevé &gt;2×LSN · Hospitalisation pour IC dans les 12 mois → Stade D confirmé sur plusieurs critères.
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 4 VOLET 3 STADE -->
+<div class="slide" id="slide-4">
+  <div class="sh">📊 Volet 3 — Stade Physiologique D · Table 4 ACC/AHA 2025</div>
+
+  <div class="card">
+    <div class="card-title">Critères Stade D — Tous présents ici</div>
+    <div class="strata-table">
+      <div class="st-head"><div>Critère Stade D (Table 4)</div><div>Valeur chez ce patient</div><div style="color:var(--red)">Présent ?</div><div>Signification</div></div>
+      <div class="st-row"><div>NYHA III–IV</div><div>NYHA III</div><div class="st-cur">✅ OUI</div><div>Limitation effort modéré</div></div>
+      <div class="st-row"><div>Hospitalisation IC &lt;12 mois</div><div>Oui il y a 4 mois</div><div class="st-cur">✅ OUI</div><div>Décompensation IC droite</div></div>
+      <div class="st-row"><div>HTAP risque interméd./élevé</div><div>Risque ÉLEVÉ (3-Strata)</div><div class="st-cur">✅ OUI</div><div>TAPSE+épanch+NT-proBNP</div></div>
+      <div class="st-row"><div>Arythmie réfractaire</div><div>FA permanente (2 CV échoués)</div><div class="st-cur">✅ OUI</div><div>FA hémodynamiquement sign.</div></div>
+      <div class="st-row"><div>NT-proBNP &gt;2×LSN</div><div>2850 pg/mL &gt;&gt;600</div><div class="st-cur">✅ OUI</div><div>Surcharge VD très sévère</div></div>
+    </div>
+    <div class="ib ib-red">
+      <strong>Conclusion : STADE D — ACC/AHA 2025</strong><br>
+      5 critères de Stade D simultanément présents. C'est le stade le plus sévère de la classification ACHD. Ce patient nécessite une prise en charge multidisciplinaire urgente ACHD + HTAP + insuffisance cardiaque avancée.
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🔍 Analyse de la dysfonction VD — Gravité de l'atteinte</div>
+    <div class="param-grid">
+      <div class="param-box" style="border-color:rgba(224,48,80,.4);background:rgba(224,48,80,.08)"><div class="pb-label">FEVD IRM</div><div class="pb-val" style="color:var(--red)">25<span style="font-size:14px">%</span></div><div class="pb-status" style="color:var(--red)">🔴 Sévère (&lt;35%)</div></div>
+      <div class="param-box" style="border-color:rgba(224,48,80,.4);background:rgba(224,48,80,.08)"><div class="pb-label">Strain VD GLS</div><div class="pb-val" style="color:var(--red)">-8<span style="font-size:14px">%</span></div><div class="pb-status" style="color:var(--red)">🔴 Critique (&gt;-10%)</div></div>
+      <div class="param-box" style="border-color:rgba(224,48,80,.4);background:rgba(224,48,80,.08)"><div class="pb-label">TAPSE</div><div class="pb-val" style="color:var(--red)">10<span style="font-size:14px"> mm</span></div><div class="pb-status" style="color:var(--red)">🔴 Sévère (&lt;18)</div></div>
+      <div class="param-box" style="border-color:rgba(224,48,80,.4);background:rgba(224,48,80,.08)"><div class="pb-label">S' TDI tricusp.</div><div class="pb-val" style="color:var(--red)">6<span style="font-size:14px"> cm/s</span></div><div class="pb-status" style="color:var(--red)">🔴 Sévère (&lt;10)</div></div>
+    </div>
+    <div class="ib ib-orange">
+      <strong>Physiopathologie VD décompensé dans la CIA :</strong><br>
+      Phase 1 : Surcharge volumique VD (Qp/Qs 3.1) → dilatation VD progressive → compression VG<br>
+      Phase 2 : Développement HTAP vasculaire (PVR 4.1 WU) → surcharge barométrique surajoutée<br>
+      Phase 3 : Double surcharge volume + pression → fibrose VD (LGE) → FEVD 25%<br>
+      Phase 4 : FA sur OD dilatée → perte systole atriale → aggravation remplissage VD<br>
+      <strong>→ Cercle vicieux VD : la décompensation est en cours</strong>
+    </div>
+    <div class="ib ib-red" style="margin-bottom:0">
+      <strong>Question décisionnelle clé :</strong> La fermeture CIA va réduire le Qp/Qs et soulager la surcharge volumique VD → <em>bénéfique</em>. MAIS elle supprime le shunt G→D compensateur → si PVR reste élevée après fermeture, le VD va devoir assurer seul le DC → risque de décompensation aigüe VD post-fermeture.
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 5 QCM -->
+<div class="slide" id="slide-5">
+  <div class="sh">❓ QCM — Entraînement clinique · 6 questions · Cas CIA 02</div>
+  <div id="qcm-area"></div>
+  <div id="score-area" style="display:none"></div>
+</div>
+
+<!-- SLIDE 6 DÉCISION & SUIVI -->
+<div class="slide" id="slide-6">
+  <div class="sh">⚕️ Décision thérapeutique — Zone grise COR 2a</div>
+
+  <div class="crit-banner">
+    <div class="cb-icon">⚖️</div>
+    <div class="cb-body">
+      <div class="cb-title">Décision en 3 étapes — Discussion multidisciplinaire obligatoire</div>
+      PVR 4.1 WU = COR 2a faisabilité technique ✅ · MAIS FEVD 25% + FA + Strain -8% = risque de décompensation VD post-fermeture. Stratégie : 1) Optimisation médicale · 2) Réévaluation · 3) Fermeture encadrée si amélioration VD
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📋 Stratégie thérapeutique en 3 phases</div>
+    <div class="dt-node" style="border-color:rgba(167,139,250,.4);background:rgba(167,139,250,.07)">
+      <div style="font-family:Syne,sans-serif;font-size:13px;font-weight:700;color:var(--pur);margin-bottom:6px">⚕️ PHASE 1 — Optimisation avant décision (4–12 semaines)</div>
+      <div style="font-size:12px;color:var(--w2);line-height:1.7">
+        <span class="cor cor1">COR I</span> <strong>FA → Contrôle rythme ou fréquence :</strong> La FA aggrave la dysfonction VD. Tentative de cardioversion électrique après 4 semaines sous anticoag efficace. Si maintien RS → réévaluation FEVD.<br><br>
+        <span class="cor cor1">COR I</span> <strong>Optimisation IC droite :</strong> Diurétiques ajustés (objectif: réduire POD &lt;10 mmHg). Traitement de fond IC.<br><br>
+        <span class="cor cor2a">COR 2a</span> <strong>Traitement PAH ciblé :</strong> Initier ERA (Macitentan 10 mg/j) ± iPDE5 (Tadalafil 40 mg/j) — objectif descendre PVR &lt;2 WU pour accéder à COR I, ou confirmer PVR 2–5 WU pour COR 2a.<br><br>
+        <span class="cor cor2b">COR 2b</span> <strong>Réévaluation IRM et cathé à 3 mois</strong> sous traitement optimisé
+      </div>
+    </div>
+    <div class="dt-arrow">↓</div>
+    <div class="dt-node" style="border-color:rgba(56,189,248,.3);background:rgba(56,189,248,.06)">
+      <div style="font-family:Syne,sans-serif;font-size:13px;font-weight:700;color:var(--sky);margin-bottom:6px">🔄 PHASE 2 — Réévaluation multidisciplinaire à 3–6 mois</div>
+      <div style="font-size:12px;color:var(--w2);line-height:1.7">
+        <strong>Si FEVD améliore (&gt;35%) + PVR &lt;5 WU sous traitement :</strong> Fermeture percutanée CIA COR 2a · Device 32 mm · ETO guidage · Monitoring hémodynamique periprocédural obligatoire<br><br>
+        <strong>Si FEVD reste &lt;35% + PVR reste 4–5 WU :</strong> Discussion RCP — fermeture fenêtrée COR 2b possible avec shunt résiduel de sécurité<br><br>
+        <strong>Si FEVD s'aggrave (&lt;20%) :</strong> CI fermeture — priorité traitement IC avancée
+      </div>
+    </div>
+    <div class="dt-arrow">↓</div>
+    <div class="dt-node" style="border-color:rgba(240,160,48,.35);background:rgba(240,160,48,.06)">
+      <div style="font-family:Syne,sans-serif;font-size:13px;font-weight:700;color:var(--gold);margin-bottom:6px">⚠️ PHASE 3 — Fermeture avec précautions spéciales</div>
+      <div style="font-size:12px;color:var(--w2);line-height:1.7">
+        Monitoring continu hémodynamique pendant procédure (Swan-Ganz ou PICCO)<br>
+        Salle hybride ou cathlab équipé réanimation<br>
+        Test d'occlusion ballon préalable ± évaluation débit cardiaque<br>
+        Annuloplastie TV concomitante chirurgicale si IT sévère (anneau 44 mm) à discuter<br>
+        Anticoagulation per et post-procédure renforcée (FA)
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">💊 Traitement médical immédiat</div>
+    <div class="drow"><div class="drow-label">Diurétiques</div><div class="drow-val">Furosémide 80 mg/j IV (optimisation) + Spironolactone 50 mg/j</div></div>
+    <div class="drow"><div class="drow-label">Anticoagulation</div><div class="drow-val alert">Rivaroxaban 20 mg/j maintenu — FA + CIA = risque embolique élevé (CHA₂DS₂-VASc 2)</div></div>
+    <div class="drow"><div class="drow-label">PAH — 1re ligne</div><div class="drow-val">Macitentan 10 mg/j (ERA) · Bilan hépatique mensuel</div></div>
+    <div class="drow"><div class="drow-label">iPDE5</div><div class="drow-val">Tadalafil 40 mg/j — après stabilisation TA</div></div>
+    <div class="drow"><div class="drow-label">FA — stratégie</div><div class="drow-val warn">Cardioversion électrique planifiée à J30 (après 4 sem anticoag efficace + optimisation VD)</div></div>
+    <div class="drow"><div class="drow-label">IT modérée</div><div class="drow-val">Traitement médical + réévaluation à 3 mois — anneau 44 mm → annuloplastie si fermeture chirurgicale</div></div>
+  </div>
+
+  <div class="sh">📅 Plan de suivi intensif · Table 12 ACC 2025 Stade D</div>
+  <div class="suivi-table">
+    <div class="suiv-head"><div>Examen</div><div>Délai</div><div>Objectif</div></div>
+    <div class="suiv-row hl"><div>Consultation ACHD + HTAP</div><div class="suiv-val">J15</div><div>Évaluation réponse diurèses + tolérance ERA</div></div>
+    <div class="suiv-row"><div>ETT + BNP + bilan hépatique</div><div class="suiv-val">M1</div><div>Réponse traitement · TAPSE · POD</div></div>
+    <div class="suiv-row hl"><div>Cardioversion électrique</div><div class="suiv-val">M1</div><div>Restauration RS si maintien anticoag efficace</div></div>
+    <div class="suiv-row"><div>IRM cardiaque</div><div class="suiv-val">M3</div><div>FEVD amélioration ? LGE progression ?</div></div>
+    <div class="suiv-row hl"><div>Cathétérisme de réévaluation</div><div class="suiv-val">M3–6</div><div>PVR sous traitement PAH — décision fermeture</div></div>
+    <div class="suiv-row"><div>RCP multidisciplinaire</div><div class="suiv-val">M3</div><div>ACHD + HTAP + IC avancée → décision collégiale</div></div>
+    <div class="suiv-row hl"><div>Si fermeture réalisée : ETT</div><div class="suiv-val">J30 + M6</div><div>Régression VD · Shunt résiduel · FEVD</div></div>
+  </div>
+</div>
+
+<!-- SLIDE 7 MESSAGES CLÉS -->
+<div class="slide" id="slide-7">
+  <div class="val-banner">
+    <div style="font-size:18px">✅</div>
+    <div class="vb-t"><strong>CORE-TEAM ACHD-Algérie · CSC · ACC/AHA 2025</strong>Messages clés — Cas CIA 02 · Situation complexe Stade D</div>
+  </div>
+  <div class="sh">💡 8 Messages clés — Cas CIA 02</div>
+  <div class="kmsg"><div class="km-num" style="background:var(--red)">1</div><div class="km-body"><strong>PVR 4.1 WU = COR 2a</strong> (zone 2–5 WU). Fermeture raisonnable MAIS uniquement après optimisation médicale et discussion multidisciplinaire. La faisabilité anatomique (berges belles) ne suffit pas à décider !</div></div>
+  <div class="kmsg"><div class="km-num" style="background:var(--orange)">2</div><div class="km-body"><strong>FEVD 25% + Strain VD -8%</strong> = dysfonction VD sévère critique. La fermeture CIA réduit la surcharge volumique mais peut décompenser un VD fragile si la PVR reste élevée post-fermeture. Monitoring hémodynamique periprocédural obligatoire.</div></div>
+  <div class="kmsg"><div class="km-num" style="background:var(--gold)">3</div><div class="km-body"><strong>FA permanente aggrave le pronostic VD</strong> dans la CIA. La perte de la systole atriale réduit le remplissage VD de 20–30%. Tentative de cardioversion obligatoire avant tout geste interventionnel. Si maintien RS → réévaluation FEVD sous RS.</div></div>
+  <div class="kmsg"><div class="km-num" style="background:var(--pur)">4</div><div class="km-body"><strong>3-Strata = risque ÉLEVÉ</strong> malgré PVR dans la zone 2–5 WU. TAPSE 10 mm + épanchement péricardique + NT-proBNP 2850 = 3 critères élevés. → Stade D ACC 2025. Suivi Table 12 : consultation ACHD tous les 3–6 mois.</div></div>
+  <div class="kmsg"><div class="km-num" style="background:var(--sky)">5</div><div class="km-body"><strong>LGE VD aux points d'insertion = fibrose de surcharge</strong>. Cela signifie que le VD a déjà été soumis à une surcharge chronique prolongée. La fibrose est irréversible. Le délai diagnostic de 57 ans a permis le développement de cette fibrose.</div></div>
+  <div class="kmsg"><div class="km-num" style="background:var(--teal)">6</div><div class="km-body"><strong>Cercle vicieux : CIA → surcharge VD → dilatation OD → FA → aggravation VD → HTAP</strong>. La CIA non fermée génère un cercle vicieux. La fermeture doit idéalement être réalisée <em>avant</em> la dysfonction VD sévère (stade B ou C précoce).</div></div>
+  <div class="kmsg"><div class="km-num" style="background:var(--mint)">7</div><div class="km-body"><strong>IT modérée (anneau 44 mm) — à surveiller</strong>. Si fermeture percutanée : l'IT fonctionnelle peut s'améliorer avec la régression VD. Si fermeture chirurgicale envisagée : annuloplastie TV concomitante à discuter (anneau &gt;40 mm = critère chirurgical).</div></div>
+  <div class="kmsg"><div class="km-num" style="background:var(--rose)">8</div><div class="km-body"><strong>Ce cas illustre la CIA diagnostiquée trop tard</strong>. À l'âge adulte, la CIA négligée évolue vers la FA, la dysfonction VD, puis l'HTAP vasculaire. Le dépistage et la fermeture précoce (stade B) auraient pu éviter cette situation critique.</div></div>
+
+  <div class="sh">📚 Référence & Contact</div>
+  <div class="card">
+    <div class="drow"><div class="drow-label">Guideline</div><div class="drow-val">Gurvitz et al. 2025 ACC/AHA/HRS/ISACHD/SCAI ACHD Guideline. JACC 2025.</div></div>
+    <div class="drow"><div class="drow-label">Section</div><div class="drow-val">4.1.1 — Atrial Septal Defect · Table 4 · Table 12 · Table 13</div></div>
+    <div class="drow"><div class="drow-label">Recommandations</div><div class="drow-val">COR 2a Rec #8 (PVR 2–5 WU) · COR I Rec #1 (ETO) · 3-Strata ESC/ERS 2022</div></div>
+    <div class="drow"><div class="drow-label">ACHD CORE-Team</div><div class="drow-val">CSC Algeria · contact@csc-cardio.com · WhatsApp +213 540 910 869</div></div>
+  </div>
+</div>
+
+</div><!-- /content -->
+
+<div id="botnav">
+  <button class="bnav-btn bnav-prev" id="btn-prev" disabled>← Précédent</button>
+  <button class="bnav-btn bnav-next" id="btn-next">Suivant →</button>
+</div>
+
+<script>
+var cur=0,total=8,qIdx=0,qScore=0,qAnswered=[];
+var snavs=document.querySelectorAll('.snav');
+snavs.forEach(function(b){b.addEventListener('click',function(){goTo(parseInt(this.getAttribute('data-slide')));});});
+function goTo(n){
+  if(n<0||n>=total)return;
+  document.querySelectorAll('.slide').forEach(function(s){s.classList.remove('active');});
+  document.getElementById('slide-'+n).classList.add('active');
+  snavs.forEach(function(b){b.classList.remove('active');});
+  snavs[n].classList.add('active');
+  if(n>0)snavs[n-1].classList.add('done');
+  cur=n;
+  document.getElementById('btn-prev').disabled=(n===0);
+  document.getElementById('btn-next').disabled=(n===total-1);
+  document.getElementById('btn-next').textContent=n===total-2?'Terminer ✓':'Suivant →';
+  window.scrollTo(0,0);
+  if(n===5&&qIdx===0)renderQ(0);
+}
+document.getElementById('btn-prev').addEventListener('click',function(){goTo(cur-1);});
+document.getElementById('btn-next').addEventListener('click',function(){goTo(cur+1);});
+
+var QCM=[
+  {q:"Ce patient a PVR = 4.1 WU, FEVD = 25%, Qp/Qs = 3.1. Selon ACC 2025, quelle recommandation de fermeture s'applique ?",
+   opts:["COR I B-R — Fermeture immédiate indiquée, PVR ≤ 2 WU","COR 2a B-R — Fermeture raisonnable si PVR 2–5 WU, mais après optimisation médicale et discussion multidisciplinaire","COR 3 — Fermeture contre-indiquée, PVR trop élevée, Eisenmenger","COR 2b — Fermeture fenêtrée uniquement car dysfonction VD sévère"],
+   ans:1,
+   fb:"COR 2a B-R Section 4.1.1 Rec #8 ACC 2025 : PVR 4.1 WU dans la zone 2–5 WU = fermeture RAISONNABLE si Qp/Qs ≥1.5 + dilatation VD + sans dysfonction VG significative. Mais ici la FEVD 25% et la FA sont des facteurs modificateurs critiques qui imposent une optimisation médicale préalable et une discussion multidisciplinaire avant tout geste."},
+  {q:"Le Strain VD = -8% et la FEVD IRM = 25%. Quelle est l'interprétation et le risque périprocédural ?",
+   opts:["Strain VD normal (> -10% = normal) — pas de risque supplémentaire","Strain VD -8% > -10% = dysfonction sévère, fibrose VD. FEVD 25% = risque de décompensation VD aiguë post-fermeture CIA","Strain VD peu fiable en FA — ignorer ce paramètre","FEVD 25% = contre-indication absolue à tout geste interventionnel"],
+   ans:1,
+   fb:"Strain VD -8% est pathologique (valeur normale < -20%). Un strain > -10% = dysfonction sévère et fibrose sous-jacente. La FEVD 25% est sévèrement réduite. Le risque périprocédural est élevé : après fermeture CIA, le VD doit assurer seul le DC sans le 'shunt de secours'. Si PVR reste élevée post-fermeture, décompensation VD aigüe possible. Monitoring hémodynamique per-procédure obligatoire."},
+  {q:"La FA a été diagnostiquée il y a 5 ans avec 2 cardioversions en échec. Quel est l'impact de la FA sur la dysfonction VD dans ce contexte de CIA ?",
+   opts:["La FA n'influence pas la fonction VD — les deux pathologies sont indépendantes","La FA améliore la tolérance en augmentant la fréquence cardiaque compensatrice","La FA aggrave la dysfonction VD par perte de la systole atriale : réduction du remplissage VD de 20–30% + tachycardie qui aggrave la dilatation VD","La FA protège contre l'HTAP en réduisant les pressions de remplissage"],
+   ans:2,
+   fb:"La FA est un facteur aggravant majeur dans la CIA avec dysfonction VD. La perte de la systole atriale réduit le remplissage diastolique du VD de 20–30%. La tachycardie relative aggrave la dilatation VD (moins de temps de remplissage). La FA est aussi associée à une mortalité accrue dans l'HTAP. La cardioversion doit être tentée AVANT la décision de fermeture CIA pour réévaluer la FEVD sous rythme sinusal."},
+  {q:"Le 3-Strata de ce patient est évalué comme : WHO III (interméd.), TM6M 210 m (interméd.), NT-proBNP 2850 pg/mL (élevé), TAPSE 10 mm (élevé), épanchement péricardique (élevé). Quelle est la conclusion ?",
+   opts:["3-Strata faible — moins de 2 critères élevés","3-Strata intermédiaire — majorité de critères intermédiaires","3-Strata élevé — 3 critères élevés (TAPSE + épanchement + NT-proBNP) → risque mortalité > 10%/an → Stade D","3-Strata non applicable dans la CIA — réservé à l'HTAP idiopathique"],
+   ans:2,
+   fb:"3-Strata ÉLEVÉ : 3 critères de risque élevé (TAPSE < 18 mm, épanchement péricardique, NT-proBNP > 1400 pg/mL) = prédominent → 3-Strata ÉLEVÉ selon ACC 2025 / ESC 2022. Risque de mortalité estimé > 10%/an. → Stade D ACC 2025 Table 4 (HTAP risque intermédiaire ou élevé). Le 3-Strata s'applique bien à cette CIA avec HTAP précapillaire confirmée (PVR > 2 WU)."},
+  {q:"L'ETO montre berges ≥ 5 mm partout, CIA 28 mm, pas de RVPPA, thrombus OG absent. Quelle est la décision correcte selon la situation globale ?",
+   opts:["Fermeture percutanée immédiate — anatomie parfaite, aucun délai justifié","Fermeture percutanée après optimisation médicale 3–6 mois (ERA+iPDE5, contrôle FA) et réévaluation cathé. Fermeture fenêtrée si FEVD reste < 35%.","Fermeture chirurgicale d'urgence — seule option valide pour ce profil","Surveillance simple — fermeture trop risquée pour ce patient"],
+   ans:1,
+   fb:"La décision correcte combine la faisabilité anatomique (berges OK, pas de contre-indication anatomique) avec la réalité clinique (FEVD 25%, FA, Stade D). La stratégie en 3 phases s'impose : 1) Optimisation médicale (ERA + iPDE5 + contrôle FA + diurétiques) 2) Réévaluation cathé à 3–6 mois 3) Fermeture percutanée si FEVD améliore > 35% + PVR < 5 WU. Fermeture fenêtrée si VD reste fragile. C'est la stratégie COR 2a ACC 2025."},
+  {q:"L'anneau tricuspide mesure 44 mm à l'ETO. La régurgitation tricuspide est modérée fonctionnelle. Quelle est la conduite à tenir ?",
+   opts:["Remplacement valvulaire tricuspide en urgence avant tout autre geste","Surveillance simple — l'IT fonctionnelle se résout toujours après fermeture CIA","Évaluer si l'IT s'améliore après régression VD post-fermeture. Si fermeture chirurgicale envisagée : annuloplastie TV concomitante (anneau > 40 mm = critère chirurgical)","L'IT fonctionnelle n'a pas d'impact pronostique dans la CIA — ignorer"],
+   ans:2,
+   fb:"Conduite recommandée pour l'IT fonctionnelle dans la CIA : L'IT légère à modérée peut s'améliorer après la régression VD qui suit la fermeture CIA. Si la fermeture est percutanée → surveillance ETT à 6 mois (régression VD attendue). Si fermeture chirurgicale envisagée → l'anneau tricuspide 44 mm > 40 mm = critère d'annuloplastie concomitante selon consensus ACHD (réduire risque IT sévère post-fermeture si PVR reste élevée)."}
+];
+
+function renderQ(idx){
+  if(idx>=QCM.length){showScore();return;}
+  var q=QCM[idx],letters=['A','B','C','D'];
+  var prog='';
+  for(var k=0;k<QCM.length;k++) prog+='<div class="qpd'+(k<idx?' done':k===idx?' active':'')+'"></div>';
+  var html='<div class="qprog">'+prog+'</div>';
+  html+='<div class="qnum">Question '+(idx+1)+' / '+QCM.length+' · Cas CIA 02 · Stade D</div>';
+  html+='<div class="card"><div class="qcm-q">'+q.q+'</div>';
+  for(var j=0;j<4;j++) html+='<button class="qopt" data-qi="'+idx+'" data-j="'+j+'"><div class="ql">'+letters[j]+'</div><div class="qt">'+q.opts[j]+'</div></button>';
+  html+='<div class="qfb" id="qfb-'+idx+'"></div></div>';
+  document.getElementById('qcm-area').innerHTML=html;
+  document.querySelectorAll('.qopt').forEach(function(b){b.addEventListener('click',function(){ansQ(parseInt(this.getAttribute('data-qi')),parseInt(this.getAttribute('data-j')));});});
+  qIdx=idx;
+}
+function ansQ(qi,chosen){
+  if(qAnswered.indexOf(qi)>=0)return;
+  qAnswered.push(qi);
+  var q=QCM[qi],correct=chosen===q.ans,letters=['A','B','C','D'];
+  if(correct)qScore++;
+  document.querySelectorAll('.qopt').forEach(function(b){
+    b.style.pointerEvents='none';
+    var j=parseInt(b.getAttribute('data-j'));
+    if(j===q.ans)b.classList.add('reveal');
+    if(j===chosen&&!correct)b.classList.add('wrong');
+    if(j===chosen&&correct)b.classList.add('correct');
+  });
+  var fb=document.getElementById('qfb-'+qi);
+  if(fb){fb.innerHTML='<strong style="color:'+(correct?'var(--mint)':'var(--red)')+'">'+( correct?'✅ Correct !':'❌ Incorrect — Réponse : '+letters[q.ans])+'</strong><br><span style="color:var(--w2)">'+q.fb+'</span>';fb.className='qfb show '+(correct?'ok':'err');}
+  setTimeout(function(){renderQ(qi+1);},3400);
+}
+function showScore(){
+  var pct=Math.round(qScore/QCM.length*100);
+  var sc=pct>=80?'var(--mint)':pct>=60?'var(--gold)':'var(--red)';
+  var lbl=pct>=80?'Excellent !':pct>=60?'Bien !':pct>=40?'À revoir':'Recommencer';
+  var circ=2*Math.PI*48,dash=(pct/100)*circ;
+  document.getElementById('qcm-area').innerHTML='';
+  document.getElementById('score-area').style.display='block';
+  document.getElementById('score-area').innerHTML=
+    '<div class="score-wrap">'+
+    '<div class="score-ring"><svg width="110" height="110" viewBox="0 0 110 110"><circle cx="55" cy="55" r="48" fill="none" stroke="rgba(255,255,255,.08)" stroke-width="9"/><circle cx="55" cy="55" r="48" fill="none" stroke="'+sc+'" stroke-width="9" stroke-linecap="round" stroke-dasharray="'+circ.toFixed(1)+'" stroke-dashoffset="'+(circ-dash).toFixed(1)+'" transform="rotate(-90 55 55)"/></svg>'+
+    '<div class="sr-center"><div class="sr-num" style="color:'+sc+'">'+qScore+'</div><div class="sr-den">/ '+QCM.length+'</div></div></div>'+
+    '<div class="score-label" style="color:'+sc+'">'+pct+'% — '+lbl+'</div>'+
+    '<div class="score-sub">Cas CIA 02 · Stade D · CSC Algeria · ACC/AHA 2025</div></div>'+
+    '<div class="ib ib-red" style="margin-top:12px"><strong>→ Consultez la slide Décision & Suivi</strong> pour la stratégie en 3 phases et le plan de prise en charge de ce cas complexe Stade D.</div>';
+}
+goTo(0);
+</script>
+</body>
+</html>
