@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<title>CIA · Cas 08 · Eisenmenger · H42 · CSC Algeria</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#06101E;--bg2:#0B1928;--bg3:#0F2035;
+  --teal:#00C4AE;--t2:rgba(0,196,174,.13);
+  --sky:#38BDF8;--s2:rgba(56,189,248,.12);
+  --mint:#34D399;--m2:rgba(52,211,153,.12);
+  --gold:#F0A030;--g2:rgba(240,160,48,.12);
+  --red:#E03050;--r2:rgba(224,48,80,.12);
+  --pur:#A78BFA;--p2:rgba(167,139,250,.12);
+  --orange:#FB923C;--or2:rgba(251,146,60,.12);
+  --rose:#FB7185;--ro2:rgba(251,113,133,.1);
+  --cyan:#22D3EE;--cy2:rgba(34,211,238,.12);
+  --eis:#9B1C1C;--ei2:rgba(155,28,28,.18);
+  --w1:#EEF5FF;--w2:rgba(238,245,255,.65);--w3:rgba(238,245,255,.32);
+  --brd:rgba(255,255,255,.08);--brd2:rgba(255,255,255,.15);
+  --r:14px;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{min-height:100%;background:var(--bg);color:var(--w1);font-family:"DM Sans",sans-serif;font-size:14px;overflow-x:hidden}
+
+#topbar{background:rgba(155,28,28,.2);backdrop-filter:blur(16px);border-bottom:2px solid rgba(224,48,80,.4);padding:10px 16px;display:flex;align-items:center;gap:10px;position:sticky;top:0;z-index:100}
+.tb-logo{width:34px;height:34px;border-radius:9px;background:#fff;padding:2px;flex-shrink:0}
+.tb-logo img{width:100%;height:100%;object-fit:contain}
+.tb-t{font-family:"Syne",sans-serif;font-size:14px;font-weight:700;color:#FFB3B3}
+.tb-s{font-size:10px;color:var(--w3)}
+.tb-badge{background:var(--ei2);border:2px solid rgba(224,48,80,.6);border-radius:8px;padding:3px 9px;font-size:9px;font-weight:700;color:var(--red)}
+.tb-badge2{background:rgba(155,28,28,.25);border:1px solid rgba(155,28,28,.5);border-radius:8px;padding:3px 9px;font-size:9px;font-weight:700;color:#FFB3B3}
+
+#stepnav{background:rgba(6,16,30,.95);border-bottom:1px solid var(--brd);padding:10px 14px;display:flex;gap:6px;overflow-x:auto;-webkit-overflow-scrolling:touch;position:sticky;top:54px;z-index:90}
+#stepnav::-webkit-scrollbar{display:none}
+.snav{padding:7px 12px;border-radius:20px;font-family:"Syne",sans-serif;font-size:10px;font-weight:700;cursor:pointer;border:1px solid var(--brd2);background:transparent;color:var(--w3);white-space:nowrap;transition:all .15s}
+.snav.active{background:var(--red);color:#fff;border-color:var(--red)}
+.snav.done{background:rgba(52,211,153,.12);border-color:rgba(52,211,153,.3);color:var(--mint)}
+
+#content{padding:14px 14px 100px}
+.slide{display:none;animation:fadeUp .3s ease}
+.slide.active{display:block}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+.card{background:var(--bg2);border-radius:var(--r);padding:14px;border:1px solid var(--brd);margin-bottom:12px}
+.card-title{font-family:"Syne",sans-serif;font-size:13px;font-weight:700;margin-bottom:10px;display:flex;align-items:center;gap:7px}
+.sh{font-family:"Syne",sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.9px;color:var(--w3);margin:16px 0 8px;padding-bottom:6px;border-bottom:1px solid var(--brd)}
+
+.hero-card{border-radius:var(--r);padding:18px;margin-bottom:14px;overflow:hidden;position:relative}
+.hero-eis{background:linear-gradient(135deg,rgba(155,28,28,.35),rgba(224,48,80,.18));border:3px solid rgba(224,48,80,.6)}
+.hero-label{font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:1px;text-transform:uppercase;margin-bottom:8px;color:#FFB3B3}
+.hero-title{font-family:"Syne",sans-serif;font-size:20px;font-weight:800;line-height:1.2;margin-bottom:6px}
+.hero-sub{font-size:13px;color:var(--w2);line-height:1.6;margin-bottom:12px}
+.hero-pills{display:flex;flex-wrap:wrap;gap:6px}
+.hp{padding:4px 10px;border-radius:20px;font-size:10px;font-weight:700;border:1px solid}
+.p-eis{background:var(--ei2);border-color:rgba(224,48,80,.5);color:#FFB3B3}
+.p-red{background:var(--r2);border-color:rgba(224,48,80,.35);color:var(--red)}
+.p-gold{background:var(--g2);border-color:rgba(240,160,48,.3);color:var(--gold)}
+.p-pur{background:var(--p2);border-color:rgba(167,139,250,.3);color:var(--pur)}
+.p-sky{background:var(--s2);border-color:rgba(56,189,248,.3);color:var(--sky)}
+.p-orange{background:var(--or2);border-color:rgba(251,146,60,.35);color:var(--orange)}
+.p-mint{background:var(--m2);border-color:rgba(52,211,153,.3);color:var(--mint)}
+
+.drow{display:flex;padding:8px 0;border-bottom:1px solid var(--brd);align-items:flex-start;gap:8px}
+.drow:last-child{border-bottom:none}
+.dl{width:148px;flex-shrink:0;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:var(--w3);line-height:1.4;padding-top:1px}
+.dv{flex:1;font-size:13px;color:var(--w1);line-height:1.5}
+.dv.ok{color:var(--mint);font-weight:700}
+.dv.warn{color:var(--gold);font-weight:700}
+.dv.alert{color:var(--red);font-weight:700}
+.dv.eis{color:#FFB3B3;font-weight:700}
+.dv.sky{color:var(--sky);font-weight:700}
+.dv.pur{color:var(--pur);font-weight:700}
+.dv.orange{color:var(--orange);font-weight:700}
+
+.cor{display:inline-flex;align-items:center;justify-content:center;padding:2px 8px;border-radius:5px;font-family:"JetBrains Mono",monospace;font-size:9px;font-weight:700;margin-right:4px}
+.cor1{background:rgba(52,211,153,.2);color:var(--mint)}
+.cor2a{background:rgba(56,189,248,.2);color:var(--sky)}
+.cor2b{background:rgba(240,160,48,.2);color:var(--gold)}
+.cor3{background:rgba(224,48,80,.15);color:var(--red)}
+
+.ib{border-radius:10px;padding:10px 13px;font-size:12px;line-height:1.65;border-left:3px solid;margin-bottom:10px}
+.ib-teal{background:var(--t2);border-color:var(--teal)}
+.ib-sky{background:var(--s2);border-color:var(--sky)}
+.ib-gold{background:var(--g2);border-color:var(--gold)}
+.ib-red{background:var(--r2);border-color:var(--red)}
+.ib-mint{background:var(--m2);border-color:var(--mint)}
+.ib-pur{background:var(--p2);border-color:var(--pur)}
+.ib-orange{background:var(--or2);border-color:var(--orange)}
+.ib-eis{background:var(--ei2);border-color:var(--red)}
+
+.gauge-row{display:flex;align-items:center;gap:10px;margin-bottom:7px}
+.gauge-label{font-size:11px;color:var(--w3);width:145px;flex-shrink:0;font-weight:600}
+.gauge-bar{flex:1;height:10px;background:var(--bg3);border-radius:5px;overflow:hidden}
+.gauge-fill{height:100%;border-radius:5px;transition:width .7s ease}
+.gauge-val{font-family:"JetBrains Mono",monospace;font-size:11px;font-weight:700;width:65px;text-align:right;flex-shrink:0}
+
+.canva-wrap{border-radius:12px;overflow:hidden;border:2px solid rgba(224,48,80,.4);background:var(--bg3);margin-bottom:12px}
+.canva-label{padding:10px 13px;border-bottom:1px solid rgba(224,48,80,.25);font-family:"Syne",sans-serif;font-size:11px;font-weight:700;color:#FFB3B3}
+.canva-wrap iframe{width:100%;border:none;display:block}
+
+.eto-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px}
+.eto-berge{border-radius:10px;padding:10px 12px;border:2px solid;text-align:center}
+.eto-ok{border-color:rgba(52,211,153,.4);background:rgba(52,211,153,.08)}
+.eb-name{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--w3);margin-bottom:4px}
+.eb-val{font-family:"Syne",sans-serif;font-size:20px;font-weight:800;line-height:1}
+.eb-unit{font-size:10px;color:var(--w3)}
+
+.param-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px}
+.param-box{border-radius:10px;padding:12px;border:1px solid;text-align:center}
+.pb-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--w3);margin-bottom:4px}
+.pb-val{font-family:"Syne",sans-serif;font-size:22px;font-weight:800;line-height:1;margin-bottom:2px}
+.pb-status{font-size:10px;font-weight:700;margin-top:4px}
+
+.strata-table{border:1px solid var(--brd);border-radius:10px;overflow:hidden;margin-bottom:10px}
+.st-head,.st-row{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;font-size:11px}
+.st-head{background:var(--bg3);font-family:"Syne",sans-serif;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.4px}
+.st-head>div,.st-row>div{padding:7px 8px;border-right:1px solid var(--brd);line-height:1.4}
+.st-row>div:last-child,.st-head>div:last-child{border-right:none}
+.st-row{border-top:1px solid var(--brd)}
+.st-high{background:rgba(224,48,80,.08);font-weight:700;color:var(--red)}
+
+/* EIS TIMELINE */
+.eis-timeline{display:flex;flex-direction:column;gap:0}
+.eit-step{display:flex;gap:12px;padding:10px 0}
+.eit-dot{width:14px;height:14px;border-radius:50%;flex-shrink:0;margin-top:2px}
+.eit-line{width:2px;background:var(--brd2);margin:4px 6px 0 6px;flex-shrink:0;min-height:24px}
+.eit-body{flex:1;padding-bottom:10px;border-bottom:1px solid var(--brd)}
+.eit-body:last-child{border-bottom:none}
+.eit-year{font-family:"JetBrains Mono",monospace;font-size:10px;font-weight:700;margin-bottom:3px}
+.eit-title{font-family:"Syne",sans-serif;font-size:12px;font-weight:700;margin-bottom:3px}
+.eit-desc{font-size:11px;color:var(--w2);line-height:1.5}
+
+/* PARADOX BOX */
+.paradox{background:linear-gradient(135deg,rgba(155,28,28,.25),rgba(224,48,80,.12));border:3px solid rgba(224,48,80,.55);border-radius:14px;padding:14px;margin-bottom:14px}
+.px-title{font-family:"Syne",sans-serif;font-size:14px;font-weight:800;color:#FFB3B3;margin-bottom:8px;display:flex;align-items:center;gap:7px}
+.px-body{font-size:12px;color:var(--w2);line-height:1.7}
+
+/* DRUG TABLE */
+.drug-table{border:1px solid var(--brd);border-radius:10px;overflow:hidden;margin-bottom:10px}
+.drug-head,.drug-row{display:grid;grid-template-columns:1fr 1.5fr 1fr;font-size:11px}
+.drug-head{background:var(--bg3);font-family:"Syne",sans-serif;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:var(--w3)}
+.drug-head>div,.drug-row>div{padding:8px 10px;border-right:1px solid var(--brd);line-height:1.4;color:var(--w2)}
+.drug-head>div:last-child,.drug-row>div:last-child{border-right:none}
+.drug-row{border-top:1px solid var(--brd)}
+.drug-row:nth-child(odd){background:rgba(255,255,255,.02)}
+.drug-name{font-weight:700;color:var(--pur)}
+
+/* COMP TABLE 6+7 cases */
+.all-cases{border:1px solid var(--brd);border-radius:10px;overflow:hidden;margin-bottom:10px}
+.ac-head,.ac-row{display:grid;grid-template-columns:0.8fr 1fr 0.8fr 1fr 1fr;font-size:10px}
+.ac-head{background:var(--bg3);font-family:"Syne",sans-serif;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;color:var(--w3)}
+.ac-head>div,.ac-row>div{padding:7px 6px;border-right:1px solid var(--brd);line-height:1.4;color:var(--w2)}
+.ac-head>div:last-child,.ac-row>div:last-child{border-right:none}
+.ac-row{border-top:1px solid var(--brd)}
+.ac-row.hl-eis{background:rgba(155,28,28,.15);border-left:3px solid var(--red)}
+
+/* QCM */
+.qcm-q{font-family:"Syne",sans-serif;font-size:15px;font-weight:700;margin-bottom:16px;line-height:1.45}
+.qopt{width:100%;padding:12px 14px;border-radius:11px;border:2px solid var(--brd2);background:var(--bg2);color:var(--w1);font-family:"DM Sans",sans-serif;font-size:13px;text-align:left;cursor:pointer;margin-bottom:8px;transition:all .18s;display:flex;align-items:flex-start;gap:10px}
+.qopt:active{transform:scale(.98)}
+.qopt.correct{border-color:var(--mint)!important;background:rgba(52,211,153,.1)!important}
+.qopt.wrong{border-color:var(--red)!important;background:rgba(224,48,80,.08)!important}
+.qopt.reveal{border-color:var(--mint)!important;background:rgba(52,211,153,.05)!important}
+.ql{width:28px;height:28px;border-radius:7px;background:var(--bg3);border:1px solid var(--brd2);display:flex;align-items:center;justify-content:center;font-family:"Syne",sans-serif;font-size:12px;font-weight:700;flex-shrink:0;transition:all .2s}
+.qopt.correct .ql,.qopt.reveal .ql{background:var(--mint);border-color:var(--mint);color:#06101E}
+.qopt.wrong .ql{background:var(--red);border-color:var(--red);color:#fff}
+.qt{font-size:13px;color:var(--w2);line-height:1.5;flex:1}
+.qfb{margin-top:12px;padding:12px 14px;border-radius:11px;font-size:12px;line-height:1.65;display:none;border:1px solid}
+.qfb.show{display:block}
+.qfb.ok{background:rgba(52,211,153,.08);border-color:rgba(52,211,153,.3)}
+.qfb.err{background:rgba(224,48,80,.08);border-color:rgba(224,48,80,.25)}
+.qprog{display:flex;gap:5px;margin-bottom:14px}
+.qpd{flex:1;height:4px;border-radius:2px;background:var(--brd2)}
+.qpd.done{background:var(--red)}.qpd.active{background:var(--gold)}
+.qnum{font-size:10px;color:var(--w3);font-weight:700;text-transform:uppercase;letter-spacing:.8px;margin-bottom:10px}
+
+/* SCORE */
+.score-wrap{text-align:center;padding:20px 0 10px}
+.score-ring{position:relative;width:110px;height:110px;margin:0 auto 10px}
+.score-ring svg{transform:rotate(-90deg)}
+.sr-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.sr-num{font-family:"Syne",sans-serif;font-size:32px;font-weight:800;line-height:1}
+.sr-den{font-size:11px;color:var(--w3)}
+.score-label{font-family:"Syne",sans-serif;font-size:18px;font-weight:700;margin-bottom:4px}
+
+/* VAL BANNER */
+.val-banner{background:linear-gradient(90deg,rgba(155,28,28,.2),rgba(224,48,80,.08));border:2px solid rgba(224,48,80,.4);border-radius:10px;padding:10px 13px;display:flex;gap:9px;align-items:flex-start;margin-bottom:14px}
+.vb-t{font-size:11px;color:var(--w2);line-height:1.55}
+.vb-t strong{color:#FFB3B3;display:block;font-size:12px}
+
+/* KEY MESSAGES */
+.kmsg{display:flex;gap:10px;align-items:flex-start;padding:10px 12px;background:var(--bg2);border-radius:10px;border:1px solid var(--brd);margin-bottom:7px}
+.km-num{width:24px;height:24px;border-radius:6px;font-family:"Syne",sans-serif;font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#fff}
+.km-body{font-size:12px;color:var(--w2);line-height:1.55;flex:1}
+
+/* SUIVI */
+.suivi-table{border:1px solid var(--brd);border-radius:10px;overflow:hidden;margin-bottom:10px}
+.suiv-head,.suiv-row{display:grid;grid-template-columns:1.4fr 0.8fr 1.2fr;font-size:11px}
+.suiv-head{background:var(--bg3);font-family:"Syne",sans-serif;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:var(--w3)}
+.suiv-head>div,.suiv-row>div{padding:8px 10px;border-right:1px solid var(--brd);line-height:1.4;color:var(--w2)}
+.suiv-head>div:last-child,.suiv-row>div:last-child{border-right:none}
+.suiv-row{border-top:1px solid var(--brd)}
+.suiv-row.hl{background:rgba(224,48,80,.05)}
+.suiv-val{font-weight:700;color:var(--red);font-family:"JetBrains Mono",monospace;font-size:10px}
+
+/* BOTTOM NAV */
+#botnav{position:fixed;bottom:0;left:0;right:0;background:rgba(6,16,30,.97);backdrop-filter:blur(14px);border-top:2px solid rgba(224,48,80,.35);padding:10px 14px;display:flex;gap:8px;z-index:100}
+.bnav-btn{flex:1;padding:12px;border-radius:11px;border:none;cursor:pointer;font-family:"Syne",sans-serif;font-size:13px;font-weight:700;transition:all .15s}
+.bnav-btn:active{transform:scale(.97)}
+.bnav-prev{background:var(--bg3);border:1px solid var(--brd2);color:var(--w2)}
+.bnav-next{background:var(--red);color:#fff}
+.bnav-btn:disabled{opacity:.3;cursor:not-allowed}
+
+/* CI BOX */
+.ci-box{background:linear-gradient(135deg,rgba(155,28,28,.3),rgba(224,48,80,.15));border:3px solid var(--red);border-radius:14px;padding:16px;margin-bottom:14px}
+.ci-title{font-family:"Syne",sans-serif;font-size:16px;font-weight:800;color:#FFB3B3;margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.ci-body{font-size:12px;color:var(--w2);line-height:1.75}
+
+/* PROGNOSIS BOX */
+.prog-box{background:linear-gradient(135deg,rgba(155,28,28,.2),rgba(251,146,60,.06));border:2px solid rgba(155,28,28,.5);border-radius:12px;padding:14px;margin-bottom:10px}
+.prog-title{font-family:"Syne",sans-serif;font-size:13px;font-weight:800;color:var(--orange);margin-bottom:10px}
+.prog-item{display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:1px solid var(--brd)}
+.prog-item:last-child{border-bottom:none}
+.pi-icon{font-size:16px;flex-shrink:0;width:24px;text-align:center}
+.pi-body{font-size:12px;color:var(--w2);line-height:1.5;flex:1}
+</style>
+</head>
+<body>
+
+<div id="topbar">
+  <div class="tb-logo"><img src="data:image/png;base64,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" alt="CSC"></div>
+  <div style="flex:1">
+    <div class="tb-t">CIA · Cas 08 · H42 · Syndrome d'Eisenmenger</div>
+    <div class="tb-s">CSC Algeria · ACHD CORE-Team · ACC/AHA 2025</div>
+  </div>
+  <div class="tb-badge2">⭐⭐⭐</div>
+  <div class="tb-badge">🔴 Eisenmenger</div>
+</div>
+
+<div id="stepnav">
+  <button class="snav active" data-slide="0">🔴 Présentation</button>
+  <button class="snav" data-slide="1">🎞 Iconographie</button>
+  <button class="snav" data-slide="2">🫀 Volet 1 — Anatomique</button>
+  <button class="snav" data-slide="3">🫁 Volet 2 — HTAP</button>
+  <button class="snav" data-slide="4">📊 Volet 3 — Stade D</button>
+  <button class="snav" data-slide="5">🧬 Eisenmenger</button>
+  <button class="snav" data-slide="6">❓ QCM</button>
+  <button class="snav" data-slide="7">⚕️ Traitement PAH</button>
+  <button class="snav" data-slide="8">💡 Messages clés</button>
+</div>
+
+<div id="content">
+
+<!-- SLIDE 0 PRÉSENTATION -->
+<div class="slide active" id="slide-0">
+  <div class="val-banner">
+    <div style="font-size:18px">✅</div>
+    <div class="vb-t"><strong>Validé · CORE-TEAM ACHD-Algérie · CSC · ACC/AHA 2025</strong>Cas CIA 08 · Section 4.1.1 + 4.4.6 · Syndrome d'Eisenmenger · COR 3 · CI fermeture définitive</div>
+  </div>
+
+  <div class="hero-card hero-eis">
+    <div class="hero-label">🔴 CIA · Cas 08 · STADE TERMINAL · Syndrome d'Eisenmenger · COR 3 Absolu</div>
+    <div class="hero-title">CIA OS 18 mm · RVP 8.8 WU · Cyanose<br>Syndrome d'Eisenmenger · NYHA III–IV · Stade D</div>
+    <div class="hero-sub">Homme de 42 ans · Cyanose centrale permanente · Polyglobulie · SpO₂ 82%<br>CIA négligée 42 ans → vasculopathie pulmonaire irréversible → contre-indication absolue à vie</div>
+    <div class="hero-pills">
+      <span class="hp p-eis">🔴 Eisenmenger</span>
+      <span class="hp p-red">COR 3 — CI Absolue</span>
+      <span class="hp p-gold">RVP 8.8 WU</span>
+      <span class="hp p-orange">PAPM 70 mmHg</span>
+      <span class="hp p-pur">Cyanose centrale</span>
+      <span class="hp p-sky">ERA + iPDE5 COR I</span>
+    </div>
+  </div>
+
+  <div class="ci-box">
+    <div class="ci-title">🔴 COR 3 HARM — Contre-indication ABSOLUE et DÉFINITIVE</div>
+    <div class="ci-body">
+      <strong style="color:#FFB3B3">Recommandation #13 Section 4.1.1 ACC 2025 :</strong><br>
+      "In adults with an unrepaired ASD and <strong>Eisenmenger physiology</strong>, ASD closure <strong>should not be performed</strong> to avoid increasing morbidity and mortality."<br><br>
+      RVP = 8.8 WU (&gt;8 WU) + Shunt D→G prédominant (cyanose centrale SpO₂ 82%) = Syndrome d'Eisenmenger confirmé.<br>
+      La vasculopathie pulmonaire est <strong>irréversible</strong>. Fermer la CIA supprimerait le shunt qui permet au VD de se décharger → décompensation VD aiguë → mort.<br><br>
+      <strong>Traitement :</strong> PAH ciblé (ERA + iPDE5) COR I + suivi centre expert ACHD + HTAP + greffe cœur-poumon à discuter.
+    </div>
+  </div>
+
+  <div class="sh">👤 Identité & Motif</div>
+  <div class="card">
+    <div class="drow"><div class="dl">Nom / Prénom</div><div class="dv">M. Yacine Khaldi</div></div>
+    <div class="drow"><div class="dl">Âge / Sexe</div><div class="dv">42 ans · Masculin</div></div>
+    <div class="drow"><div class="dl">Poids / Taille</div><div class="dv warn">72 kg · 176 cm · IMC 23.2 — perte de poids 6 kg en 1 an</div></div>
+    <div class="drow"><div class="dl">SpO₂ repos</div><div class="dv alert">82% en air ambiant 🔴 — cyanose centrale sévère · Hypoxémie profonde</div></div>
+    <div class="drow"><div class="dl">SpO₂ effort</div><div class="dv alert">68% — désaturation catastrophique (arrêt immédiat à 50 m)</div></div>
+    <div class="drow"><div class="dl">FC / TA</div><div class="dv warn">RS 92 bpm · 108/68 mmHg — TA basse (bas débit cardiaque)</div></div>
+    <div class="drow"><div class="dl">NYHA</div><div class="dv alert">Classe III–IV — limitation sévère · incapacité effort minimal</div></div>
+    <div class="drow"><div class="dl">Cyanose</div><div class="dv alert">Centrale permanente ++ · Lèvres cyanosées · Extrémités cyanosées</div></div>
+    <div class="drow"><div class="dl">Hippocratisme</div><div class="dv alert">PRÉSENT ++ — doigts en baguette de tambour · ongles en verre de montre</div></div>
+    <div class="drow"><div class="dl">Motif</div><div class="dv">Aggravation majeure depuis 6 mois. CIA connue depuis l'enfance — jamais traitée (refus familial, accès aux soins limité). Adressé pour décision thérapeutique urgente.</div></div>
+  </div>
+
+  <div class="sh">📋 Histoire naturelle — Timeline Eisenmenger</div>
+  <div class="eis-timeline">
+    <div class="eit-step">
+      <div style="display:flex;flex-direction:column;align-items:center"><div class="eit-dot" style="background:var(--mint)"></div><div class="eit-line" style="flex:1"></div></div>
+      <div class="eit-body"><div class="eit-year" style="color:var(--mint)">1982 — Naissance</div><div class="eit-title">CIA OS diagnostiquée</div><div class="eit-desc">Souffle cardiaque à la naissance. CIA OS 18 mm diagnostiquée à 6 mois. Indication de fermeture posée mais jamais réalisée (zone rurale, accès soins limité).</div></div>
+    </div>
+    <div class="eit-step">
+      <div style="display:flex;flex-direction:column;align-items:center"><div class="eit-dot" style="background:var(--sky)"></div><div class="eit-line" style="flex:1"></div></div>
+      <div class="eit-body"><div class="eit-year" style="color:var(--sky)">2000 (18 ans)</div><div class="eit-title">Dyspnée d'effort NYHA II</div><div class="eit-desc">Apparition dyspnée d'effort. PAPS 55 mmHg à l'ETT. Suivi abandonné. Pas de traitement.</div></div>
+    </div>
+    <div class="eit-step">
+      <div style="display:flex;flex-direction:column;align-items:center"><div class="eit-dot" style="background:var(--gold)"></div><div class="eit-line" style="flex:1"></div></div>
+      <div class="eit-body"><div class="eit-year" style="color:var(--gold)">2012 (30 ans)</div><div class="eit-title">Cyanose intermittente + palpitations</div><div class="eit-desc">Cyanose à l'effort. FA paroxystique × 3. ETT : PAPS 78 mmHg, RVP estimée 6 WU. Pas de prise en charge HTAP.</div></div>
+    </div>
+    <div class="eit-step">
+      <div style="display:flex;flex-direction:column;align-items:center"><div class="eit-dot" style="background:var(--red)"></div><div class="eit-line" style="flex:1"></div></div>
+      <div class="eit-body"><div class="eit-year" style="color:var(--red)">2019 (37 ans)</div><div class="eit-title">Cyanose permanente · Hemoptysie</div><div class="eit-desc">Cyanose centrale permanente. 1er épisode hémoptysie. SpO₂ 88% au repos. Shunt D→G documenté. Hospitalisation initiale.</div></div>
+    </div>
+    <div class="eit-step">
+      <div style="display:flex;flex-direction:column;align-items:center"><div class="eit-dot" style="background:#FFB3B3"></div></div>
+      <div class="eit-body" style="border-bottom:none"><div class="eit-year" style="color:#FFB3B3">2024 (42 ans) — AUJOURD'HUI</div><div class="eit-title" style="color:#FFB3B3">Eisenmenger confirmé · NYHA III–IV</div><div class="eit-desc">RVP 8.8 WU · PAPM 70 mmHg · Cyanose profonde SpO₂ 82% · Polyglobulie Hb 19.2 g/dL · Hémoptysies récidivantes · Stade D. Traitement PAH initié.</div></div>
+    </div>
+  </div>
+
+  <div class="sh">🔬 Bilan biologique</div>
+  <div class="card">
+    <div class="drow"><div class="dl">Hémoglobine</div><div class="dv alert">19.2 g/dL 🔴 — polyglobulie réactionnelle majeure (cyanose chronique)</div></div>
+    <div class="drow"><div class="dl">Hématocrite</div><div class="dv alert">62% 🔴 — risque thrombotique ++ (seuil phlébotomie ≥65%)</div></div>
+    <div class="drow"><div class="dl">Plaquettes</div><div class="dv warn">98 G/L — thrombopénie (polyglobulie + séquestration)</div></div>
+    <div class="drow"><div class="dl">BNP</div><div class="dv alert">1240 pg/mL — IC droite avancée</div></div>
+    <div class="drow"><div class="dl">NT-proBNP</div><div class="dv alert">5820 pg/mL — surcharge VD sévère</div></div>
+    <div class="drow"><div class="dl">Créatinine / DFG</div><div class="dv warn">128 μmol/L · DFG 62 mL/min — IRC (polyglobulie + bas débit)</div></div>
+    <div class="drow"><div class="dl">Acide urique</div><div class="dv alert">682 μmol/L — hyperuricémie (polyglobulie + bas DC)</div></div>
+    <div class="drow"><div class="dl">Bilan hépatique</div><div class="dv warn">ASAT 62 · Bili 32 μmol/L — congestion hépatique chronique</div></div>
+    <div class="drow"><div class="dl">Fer sérique / Ferritine</div><div class="dv warn">Ferritine 8 ng/mL — carence martiale (polyglobulie + pertes hémoptysies)</div></div>
+    <div class="drow"><div class="dl">TP / INR</div><div class="dv warn">TP 68% — coagulopathie (polyglobulie + bas débit hépatique)</div></div>
+    <div class="drow"><div class="dl">ECG</div><div class="dv alert">RS 92 bpm · BBD complet sévère (QRS 148 ms) · Axe droit +150° · HVD très sévère · Ondes P pulmonaire · Inversion T V1–V4</div></div>
+    <div class="drow"><div class="dl">Rx thorax</div><div class="dv alert">Cardiomégalie massive ICT 0.72 · VD dominant · Artères pulmonaires centrales très dilatées · Oligémie périphérique (vasoconstiction distale) · "Pruning" vasculaire</div></div>
+    <div class="drow"><div class="dl">TM6M</div><div class="dv alert">82 m — très sévèrement réduit (seuil élevé &lt;165 m)</div></div>
+  </div>
+</div>
+
+<!-- SLIDE 1 ICONOGRAPHIE -->
+<div class="slide" id="slide-1">
+  <div class="canva-wrap">
+    <div class="canva-label">🎞 Iconographie · ETT · CIA OS 18 mm · Eisenmenger · PAPS 100 mmHg</div>
+    <iframe src="https://www.canva.com/design/DAHGGTg3ssE/IiwAYBgkm5grWZcWUC-GPA/view?embed" height="420" allow="fullscreen" allowfullscreen scrolling="no" loading="lazy"></iframe>
+  </div>
+  <div class="ib ib-eis">
+    <strong>🎓 Ce que vous devez observer — Signes Eisenmenger :</strong><br>
+    CIA 18 mm avec renversement shunt D→G au Doppler couleur (couleur inversée ! le sang va de OD vers OG). VD massivement hypertrophié et dilaté — paroi VD épaisse. D-sign sévère (IVS très aplati en psax). Vmax IT très élevée 5 m/s. Pas de compression VG (VD dominant). TAPSE effondré. Acc. RVOT très bas. Aspect "squelette pulmonaire" sur Rx — artères centrales dilatées et périphériques épurées.
+  </div>
+
+  <div class="sh">📡 ETT — Données quantitatives</div>
+  <div class="card">
+    <div class="drow"><div class="dl">FEVG (Simpson)</div><div class="dv ok">60% — conservée (le VG est comprimé mais fonctionne)</div></div>
+    <div class="drow"><div class="dl">DTDVG / DTSVG</div><div class="dv warn">42 mm / 28 mm — VG comprimé mais conservé</div></div>
+    <div class="drow"><div class="dl">VD — dimensions</div><div class="dv alert">DTDVD = 62 mm 🔴 (N &lt;35) · Épaisseur paroi VD 14 mm (N &lt;5) · HVD sévère</div></div>
+    <div class="drow"><div class="dl">TAPSE</div><div class="dv alert">8 mm 🔴 (N ≥18) — dysfonction VD critique</div></div>
+    <div class="drow"><div class="dl">S' TDI tricuspide</div><div class="dv alert">5 cm/s (N &gt;10) — dysfonction sévère</div></div>
+    <div class="drow"><div class="dl">Strain VD (GLS)</div><div class="dv alert">-5% 🔴 (N &lt;-20%) — quasi-abolition déformation VD</div></div>
+    <div class="drow"><div class="dl">Vmax IT (peak)</div><div class="dv alert">5.0 m/s 🔴 — extrêmement élevée</div></div>
+    <div class="drow"><div class="dl">PAPS estimée</div><div class="dv alert">100 mmHg ++ (4×5²+POD) — suprasystémique</div></div>
+    <div class="drow"><div class="dl">PAPS/TA syst.</div><div class="dv alert">100 / 108 mmHg = 93% — quasi-suprasystémique 🔴🔴</div></div>
+    <div class="drow"><div class="dl">Acc. RVOT</div><div class="dv alert">52 ms 🔴 (N &gt;105 ms) — quasi-nulle</div></div>
+    <div class="drow"><div class="dl">IVS aplati (D-sign)</div><div class="dv alert">SÉVÈRE +++ — inversion courbure septale en systole ET diastole</div></div>
+    <div class="drow"><div class="dl">SENS SHUNT CIA</div><div class="dv alert">DROITE → GAUCHE 🔴 (renversement complet) → EISENMENGER CONFIRMÉ !</div></div>
+    <div class="drow"><div class="dl">Qp/Qs</div><div class="dv alert">&lt;1.0 — débit pulmonaire &lt; débit systémique → cyanose centrale</div></div>
+    <div class="drow"><div class="dl">IT</div><div class="dv warn">IT modérée fonctionnelle · Anneau 38 mm · Volume régurgitant 32 mL</div></div>
+    <div class="drow"><div class="dl">OD massive</div><div class="dv alert">OD 72 cm² — dilatation massive (pression VD suprasystémique)</div></div>
+    <div class="drow"><div class="dl">VCI</div><div class="dv alert">34 mm — collapsus absent — POD 20 mmHg · Congestion sévère</div></div>
+    <div class="drow"><div class="dl">Épanchement péricardique</div><div class="dv alert">10 mm — épanchement modéré (Eisenmenger évolué)</div></div>
+    <div class="drow"><div class="dl">AP centrale dilatée</div><div class="dv alert">Tronc AP 52 mm — très dilatée (HTAP suprasystémique)</div></div>
+  </div>
+</div>
+
+<!-- SLIDE 2 VOLET 1 ANATOMIQUE -->
+<div class="slide" id="slide-2">
+  <div class="sh">🫀 Volet 1 — Anatomique · ETO + IRM · Rôle diagnostique différent</div>
+  <div class="ib ib-eis">
+    <strong>Rôle de l'ETO dans l'Eisenmenger :</strong> PAS pour décider de fermer (CI absolue). Rôle : confirmer l'anatomie CIA, évaluer la direction du shunt, exclure un RVPPA (complication), chercher un thrombus (risque AVC paradoxal D→G), évaluer les pressions. L'ETO guide également le suivi et confirme la CI.
+  </div>
+
+  <div class="card">
+    <div class="card-title">🎯 ETO — Confirmation anatomique + Eisenmenger</div>
+    <div class="drow"><div class="dl">Type CIA</div><div class="dv hl">Ostium Secundum 18 mm — fossette ovale</div></div>
+    <div class="drow"><div class="dl">Shunt Doppler</div><div class="dv alert">DROITE → GAUCHE PRÉDOMINANT 🔴 — sang désoxygéné passe en OG → cyanose centrale</div></div>
+    <div class="drow"><div class="dl">Thrombus OD</div><div class="dv alert">Thrombus OD détecté 5 mm — risque AVC paradoxal D→G MAJEUR</div></div>
+    <div class="drow"><div class="dl">RVPPA</div><div class="dv ok">4 veines pulmonaires dans OG — pas d'anomalie</div></div>
+    <div class="drow"><div class="dl">Hypertrophie pariétale VD</div><div class="dv alert">Paroi VD 14 mm — HVD sévère visible (réponse à pression suprasystémique)</div></div>
+    <div class="drow"><div class="dl">Fermeture CIA</div><div class="dv alert">NON RÉALISABLE — COR 3 · Fermeture = mort certaine par décompensation VD aiguë</div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📏 Berges ETO — Techniquement faisables mais BIOLOGIQUEMENT CI</div>
+    <div class="eto-grid">
+      <div class="eto-berge eto-ok"><div class="eb-name">Berge Ant.</div><div class="eb-val" style="color:var(--mint)">9<span class="eb-unit"> mm</span></div><div class="eb-unit" style="color:var(--w3)">Anatomie OK</div></div>
+      <div class="eto-berge eto-ok"><div class="eb-name">Berge Post.</div><div class="eb-val" style="color:var(--mint)">10<span class="eb-unit"> mm</span></div><div class="eb-unit" style="color:var(--w3)">Anatomie OK</div></div>
+      <div class="eto-berge eto-ok"><div class="eb-name">Berge Sup.</div><div class="eb-val" style="color:var(--mint)">8<span class="eb-unit"> mm</span></div><div class="eb-unit" style="color:var(--w3)">Anatomie OK</div></div>
+      <div class="eto-berge eto-ok"><div class="eb-name">Berge Inf.</div><div class="eb-val" style="color:var(--mint)">11<span class="eb-unit"> mm</span></div><div class="eb-unit" style="color:var(--w3)">Anatomie OK</div></div>
+    </div>
+    <div class="ib ib-red" style="margin-bottom:0">
+      <strong>🔴 Anatomiquement faisable · BIOLOGIQUEMENT IMPOSSIBLE</strong><br>
+      Les berges sont toutes ≥ 5 mm → on POURRAIT techniquement placer un device. MAIS fermer la CIA chez un Eisenmenger = couper la soupape de décompression VD. Le VD ne survit qu'en éjectant par la CIA (D→G). Fermeture = décompensation VD aiguë fatale. COR 3 — Recommandation #13 ACC 2025.
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🩻 IRM Cardiaque</div>
+    <div class="param-grid">
+      <div class="param-box" style="border-color:rgba(52,211,153,.3);background:rgba(52,211,153,.06)"><div class="pb-label">FEVG</div><div class="pb-val" style="color:var(--mint)">60<span style="font-size:14px">%</span></div><div class="pb-status" style="color:var(--mint)">✅ Conservée</div></div>
+      <div class="param-box" style="border-color:rgba(224,48,80,.5);background:rgba(224,48,80,.1)"><div class="pb-label">FEVD</div><div class="pb-val" style="color:var(--red)">22<span style="font-size:14px">%</span></div><div class="pb-status" style="color:var(--red)">🔴 Critique</div></div>
+      <div class="param-box" style="border-color:rgba(224,48,80,.5);background:rgba(224,48,80,.1)"><div class="pb-label">Masse VD (g/m²)</div><div class="pb-val" style="color:var(--red)">98</div><div class="pb-status" style="color:var(--red)">🔴 HVD extrême</div></div>
+      <div class="param-box" style="border-color:rgba(224,48,80,.5);background:rgba(224,48,80,.1)"><div class="pb-label">VTSI-VD (mL/m²)</div><div class="pb-val" style="color:var(--red)">188</div><div class="pb-status" style="color:var(--red)">🔴 Massif</div></div>
+    </div>
+    <div class="drow"><div class="dl">LGE</div><div class="dv alert">LGE VD insertion points massif + septum IVS → fibrose irréversible étendue</div></div>
+    <div class="drow"><div class="dl">Tronc AP</div><div class="dv alert">52 mm — massive (pression suprasystémique)</div></div>
+    <div class="drow"><div class="dl">AP droite / gauche</div><div class="dv alert">AP D 24 mm · AP G 22 mm — dilatées (anévrismes proximaux possible)</div></div>
+    <div class="drow"><div class="dl">Qp/Qs IRM</div><div class="dv alert">0.68 — Qp &lt; Qs = shunt D→G net confirmé (Eisenmenger)</div></div>
+  </div>
+</div>
+
+<!-- SLIDE 3 VOLET 2 HTAP -->
+<div class="slide" id="slide-3">
+  <div class="sh">🫁 Volet 2 — HTAP Suprasystémique · Eisenmenger Group 1 OMS</div>
+
+  <div class="paradox">
+    <div class="px-title">🔴 HTAP Suprasystémique = Stade ultime irréversible</div>
+    <div class="px-body">
+      PAPM 70 mmHg + RVP 8.8 WU + PAPS 100 mmHg ≈ TA systémique (108 mmHg)<br>
+      → Pressions pulmonaires ÉGALES ou SUPÉRIEURES aux pressions systémiques<br>
+      → Le VD ne peut plus propulser le sang vers les poumons efficacement<br>
+      → Le sang passe en OG par la CIA (résistance moindre) → cyanose centrale<br><br>
+      <strong>Définition Eisenmenger :</strong> HTAP précapillaire sévère + renversement du shunt (D→G ou bidirectionnel) + cyanose centrale secondaire à une cardiopathie congénitale non corrigée.<br><br>
+      <strong>Réversibilité :</strong> AUCUNE. La vasculopathie pulmonaire oblitérante est irréversible à ce stade. Aucun traitement ne peut normaliser la PVR à ce stade.
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🩺 Clinique — Table 13 ACC 2025</div>
+    <div class="drow"><div class="dl">Classe WHO</div><div class="dv alert">WHO III–IV — capacité effort quasi-nulle</div></div>
+    <div class="drow"><div class="dl">TM6M</div><div class="dv alert">82 m — critique (&lt;165 m = seuil risque élevé)</div></div>
+    <div class="drow"><div class="dl">SpO₂ repos</div><div class="dv alert">82% 🔴 — cyanose centrale sévère (&lt;85% = Stade D)</div></div>
+    <div class="drow"><div class="dl">Cyanose centrale</div><div class="dv alert">PERMANENTE — lèvres, extrémités, muqueuses cyanosées</div></div>
+    <div class="drow"><div class="dl">Hippocratisme</div><div class="dv alert">Présent — doigts en baguette, ongles en verre de montre</div></div>
+    <div class="drow"><div class="dl">Hémoptysies</div><div class="dv alert">Récidivantes — rupture micro-anévrismes pulmonaires</div></div>
+    <div class="drow"><div class="dl">Polyglobulie</div><div class="dv alert">Hb 19.2 g/dL · Ht 62% — compensation erythropoïétique</div></div>
+    <div class="drow"><div class="dl">IC droite</div><div class="dv alert">Sévère : TJE 8 cm · Hépatomégalie 5 cm · Ascite + · OMI +++</div></div>
+    <div class="drow"><div class="dl">Épanch. péricardique</div><div class="dv alert">10 mm — signe de gravité (Eisenmenger évolué)</div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📡 Signes ETT — Table 13</div>
+    <div class="gauge-row"><div class="gauge-label">Vmax IT (m/s)</div><div class="gauge-bar"><div class="gauge-fill" style="width:100%;background:var(--red)"></div></div><div class="gauge-val" style="color:var(--red)">5.0 🔴🔴</div></div>
+    <div class="gauge-row"><div class="gauge-label">TAPSE (mm)</div><div class="gauge-bar"><div class="gauge-fill" style="width:22%;background:var(--red)"></div></div><div class="gauge-val" style="color:var(--red)">8 🔴🔴</div></div>
+    <div class="gauge-row"><div class="gauge-label">Acc. RVOT (ms)</div><div class="gauge-bar"><div class="gauge-fill" style="width:25%;background:var(--red)"></div></div><div class="gauge-val" style="color:var(--red)">52 🔴🔴</div></div>
+    <div class="gauge-row"><div class="gauge-label">Strain VD (%)</div><div class="gauge-bar"><div class="gauge-fill" style="width:5%;background:var(--red)"></div></div><div class="gauge-val" style="color:var(--red)">-5% 🔴🔴</div></div>
+    <div class="gauge-row"><div class="gauge-label">IVS aplati</div><div class="gauge-bar"><div class="gauge-fill" style="width:100%;background:var(--red)"></div></div><div class="gauge-val" style="color:var(--red)">SÉVÈRE 🔴</div></div>
+    <div class="gauge-row"><div class="gauge-label">Épanch. péricardique</div><div class="gauge-bar"><div class="gauge-fill" style="width:60%;background:var(--red)"></div></div><div class="gauge-val" style="color:var(--red)">10 mm 🔴</div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">💉 Cathétérisme Droit — Confirmation Eisenmenger</div>
+    <div class="drow"><div class="dl">Pressions AP</div><div class="dv alert">105 / 48 / 70 mmHg — SUPRASYSTÉMIQUE (TA syst. 108 mmHg)</div></div>
+    <div class="drow"><div class="dl">mPAP (PAPM)</div><div class="dv alert">70 mmHg 🔴🔴 — HTAP suprasystémique</div></div>
+    <div class="drow"><div class="dl">PVR (RVP)</div><div class="dv alert">8.8 Wood Units 🔴 — Zone &gt;8 WU → COR 3</div></div>
+    <div class="drow"><div class="dl">PCWP</div><div class="dv ok">12 mmHg — normal · HTAP précapillaire confirmée</div></div>
+    <div class="drow"><div class="dl">DC (Fick)</div><div class="dv alert">2.6 L/min 🔴 — très bas (bas débit chronique)</div></div>
+    <div class="drow"><div class="dl">Index cardiaque</div><div class="dv alert">1.48 L/min/m² (N &gt;2.2) — défaillance circulatoire</div></div>
+    <div class="drow"><div class="dl">Qp/Qs cathé</div><div class="dv alert">0.68 🔴 — Qp &lt; Qs = shunt D→G net confirmé</div></div>
+    <div class="drow"><div class="dl">Satimétries</div><div class="dv alert">OD 60% · AP 65% · OG 72% · Ao 72% — mélange D→G en OG · SaO₂ systémique 72% !</div></div>
+    <div class="drow"><div class="dl">POD mesurée</div><div class="dv alert">22 mmHg — IC droite sévère</div></div>
+    <div class="drow"><div class="dl">Test NO vasodilatation</div><div class="dv alert">PVR 8.8 → 7.8 WU (réduction 11%) — RÉPONSE INSUFFISANTE · Vasculopathie fixée</div></div>
+    <div class="drow"><div class="dl">Conclusion</div><div class="dv alert">EISENMENGER CONFIRMÉ · RVP &gt;8 WU + Qp/Qs &lt;1 + Shunt D→G + Cyanose · COR 3</div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📊 3-Strata ACC 2025</div>
+    <div class="strata-table">
+      <div class="st-head"><div>Paramètre</div><div style="color:var(--mint)">Faible</div><div style="color:var(--gold)">Intermédiaire</div><div style="color:var(--red)">Élevé ← TOUT</div></div>
+      <div class="st-row"><div>WHO</div><div>I–II</div><div>III</div><div class="st-high">III–IV ✓</div></div>
+      <div class="st-row"><div>TM6M</div><div>&gt;440 m</div><div>165–440 m</div><div class="st-high">82 m ✓ (&lt;165)</div></div>
+      <div class="st-row"><div>NT-proBNP</div><div>&lt;300</div><div>300–1400</div><div class="st-high">5820 pg/mL ✓</div></div>
+      <div class="st-row"><div>TAPSE</div><div>≥18 mm</div><div>—</div><div class="st-high">8 mm ✓</div></div>
+      <div class="st-row"><div>Épanch. péricardique</div><div>Absent</div><div>—</div><div class="st-high">10 mm ✓</div></div>
+      <div class="st-row"><div>PVR</div><div>&lt;5</div><div>5–15</div><div class="st-high">8.8 WU ✓</div></div>
+    </div>
+    <div class="ib ib-red" style="margin-bottom:0">
+      <strong>3-Strata : RISQUE ÉLEVÉ MAXIMAL — 6 critères élevés sur 6</strong><br>
+      Mortalité estimée &gt;10%/an · Survie médiane sans traitement : 3–5 ans à ce stade. Avec traitement PAH optimal : amélioration survie mais pronostic réservé. Greffe cœur-poumon = seule option curative.
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 4 VOLET 3 STADE D -->
+<div class="slide" id="slide-4">
+  <div class="sh">📊 Volet 3 — Stade D Eisenmenger · Table 4 ACC 2025</div>
+  <div class="card">
+    <div class="card-title">Critères Stade D — Table 4 ACC 2025 — Tous présents au maximum</div>
+    <div class="strata-table" style="grid-template-columns:none">
+      <div class="st-head" style="grid-template-columns:1.8fr 1fr 1fr"><div>Critère</div><div>Présent ?</div><div>Valeur extrême</div></div>
+      <div class="st-row" style="grid-template-columns:1.8fr 1fr 1fr"><div>Hospitalisation IC &lt;12 mois</div><div class="st-high">✅ OUI ×4</div><div>×4 dans 18 mois</div></div>
+      <div class="st-row" style="grid-template-columns:1.8fr 1fr 1fr"><div>NYHA III–IV</div><div class="st-high">✅ III–IV</div><div>Effort minimal &lt;50 m</div></div>
+      <div class="st-row" style="grid-template-columns:1.8fr 1fr 1fr"><div>HTAP risque élevé (3-Strata)</div><div class="st-high">✅ ÉLEVÉ MAX</div><div>6/6 critères élevés</div></div>
+      <div class="st-row" style="grid-template-columns:1.8fr 1fr 1fr"><div>SpO₂ ≤85%</div><div class="st-high">✅ 82% 🔴</div><div>Cyanose sévère</div></div>
+      <div class="st-row" style="grid-template-columns:1.8fr 1fr 1fr"><div>Eisenmenger physiology</div><div class="st-high">✅ CONFIRMÉ</div><div>Shunt D→G + Cyanose</div></div>
+      <div class="st-row" style="grid-template-columns:1.8fr 1fr 1fr"><div>NT-proBNP &gt;2×LSN</div><div class="st-high">✅ MASSIF</div><div>5820 pg/mL</div></div>
+    </div>
+    <div class="ib ib-red">
+      <strong>Stade D Eisenmenger — Le stade ultime.</strong> Dans le Tableau des 8 cas CIA de la série, ce cas représente l'aboutissement de toute CIA non traitée. La progression naturelle est : Stade B (CIA initiale) → Stade C (HTAP débutante) → Stade D (Eisenmenger). Ce patient avait 18 ans de fenêtre thérapeutique fermée (2000–2012) et 30 ans de CIA négligée.
+    </div>
+  </div>
+
+  <div class="prog-box">
+    <div class="prog-title">⚠️ Pronostic Eisenmenger CIA — Données ACC 2025</div>
+    <div class="prog-item"><div class="pi-icon">📉</div><div class="pi-body"><strong>Survie médiane sans traitement PAH :</strong> 3–5 ans à ce stade (NYHA III–IV + SpO₂ &lt;85%)</div></div>
+    <div class="prog-item"><div class="pi-icon">💊</div><div class="pi-body"><strong>Avec traitement PAH optimal (ERA + iPDE5) :</strong> Amélioration TM6M + NYHA · Survie améliorée de 30–40% à 5 ans</div></div>
+    <div class="prog-item"><div class="pi-icon">❤️</div><div class="pi-body"><strong>Greffe cœur-poumon :</strong> Seule option curative · Survie 50% à 5 ans post-greffe · Inscription liste ATTN si NYHA III–IV + traitement PAH maximal</div></div>
+    <div class="prog-item"><div class="pi-icon">🏥</div><div class="pi-body"><strong>Causes de mortalité Eisenmenger :</strong> IC droite progressive (43%) · Mort subite (30%) · Hémoptysie massive (9%) · AVC/embolie (8%)</div></div>
+    <div class="prog-item"><div class="pi-icon">🚫</div><div class="pi-body"><strong>Grossesse :</strong> COR 3 HARM — contre-indication absolue · Mortalité maternelle 30–50% · Jamais de grossesse chez une femme Eisenmenger</div></div>
+  </div>
+</div>
+
+<!-- SLIDE 5 EISENMENGER -->
+<div class="slide" id="slide-5">
+  <div class="sh">🧬 Physiopathologie Eisenmenger — Du shunt G→D au shunt D→G</div>
+
+  <div class="card">
+    <div class="card-title">📖 Définition et Mécanisme</div>
+    <div class="ib ib-eis" style="margin-bottom:12px">
+      <strong>Syndrome d'Eisenmenger (Victor Eisenmenger, 1897) :</strong><br>
+      Complication tardive de toute cardiopathie congénitale avec shunt G→D non corrigée. L'hyperdébit pulmonaire chronique induit des modifications irréversibles des artères pulmonaires (vasculopathie oblitérante) → PVR augmente progressivement → égalise puis dépasse les résistances systémiques → renversement du shunt (D→G) → cyanose centrale.
+    </div>
+    <div class="drow"><div class="dl">Phase 1 (0–15 ans)</div><div class="dv ok">Shunt G→D · Qp/Qs 2–3 · PVR normale · Pas de cyanose · Fermeture indiquée COR I</div></div>
+    <div class="drow"><div class="dl">Phase 2 (15–25 ans)</div><div class="dv warn">PVR augmente 2–5 WU · HTAP débutante · Fermeture encore possible COR 2a</div></div>
+    <div class="drow"><div class="dl">Phase 3 (25–35 ans)</div><div class="dv alert">PVR 5–8 WU · HTAP sévère · Treat-to-Close ou fenêtrée COR 2a–2b</div></div>
+    <div class="drow"><div class="dl">Phase 4 (>35 ans)</div><div class="dv alert">PVR &gt;8 WU · Shunt D→G · Cyanose · Eisenmenger · COR 3 CI définitive</div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🩺 Complications spécifiques de l'Eisenmenger — Prise en charge</div>
+    <div class="drow"><div class="dl">Polyglobulie / Ht &gt;65%</div><div class="dv">Phlébotomie si Ht &gt;65% et symptômes viscosité · JAMAIS si Ht &lt;65% ou asymptomatique · Substitution martiale OBLIGATOIRE (carence fréquente)</div></div>
+    <div class="drow"><div class="dl">Hémoptysies</div><div class="dv alert">Repos strict · Codéine (antitussive) · EFR + scanner pour localisation · Si massive : embolisation artère bronchique · Éviter anticoagulants</div></div>
+    <div class="drow"><div class="dl">AVC / Embolie cérébrale</div><div class="dv warn">Thrombus OD présent (ce cas) → Anticoagulation discutée prudemment · Risque paradoxal D→G · Filtre cave CI (shunt D→G)</div></div>
+    <div class="drow"><div class="dl">Hyperuricémie / Goutte</div><div class="dv">Allopurinol si goutte clinique · Éviter AINS (rénaux + saignements)</div></div>
+    <div class="drow"><div class="dl">Carence martiale</div><div class="dv alert">TRÈS FRÉQUENTE (polyglobulie + hémoptysies) · Fer IV si ferritine &lt;12 ng/mL · Correction obligatoire → améliore TM6M</div></div>
+    <div class="drow"><div class="dl">Chirurgie/Anesthésie</div><div class="dv alert">TRÈS HAUT RISQUE · Mortalité péri-anesthésique 5–15% · Anesthésie générale à éviter · Si indispensable : centre expert ACHD</div></div>
+    <div class="drow"><div class="dl">Anticoagulation</div><div class="dv warn">PAS d'anticoagulation systématique (COR 3 No Benefit ACC 2025) · Risque hémorragique (hémoptysies) &gt; bénéfice thromboembolique</div></div>
+    <div class="drow"><div class="dl">Vaccinations</div><div class="dv ok">Grippe annuelle + Pneumocoque · Infections = décompensation rapide</div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🚫 Ce qui est CONTRE-INDIQUÉ dans l'Eisenmenger</div>
+    <div class="ib ib-red" style="margin-bottom:8px"><strong>COR 3 HARM — Fermeture CIA</strong> · Supprime la soupape VD → décompensation VD aiguë fatale</div>
+    <div class="ib ib-red" style="margin-bottom:8px"><strong>COR 3 HARM — Grossesse</strong> · Mortalité maternelle 30–50% · Mort fœtale 30% · Jamais</div>
+    <div class="ib ib-red" style="margin-bottom:8px"><strong>COR 3 No Benefit — Anticoagulation systématique</strong> · Risque hémoptysie &gt; bénéfice</div>
+    <div class="ib ib-red" style="margin-bottom:8px"><strong>Altitude élevée</strong> · Aggrave la cyanose · Éviter &gt;1500 m</div>
+    <div class="ib ib-red" style="margin-bottom:0"><strong>Déshydratation / Vasodilatateurs systémiques</strong> · Chute DC brutal · Risque syncope/mort</div>
+  </div>
+</div>
+
+<!-- SLIDE 6 QCM -->
+<div class="slide" id="slide-6">
+  <div class="sh">❓ QCM — 6 questions · Cas CIA 08 · Eisenmenger · Traitement & Prise en charge</div>
+  <div id="qcm-area"></div>
+  <div id="score-area" style="display:none"></div>
+</div>
+
+<!-- SLIDE 7 TRAITEMENT PAH EISENMENGER -->
+<div class="slide" id="slide-7">
+  <div class="sh">⚕️ Traitement PAH Eisenmenger — ACC 2025 Section 4.4.6</div>
+
+  <div class="ib ib-eis">
+    <strong>COR I — Recommandation ACC 2025 Section 4.4.6 :</strong><br>
+    "In adults with Eisenmenger syndrome and an LV ejection fraction &gt;40% who are <strong>symptomatic or have reduced exercise capacity</strong>, initial <strong>monotherapy with PAH-directed therapy is recommended</strong> to improve symptoms, hemodynamics and overall survival."<br><br>
+    FEVG ici = 60% &gt;40% + Symptômes WHO III–IV → COR I traitement PAH. Si insuffisance sur monothérapie → bithérapie (ERA + iPDE5) COR I ACC 2025.
+  </div>
+
+  <div class="drug-table">
+    <div class="drug-head"><div>Médicament</div><div>Mécanisme / Posologie</div><div>Surveillance</div></div>
+    <div class="drug-row"><div class="drug-name">Macitentan (Opsumit)</div><div>ERA dual ET-A+ET-B · 10 mg/j · 1re ligne Eisenmenger · Essai MAESTRO · Améliore TM6M</div><div>ASAT/ALAT mensuel · Anémie (fréquente Macitentan)</div></div>
+    <div class="drug-row"><div class="drug-name">Bosentan (Tracleer)</div><div>ERA dual · 62.5 mg×2/j → 125 mg×2/j · Essai BREATHE-5 (Eisenmenger CIA) · Améliore TM6M et SpO₂</div><div>Hépatotoxicité (bili mensuel) · Interactions ++</div></div>
+    <div class="drug-row"><div class="drug-name">Tadalafil (Adempas)</div><div>iPDE5 · 40 mg/j · Associé ERA · Améliore hémodynamique + TM6M</div><div>TA · Interactions · Rein</div></div>
+    <div class="drug-row"><div class="drug-name">Sildenafil</div><div>iPDE5 · 20 mg×3/j · Données positives Eisenmenger · Alternative Tadalafil</div><div>TA · Visiion · Interactions</div></div>
+    <div class="drug-row"><div class="drug-name">Riociguat (Adempas)</div><div>Stimulateur GC soluble · 2.5 mg×3/j · Alternative iPDE5 (surtout si association ERA)</div><div>NE PAS ASSOCIER avec iPDE5 · TA</div></div>
+    <div class="drug-row"><div class="drug-name">Tréprostinil SC/IV</div><div>Analogue prostacycline · Si non-réponse ERA+iPDE5 · NYHA IV · Centre expert</div><div>Douleur site injection · Sepsis cathéter IV</div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📋 Plan thérapeutique pour ce patient</div>
+    <div class="drow"><div class="dl">Traitement PAH</div><div class="dv">Macitentan 10 mg/j (ERA dual) + Tadalafil 40 mg/j (iPDE5) — bithérapie d'emblée (3-Strata élevé)</div></div>
+    <div class="drow"><div class="dl">Fer IV</div><div class="dv alert">URGENT — Ferritine 8 ng/mL · Carence martiale sévère · Fer saccharose IV × 3 perfusions · Améliore TM6M indépendamment du PAH</div></div>
+    <div class="drow"><div class="dl">Thrombus OD</div><div class="dv warn">Anticoagulation discutée : risque thromboembolique D→G vs risque hémoptysie. Décision RCP : Rivaroxaban dose réduite à discuter prudemment.</div></div>
+    <div class="drow"><div class="dl">IC droite</div><div class="dv">Furosémide 80 mg/j · Spironolactone 25 mg/j · Tolvaptan si rétention eau réfractaire</div></div>
+    <div class="drow"><div class="dl">O₂ ambulatoire</div><div class="dv warn">Lunettes 2–4 L/min si SpO₂ &lt;88% au repos · NE PAS DONNER O₂ si SpO₂ stable 88–92% — peut réduire le shunt D→G compensateur</div></div>
+    <div class="drow"><div class="dl">Phlébotomie</div><div class="dv warn">Ht 62% — pas d'indication immédiate (seuil 65%). Surveillance. Si symptômes viscosité (céphalées, trouble visuel) → phlébotomie + substitution fer IV</div></div>
+    <div class="drow"><div class="dl">Greffe cœur-poumon</div><div class="dv alert">À DISCUTER en RCP multidisciplinaire — inscription liste si NYHA IV + traitement PAH maximal · Survie 50% à 5 ans · Âge 42 ans = candidat potentiel</div></div>
+    <div class="drow"><div class="dl">Grossesse</div><div class="dv alert">COR 3 HARM — CI absolue · Contraception efficace obligatoire (progestatifs seuls si possible)</div></div>
+  </div>
+
+  <div class="sh">📅 Suivi Table 44 Eisenmenger ACC 2025</div>
+  <div class="suivi-table">
+    <div class="suiv-head"><div>Examen</div><div>Délai</div><div>Objectif</div></div>
+    <div class="suiv-row hl"><div>Consultation ACHD + HTAP</div><div class="suiv-val">J15</div><div>Tolérance bithérapie · Fer IV J7</div></div>
+    <div class="suiv-row"><div>NFS + Ferritine + BNP</div><div class="suiv-val">M1</div><div>Réponse fer IV · Anémie Macitentan</div></div>
+    <div class="suiv-row hl"><div>ETT + TM6M + SpO₂</div><div class="suiv-val">M3</div><div>Amélioration TAPSE + Strain VD</div></div>
+    <div class="suiv-row"><div>Cathétérisme contrôle</div><div class="suiv-val">M6</div><div>PVR sous traitement · Index cardiaque</div></div>
+    <div class="suiv-row hl"><div>RCP greffe cœur-poumon</div><div class="suiv-val">M3</div><div>Évaluation candidature · Centre greffe</div></div>
+    <div class="suiv-row"><div>ACHD + HTAP long terme</div><div class="suiv-val">3–6 mois</div><div>Table 44 · Stade D · Suivi à vie</div></div>
+  </div>
+</div>
+
+<!-- SLIDE 8 MESSAGES CLÉS -->
+<div class="slide" id="slide-8">
+  <div class="val-banner">
+    <div style="font-size:18px">✅</div>
+    <div class="vb-t"><strong>CORE-TEAM ACHD-Algérie · CSC · ACC/AHA 2025</strong>Messages clés — Cas CIA 08 · Eisenmenger · COR 3 · Le stade ultime</div>
+  </div>
+
+  <div class="sh">📊 Tableau complet des 7 cas CIA — Progression COR I → COR 3</div>
+  <div class="all-cases">
+    <div class="ac-head"><div>Cas</div><div>Patient</div><div>RVP WU</div><div>COR</div><div>Décision</div></div>
+    <div class="ac-row"><div style="color:var(--teal);font-weight:700">C01</div><div>F42 · Stade B</div><div style="color:var(--mint)">1.6</div><div style="color:var(--mint)">I</div><div style="color:var(--mint);font-size:10px">Perc. immédiate</div></div>
+    <div class="ac-row"><div style="color:var(--red);font-weight:700">C02</div><div>H57 · Stade D</div><div style="color:var(--orange)">4.1</div><div style="color:var(--sky)">2a</div><div style="color:var(--sky);font-size:10px">Optimisation</div></div>
+    <div class="ac-row"><div style="color:var(--pur);font-weight:700">C03</div><div>F62 · IT sévère</div><div style="color:var(--orange)">3.1</div><div style="color:var(--sky)">2a</div><div style="color:var(--pur);font-size:10px">Chir+Annulo</div></div>
+    <div class="ac-row"><div style="color:var(--orange);font-weight:700">C04</div><div>H57 · Stade C</div><div style="color:var(--gold)">6.2</div><div style="color:var(--sky)">2a</div><div style="color:var(--orange);font-size:10px">Treat-to-Close</div></div>
+    <div class="ac-row"><div style="color:var(--cyan);font-weight:700">C06</div><div>F52 · Stade B</div><div style="color:var(--red)">7.0</div><div style="color:var(--gold)">2b</div><div style="color:var(--cyan);font-size:10px">Fenêtrée</div></div>
+    <div class="ac-row"><div style="color:#FFB3B3;font-weight:700">C07</div><div>H70 · VG dysf.</div><div style="color:var(--mint)">1.5</div><div style="color:var(--red)">3</div><div style="color:var(--red);font-size:10px">CI (VG)</div></div>
+    <div class="ac-row hl-eis"><div style="color:#FFB3B3;font-weight:700">C08</div><div style="color:#FFB3B3">H42 · Eisenmenger</div><div style="color:var(--red);font-weight:800">8.8</div><div style="color:var(--red);font-weight:800">3</div><div style="color:var(--red);font-size:10px;font-weight:800">🔴 CI Absolue</div></div>
+  </div>
+
+  <div class="sh">💡 8 Messages clés — Cas CIA 08 · Eisenmenger</div>
+  <div class="kmsg"><div class="km-num" style="background:var(--red)">1</div><div class="km-body"><strong>COR 3 HARM Eisenmenger CIA = contre-indication absolue et DÉFINITIVE</strong> à la fermeture. Aucun traitement ne peut rendre la fermeture sûre quand PVR &gt;8 WU + shunt D→G + cyanose. Recommandation #13 Section 4.1.1 ACC 2025.</div></div>
+  <div class="kmsg"><div class="km-num" style="background:var(--eis)">2</div><div class="km-body"><strong>L'Eisenmenger est une catastrophe évitable.</strong> 30 ans de CIA négligée = vasculopathie pulmonaire irréversible. À 18 ans (2000), la fermeture CIA aurait évité l'Eisenmenger. La fenêtre thérapeutique (15–35 ans) est la clé : fermer AVANT que la PVR dépasse 5 WU.</div></div>
+  <div class="kmsg"><div class="km-num" style="background:var(--gold)">3</div><div class="km-body"><strong>Traitement PAH = COR I ACC 2025.</strong> ERA (Macitentan/Bosentan) + iPDE5 (Tadalafil/Sildenafil). Améliore TM6M, NYHA, survie. Essai BREATHE-5 : Bosentan améliore PVR et TM6M chez Eisenmenger CIA. Ne normalise PAS la PVR — traitement palliatif.</div></div>
+  <div class="kmsg"><div class="km-num" style="background:var(--pur)">4</div><div class="km-body"><strong>Polyglobulie réactionnelle = mécanisme compensateur adaptatif.</strong> Ne pas traiter systématiquement. Phlébotomie UNIQUEMENT si Ht ≥65% + symptômes de viscosité. Corriger TOUJOURS la carence martiale associée (très fréquente dans l'Eisenmenger).</div></div>
+  <div class="kmsg"><div class="km-num" style="background:var(--mint)">5</div><div class="km-body"><strong>Grossesse = COR 3 HARM absolu</strong> chez la femme Eisenmenger. Mortalité maternelle 30–50%. Contraception efficace obligatoire (progestatifs seuls de préférence — contraceptifs œstroprogestatifs thrombogènes CI). Discuter stérilisation si désir contraception permanente.</div></div>
+  <div class="kmsg"><div class="km-num" style="background:var(--sky)">6</div><div class="km-body"><strong>Fer IV = traitement urgent sous-estimé.</strong> La carence martiale dans l'Eisenmenger (polyglobulie + hémoptysies) aggrave considérablement les symptômes. La correction martiale IV améliore le TM6M de 20–30 m indépendamment du traitement PAH. Ferritine cible &gt;50 ng/mL.</div></div>
+  <div class="kmsg"><div class="km-num" style="background:var(--orange)">7</div><div class="km-body"><strong>Greffe cœur-poumon = seule option curative</strong> pour l'Eisenmenger sévère (NYHA IV + traitement PAH maximal). Survie 50% à 5 ans. Pénurie de greffons = inscription précoce recommandée. Critères d'inscription à évaluer en centre expert transplantation.</div></div>
+  <div class="kmsg"><div class="km-num" style="background:var(--teal);color:#06101E">8</div><div class="km-body"><strong>Pas d'anticoagulation systématique (COR 3 No Benefit).</strong> Risque hémorragique (hémoptysies) &gt; bénéfice antithrombotique. Thrombus présent → décision individualisée en RCP. AVC paradoxal D→G = risque mais filtre cave CI (shunt D→G).</div></div>
+
+  <div class="sh">📚 Référence</div>
+  <div class="card">
+    <div class="drow"><div class="dl">Guideline</div><div class="dv">Gurvitz et al. 2025 ACC/AHA/HRS/ISACHD/SCAI · JACC 2025</div></div>
+    <div class="drow"><div class="dl">Sections</div><div class="dv">4.1.1 Rec #13 (COR 3 Eisenmenger) · 4.4.6 Eisenmenger (traitement PAH) · Table 44 (suivi)</div></div>
+    <div class="drow"><div class="dl">Evidence</div><div class="dv">BREATHE-5 (Bosentan CIA Eisenmenger) · MAESTRO (Macitentan) · Kovacs et al. (greffe)</div></div>
+    <div class="drow"><div class="dl">ACHD CORE-Team</div><div class="dv">CSC Algeria · contact@csc-cardio.com · WhatsApp +213 540 910 869</div></div>
+  </div>
+</div>
+
+</div>
+
+<div id="botnav">
+  <button class="bnav-btn bnav-prev" id="btn-prev" disabled>← Précédent</button>
+  <button class="bnav-btn bnav-next" id="btn-next">Suivant →</button>
+</div>
+
+<script>
+var cur=0,total=9,qIdx=0,qScore=0,qAnswered=[];
+var snavs=document.querySelectorAll('.snav');
+snavs.forEach(function(b){b.addEventListener('click',function(){goTo(parseInt(this.getAttribute('data-slide')));});});
+function goTo(n){
+  if(n<0||n>=total)return;
+  document.querySelectorAll('.slide').forEach(function(s){s.classList.remove('active');});
+  document.getElementById('slide-'+n).classList.add('active');
+  snavs.forEach(function(b){b.classList.remove('active');});
+  snavs[n].classList.add('active');
+  if(n>0)snavs[n-1].classList.add('done');
+  cur=n;
+  document.getElementById('btn-prev').disabled=(n===0);
+  document.getElementById('btn-next').disabled=(n===total-1);
+  document.getElementById('btn-next').textContent=n===total-2?'Terminer ✓':'Suivant →';
+  window.scrollTo(0,0);
+  if(n===6&&qIdx===0)renderQ(0);
+}
+document.getElementById('btn-prev').addEventListener('click',function(){goTo(cur-1);});
+document.getElementById('btn-next').addEventListener('click',function(){goTo(cur+1);});
+
+var QCM=[
+  {q:"Homme 42 ans, CIA OS 18 mm, RVP = 8.8 WU, Qp/Qs = 0.68, SpO₂ = 82%, cyanose centrale permanente. Selon ACC 2025, quelle est la recommandation concernant la fermeture CIA ?",
+   opts:["COR 2b — Fermeture fenêtrée envisageable malgré Eisenmenger si belles berges anatomiques","COR 2a — Treat-to-Close obligatoire — ERA+iPDE5 puis rééval fermeture","COR 3 HARM — Recommandation #13 : fermeture CIA ne doit pas être réalisée chez l'Eisenmenger. Augmente morbimortalité de façon certaine.","COR I — Fermeture percutanée immédiate car belles berges et anatomie favorable"],
+   ans:2,
+   fb:"COR 3 HARM Recommandation #13 ACC 2025 Section 4.1.1 : 'In adults with an unrepaired ASD and Eisenmenger physiology, ASD closure should not be performed to avoid increasing morbidity and mortality.' Eisenmenger = shunt D→G + cyanose + RVP > 8 WU. Fermer la CIA supprimerait la soupape de décompression VD → décompensation VD aiguë fatale. CI absolue et définitive."},
+  {q:"Qp/Qs = 0.68 (< 1). SpO₂ = 82% au repos. Comment interpréter ces données et quel est le mécanisme de la cyanose dans l'Eisenmenger CIA ?",
+   opts:["Qp/Qs < 1 = normal — le shunt CIA est trivial et sans conséquence","Qp/Qs < 1 signifie que le débit pulmonaire est INFÉRIEUR au débit systémique = shunt D→G net. Le sang désoxygéné passe de OD → OG par la CIA → mélange avec sang oxygéné → cyanose centrale. SpO₂ 82% confirme l'hypoxémie sévère.","Qp/Qs < 1 signifie fermeture spontanée partielle — bon signe","Qp/Qs < 1 = dysfonction VD uniquement — pas de rapport avec la direction du shunt"],
+   ans:1,
+   fb:"Physiopathologie Eisenmenger : PVR 8.8 WU > RVS → la pression OD > pression OG → le sang va de OD vers OG (D→G) par la CIA. Qp/Qs = 0.68 confirme que seulement 68% du débit systémique passe par les poumons → 32% du sang désoxygéné court-circuite les poumons → arrive directement en OG → mélange → SaO₂ 72% dans l'aorte → cyanose centrale et SpO₂ 82% au repos."},
+  {q:"Hémoglobine = 19.2 g/dL, Hématocrite = 62%. Comment interpréter cette polyglobulie et quel est le traitement selon ACC 2025 ?",
+   opts:["Polyglobulie = complication dangereuse → phlébotomie immédiate obligatoire quel que soit l'Ht","Polyglobulie réactionnelle = mécanisme compensateur à l'hypoxémie chronique. Phlébotomie UNIQUEMENT si Ht ≥65% + symptômes de viscosité (céphalées, troubles visuels). Ici Ht 62% = surveillance. Corriger carence martiale (ferritine 8 ng/mL) obligatoirement.","Polyglobulie indique une greffe cœur-poumon urgente","Phlébotomie mensuelle systématique quel que soit le taux"],
+   ans:1,
+   fb:"La polyglobulie Eisenmenger est une ADAPTATION physiologique à l'hypoxémie chronique (érythropoïèse secondaire pour augmenter la capacité transportrice O₂). Ne pas traiter systématiquement. Phlébotomie si Ht ≥65% ET symptômes viscosité. Ici Ht 62% = pas d'indication. ESSENTIEL : corriger la carence martiale (ferritine 8 ng/mL → cible >50 ng/mL) par fer IV → améliore TM6M de 20-30 m. La carence martiale aggrave les symptômes indépendamment de l'Ht."},
+  {q:"Selon ACC 2025 Section 4.4.6, quel traitement PAH est recommandé (COR I) pour ce patient (FEVG 60%, symptomatique WHO III–IV) ?",
+   opts:["Surveillance simple — aucun traitement PAH efficace dans l'Eisenmenger","Anticoagulation par AVK seule — principal traitement selon les guidelines","Monothérapie PAH initiale recommandée (ERA ou iPDE5) · Si insuffisance : bithérapie ERA + iPDE5 (COR I 2025). Améliore TM6M, NYHA, survie. Essai BREATHE-5 (Bosentan) et MAESTRO (Macitentan) pour CIA Eisenmenger.","Prostacycline IV uniquement — ERA contre-indiquée dans l'Eisenmenger"],
+   ans:2,
+   fb:"COR I ACC 2025 Section 4.4.6 : 'Initial monotherapy with PAH-directed therapy is recommended to improve symptoms, hemodynamics and overall survival' chez Eisenmenger symptomatique avec FEVG > 40%. ERA (Bosentan BREATHE-5, Macitentan MAESTRO) et iPDE5 (Tadalafil, Sildenafil) sont les piliers. Si non-réponse à monothérapie → bithérapie COR I. Ici 3-Strata élevé → bithérapie Macitentan + Tadalafil d'emblée justifiée. Note : ne normalise PAS la PVR — traitement palliatif améliorant pronostic."},
+  {q:"La femme d'un patient Eisenmenger souhaite connaître les risques d'une grossesse future. Selon ACC 2025, quelle est la recommandation ?",
+   opts:["Grossesse possible si traitement PAH bien équilibré et suivi rapproché","Grossesse déconseillée mais possible avec surveillance intensive en centre spécialisé","Grossesse COR 3 HARM — contre-indication absolue. Mortalité maternelle 30–50% même sous traitement optimal. Mortality fœtale 30%. Contraception efficace obligatoire à vie.","Grossesse possible après greffe cœur-poumon uniquement"],
+   ans:2,
+   fb:"COR 3 HARM ACC 2025 Section 4.4.6 : 'Adults with Eisenmenger syndrome should be advised against pregnancy to decrease the risk associated with excess maternal morbidity and mortality.' Mortalité maternelle 30–50% même avec traitement PAH optimal et suivi en centre expert. Mort fœtale 30%. Le shunt D→G augmente massivement les résistances à l'effort (accouchement) → décompensation circulatoire aiguë. Contraception : progestatifs seuls (pas œstro-progestatifs thrombogènes) ou stérilisation discutée."},
+  {q:"À quel stade de la CIA cette catastrophe aurait-elle pu être évitée ? Quelle était la fenêtre thérapeutique selon la timeline de ce patient ?",
+   opts:["L'Eisenmenger est inévitable quelle que soit la prise en charge — génétique vasculaire obligatoire","La fermeture CIA entre 0 et 15 ans uniquement — au-delà 15 ans c'est trop tard","La fenêtre thérapeutique était ouverte jusqu'à ~35 ans (PVR < 5 WU probablement). A 18 ans (2000) : PAPS 55 mmHg → PVR 2–3 WU → COR I fermeture. A 30 ans (2012) : PVR ~6 WU → COR 2a encore possible. La non-prise en charge entre 6 mois et 35 ans a conduit à l'Eisenmenger irréversible.","La fermeture n'était possible qu'à la naissance — jamais plus tard"],
+   ans:2,
+   fb:"Timeline pédagogique : À 6 mois (1982) : CIA OS diagnostiquée, PVR normale → COR I fermeture AURAIENT DÛ être réalisée. À 18 ans (2000) : PAPS 55 mmHg → PVR ~2 WU → fermeture encore COR I. À 30 ans (2012) : PVR ~6 WU → Treat-to-Close ou fenêtrée encore possibles (COR 2a/2b). À 42 ans (2024) : PVR 8.8 WU + shunt D→G + cyanose = Eisenmenger irréversible = COR 3 CI définitive. 30 ans de fenêtre thérapeutique manquée = vasculopathie oblitérante irréversible. La prévention = dépistage + fermeture précoce CIA."}
+];
+
+function renderQ(idx){
+  if(idx>=QCM.length){showScore();return;}
+  var q=QCM[idx],letters=['A','B','C','D'];
+  var prog='';
+  for(var k=0;k<QCM.length;k++) prog+='<div class="qpd'+(k<idx?' done':k===idx?' active':'')+'"></div>';
+  var html='<div class="qprog">'+prog+'</div>';
+  html+='<div class="qnum">Question '+(idx+1)+' / '+QCM.length+' · Cas CIA 08 · Syndrome d'Eisenmenger</div>';
+  html+='<div class="card"><div class="qcm-q">'+q.q+'</div>';
+  for(var j=0;j<4;j++) html+='<button class="qopt" data-qi="'+idx+'" data-j="'+j+'"><div class="ql">'+letters[j]+'</div><div class="qt">'+q.opts[j]+'</div></button>';
+  html+='<div class="qfb" id="qfb-'+idx+'"></div></div>';
+  document.getElementById('qcm-area').innerHTML=html;
+  document.querySelectorAll('.qopt').forEach(function(b){b.addEventListener('click',function(){ansQ(parseInt(this.getAttribute('data-qi')),parseInt(this.getAttribute('data-j')));});});
+  qIdx=idx;
+}
+function ansQ(qi,chosen){
+  if(qAnswered.indexOf(qi)>=0)return;
+  qAnswered.push(qi);
+  var q=QCM[qi],correct=chosen===q.ans,letters=['A','B','C','D'];
+  if(correct)qScore++;
+  document.querySelectorAll('.qopt').forEach(function(b){
+    b.style.pointerEvents='none';
+    var j=parseInt(b.getAttribute('data-j'));
+    if(j===q.ans)b.classList.add('reveal');
+    if(j===chosen&&!correct)b.classList.add('wrong');
+    if(j===chosen&&correct)b.classList.add('correct');
+  });
+  var fb=document.getElementById('qfb-'+qi);
+  if(fb){fb.innerHTML='<strong style="color:'+(correct?'var(--mint)':'var(--red)')+'">'+( correct?'✅ Correct !':'❌ Incorrect — Réponse : '+letters[q.ans])+'</strong><br><span style="color:var(--w2)">'+q.fb+'</span>';fb.className='qfb show '+(correct?'ok':'err');}
+  setTimeout(function(){renderQ(qi+1);},3400);
+}
+function showScore(){
+  var pct=Math.round(qScore/QCM.length*100);
+  var sc=pct>=80?'var(--mint)':pct>=60?'var(--gold)':'var(--red)';
+  var lbl=pct>=80?'Excellent !':pct>=60?'Bien !':pct>=40?'À revoir':'Recommencer';
+  var circ=2*Math.PI*48,dash=(pct/100)*circ;
+  document.getElementById('qcm-area').innerHTML='';
+  document.getElementById('score-area').style.display='block';
+  document.getElementById('score-area').innerHTML=
+    '<div class="score-wrap"><div class="score-ring"><svg width="110" height="110" viewBox="0 0 110 110"><circle cx="55" cy="55" r="48" fill="none" stroke="rgba(255,255,255,.08)" stroke-width="9"/><circle cx="55" cy="55" r="48" fill="none" stroke="'+sc+'" stroke-width="9" stroke-linecap="round" stroke-dasharray="'+circ.toFixed(1)+'" stroke-dashoffset="'+(circ-dash).toFixed(1)+'" transform="rotate(-90 55 55)"/></svg><div class="sr-center"><div class="sr-num" style="color:'+sc+'">'+qScore+'</div><div class="sr-den">/ '+QCM.length+'</div></div></div><div class="score-label" style="color:'+sc+'">'+pct+'% — '+lbl+'</div><div style="font-size:12px;color:var(--w3)">Cas CIA 08 · Eisenmenger · CSC Algeria</div></div>'+
+    '<div class="ib ib-eis" style="margin-top:12px"><strong>→ Consultez la slide Traitement PAH</strong> pour le plan thérapeutique complet et la discussion greffe cœur-poumon.</div>';
+}
+goTo(0);
+</script>
+</body>
+</html>
