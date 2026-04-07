@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<title>CIA · Cas 07 · Dysfonction VG · H70 · CI Fermeture · CSC Algeria</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#06101E;--bg2:#0B1928;--bg3:#0F2035;
+  --teal:#00C4AE;--t2:rgba(0,196,174,.13);
+  --sky:#38BDF8;--s2:rgba(56,189,248,.12);
+  --mint:#34D399;--m2:rgba(52,211,153,.12);
+  --gold:#F0A030;--g2:rgba(240,160,48,.12);
+  --red:#E03050;--r2:rgba(224,48,80,.12);
+  --pur:#A78BFA;--p2:rgba(167,139,250,.12);
+  --orange:#FB923C;--or2:rgba(251,146,60,.12);
+  --rose:#FB7185;--ro2:rgba(251,113,133,.12);
+  --cyan:#22D3EE;--cy2:rgba(34,211,238,.12);
+  --w1:#EEF5FF;--w2:rgba(238,245,255,.65);--w3:rgba(238,245,255,.32);
+  --brd:rgba(255,255,255,.08);--brd2:rgba(255,255,255,.15);
+  --r:14px;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{min-height:100%;background:var(--bg);color:var(--w1);font-family:"DM Sans",sans-serif;font-size:14px;overflow-x:hidden}
+
+#topbar{background:rgba(6,16,30,.97);backdrop-filter:blur(16px);border-bottom:1px solid var(--brd);padding:10px 16px;display:flex;align-items:center;gap:10px;position:sticky;top:0;z-index:100}
+.tb-logo{width:34px;height:34px;border-radius:9px;background:#fff;padding:2px;flex-shrink:0}
+.tb-logo img{width:100%;height:100%;object-fit:contain}
+.tb-t{font-family:"Syne",sans-serif;font-size:14px;font-weight:700;color:var(--rose)}
+.tb-s{font-size:10px;color:var(--w3)}
+.tb-badge{background:var(--r2);border:1px solid rgba(224,48,80,.4);border-radius:8px;padding:3px 9px;font-size:9px;font-weight:700;color:var(--red)}
+.tb-badge2{background:var(--ro2);border:1px solid rgba(251,113,133,.35);border-radius:8px;padding:3px 9px;font-size:9px;font-weight:700;color:var(--rose)}
+
+#stepnav{background:rgba(6,16,30,.95);border-bottom:1px solid var(--brd);padding:10px 14px;display:flex;gap:6px;overflow-x:auto;-webkit-overflow-scrolling:touch;position:sticky;top:54px;z-index:90}
+#stepnav::-webkit-scrollbar{display:none}
+.snav{padding:7px 12px;border-radius:20px;font-family:"Syne",sans-serif;font-size:10px;font-weight:700;cursor:pointer;border:1px solid var(--brd2);background:transparent;color:var(--w3);white-space:nowrap;transition:all .15s}
+.snav.active{background:var(--rose);color:#fff;border-color:var(--rose)}
+.snav.done{background:rgba(52,211,153,.12);border-color:rgba(52,211,153,.3);color:var(--mint)}
+
+#content{padding:14px 14px 100px}
+.slide{display:none;animation:fadeUp .3s ease}
+.slide.active{display:block}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+.card{background:var(--bg2);border-radius:var(--r);padding:14px;border:1px solid var(--brd);margin-bottom:12px}
+.card-title{font-family:"Syne",sans-serif;font-size:13px;font-weight:700;margin-bottom:10px;display:flex;align-items:center;gap:7px}
+.sh{font-family:"Syne",sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.9px;color:var(--w3);margin:16px 0 8px;padding-bottom:6px;border-bottom:1px solid var(--brd)}
+
+.hero-card{border-radius:var(--r);padding:18px;margin-bottom:14px;overflow:hidden}
+.hero-rose{background:linear-gradient(135deg,rgba(251,113,133,.16),rgba(224,48,80,.1));border:2px solid rgba(251,113,133,.45)}
+.hero-label{font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:1px;text-transform:uppercase;margin-bottom:8px;color:var(--rose)}
+.hero-title{font-family:"Syne",sans-serif;font-size:20px;font-weight:800;line-height:1.2;margin-bottom:6px}
+.hero-sub{font-size:13px;color:var(--w2);line-height:1.6;margin-bottom:12px}
+.hero-pills{display:flex;flex-wrap:wrap;gap:6px}
+.hp{padding:4px 10px;border-radius:20px;font-size:10px;font-weight:700;border:1px solid}
+.p-rose{background:var(--ro2);border-color:rgba(251,113,133,.35);color:var(--rose)}
+.p-red{background:var(--r2);border-color:rgba(224,48,80,.35);color:var(--red)}
+.p-gold{background:var(--g2);border-color:rgba(240,160,48,.3);color:var(--gold)}
+.p-sky{background:var(--s2);border-color:rgba(56,189,248,.3);color:var(--sky)}
+.p-pur{background:var(--p2);border-color:rgba(167,139,250,.3);color:var(--pur)}
+.p-mint{background:var(--m2);border-color:rgba(52,211,153,.3);color:var(--mint)}
+.p-teal{background:var(--t2);border-color:rgba(0,196,174,.3);color:var(--teal)}
+.p-orange{background:var(--or2);border-color:rgba(251,146,60,.35);color:var(--orange)}
+
+.drow{display:flex;padding:8px 0;border-bottom:1px solid var(--brd);align-items:flex-start;gap:8px}
+.drow:last-child{border-bottom:none}
+.dl{width:148px;flex-shrink:0;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:var(--w3);line-height:1.4;padding-top:1px}
+.dv{flex:1;font-size:13px;color:var(--w1);line-height:1.5}
+.dv.ok{color:var(--mint);font-weight:700}
+.dv.warn{color:var(--gold);font-weight:700}
+.dv.alert{color:var(--red);font-weight:700}
+.dv.rose{color:var(--rose);font-weight:700}
+.dv.sky{color:var(--sky);font-weight:700}
+.dv.hl{color:var(--teal);font-weight:700}
+.dv.pur{color:var(--pur);font-weight:700}
+.dv.orange{color:var(--orange);font-weight:700}
+
+.cor{display:inline-flex;align-items:center;justify-content:center;padding:2px 8px;border-radius:5px;font-family:"JetBrains Mono",monospace;font-size:9px;font-weight:700;margin-right:4px}
+.cor1{background:rgba(52,211,153,.2);color:var(--mint)}
+.cor2a{background:rgba(56,189,248,.2);color:var(--sky)}
+.cor2b{background:rgba(240,160,48,.2);color:var(--gold)}
+.cor3{background:rgba(224,48,80,.15);color:var(--red)}
+
+.ib{border-radius:10px;padding:10px 13px;font-size:12px;line-height:1.65;border-left:3px solid;margin-bottom:10px}
+.ib-teal{background:var(--t2);border-color:var(--teal)}
+.ib-sky{background:var(--s2);border-color:var(--sky)}
+.ib-gold{background:var(--g2);border-color:var(--gold)}
+.ib-red{background:var(--r2);border-color:var(--red)}
+.ib-mint{background:var(--m2);border-color:var(--mint)}
+.ib-rose{background:var(--ro2);border-color:var(--rose)}
+.ib-pur{background:var(--p2);border-color:var(--pur)}
+.ib-orange{background:var(--or2);border-color:var(--orange)}
+
+.gauge-row{display:flex;align-items:center;gap:10px;margin-bottom:7px}
+.gauge-label{font-size:11px;color:var(--w3);width:145px;flex-shrink:0;font-weight:600}
+.gauge-bar{flex:1;height:10px;background:var(--bg3);border-radius:5px;overflow:hidden}
+.gauge-fill{height:100%;border-radius:5px;transition:width .7s ease}
+.gauge-val{font-family:"JetBrains Mono",monospace;font-size:11px;font-weight:700;width:65px;text-align:right;flex-shrink:0}
+
+.canva-wrap{border-radius:12px;overflow:hidden;border:1px solid var(--brd2);background:var(--bg3);margin-bottom:12px}
+.canva-label{padding:10px 13px;border-bottom:1px solid var(--brd);font-family:"Syne",sans-serif;font-size:11px;font-weight:700;color:var(--rose)}
+.canva-wrap iframe{width:100%;border:none;display:block}
+
+.eto-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px}
+.eto-berge{border-radius:10px;padding:10px 12px;border:2px solid;text-align:center}
+.eto-ok{border-color:rgba(52,211,153,.4);background:rgba(52,211,153,.08)}
+.eb-name{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--w3);margin-bottom:4px}
+.eb-val{font-family:"Syne",sans-serif;font-size:20px;font-weight:800;line-height:1}
+.eb-unit{font-size:10px;color:var(--w3)}
+
+.param-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px}
+.param-box{border-radius:10px;padding:12px;border:1px solid;text-align:center}
+.pb-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--w3);margin-bottom:4px}
+.pb-val{font-family:"Syne",sans-serif;font-size:22px;font-weight:800;line-height:1;margin-bottom:2px}
+.pb-status{font-size:10px;font-weight:700;margin-top:4px}
+
+/* BALLOON TEST DIAGRAM */
+.balloon-test{background:linear-gradient(135deg,rgba(251,113,133,.12),rgba(224,48,80,.08));border:2px solid rgba(251,113,133,.45);border-radius:14px;padding:16px;margin-bottom:12px}
+.bt-title{font-family:"Syne",sans-serif;font-size:14px;font-weight:800;color:var(--rose);margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.bt-phases{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+.bt-phase{border-radius:11px;padding:11px;border:2px solid;text-align:center}
+.bt-phase-title{font-family:"Syne",sans-serif;font-size:11px;font-weight:700;margin-bottom:8px}
+.bt-val-row{display:flex;justify-content:space-between;font-size:11px;padding:3px 0;border-bottom:1px solid var(--brd)}
+.bt-val-row:last-child{border-bottom:none}
+.bt-label{color:var(--w3);font-size:10px}
+.bt-num{font-family:"JetBrains Mono",monospace;font-weight:700;font-size:11px}
+
+/* STRATA TABLE */
+.strata-table{border:1px solid var(--brd);border-radius:10px;overflow:hidden;margin-bottom:10px}
+.st-head,.st-row{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;font-size:11px}
+.st-head{background:var(--bg3);font-family:"Syne",sans-serif;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.4px}
+.st-head>div,.st-row>div{padding:7px 8px;border-right:1px solid var(--brd);line-height:1.4}
+.st-row>div:last-child,.st-head>div:last-child{border-right:none}
+.st-row{border-top:1px solid var(--brd)}
+.st-low{background:rgba(52,211,153,.08);font-weight:700;color:var(--mint)}
+.st-high{background:rgba(224,48,80,.08);font-weight:700;color:var(--red)}
+.st-int{background:rgba(240,160,48,.07);font-weight:700;color:var(--gold)}
+
+/* PHYSIO TABLE */
+.physio-table{border:1px solid var(--brd);border-radius:10px;overflow:hidden;margin-bottom:10px}
+.phys-head,.phys-row{display:grid;grid-template-columns:1.8fr 1fr 1fr;font-size:11px}
+.phys-head{background:var(--bg3);font-family:"Syne",sans-serif;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:var(--w3)}
+.phys-head>div,.phys-row>div{padding:8px 10px;border-right:1px solid var(--brd);line-height:1.4;color:var(--w2)}
+.phys-head>div:last-child,.phys-row>div:last-child{border-right:none}
+.phys-row{border-top:1px solid var(--brd)}
+.phys-row.hl-d{background:rgba(251,113,133,.06)}
+.phys-yes{color:var(--red);font-weight:700}
+.phys-no{color:var(--w3)}
+
+/* PARADOX BOX */
+.paradox{background:linear-gradient(135deg,rgba(251,113,133,.12),rgba(224,48,80,.08));border:2px solid rgba(251,113,133,.4);border-radius:14px;padding:14px;margin-bottom:14px}
+.px-title{font-family:"Syne",sans-serif;font-size:14px;font-weight:800;color:var(--rose);margin-bottom:8px;display:flex;align-items:center;gap:7px}
+.px-body{font-size:12px;color:var(--w2);line-height:1.7}
+
+/* COMP TABLE */
+.comp-table{border:1px solid var(--brd);border-radius:10px;overflow:hidden;margin-bottom:10px}
+.ct-head,.ct-row{display:grid;grid-template-columns:1.2fr 1fr 1fr 1fr;font-size:11px}
+.ct-head{background:var(--bg3);font-family:"Syne",sans-serif;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:var(--w3)}
+.ct-head>div,.ct-row>div{padding:8px 8px;border-right:1px solid var(--brd);line-height:1.4}
+.ct-head>div:last-child,.ct-row>div:last-child{border-right:none}
+.ct-row{border-top:1px solid var(--brd)}
+.ct-row:nth-child(odd){background:rgba(255,255,255,.02)}
+.ct-good{color:var(--mint);font-weight:700}
+.ct-bad{color:var(--red);font-weight:700}
+.ct-warn{color:var(--gold);font-weight:700}
+
+/* QCM */
+.qcm-q{font-family:"Syne",sans-serif;font-size:15px;font-weight:700;margin-bottom:16px;line-height:1.45}
+.qopt{width:100%;padding:12px 14px;border-radius:11px;border:2px solid var(--brd2);background:var(--bg2);color:var(--w1);font-family:"DM Sans",sans-serif;font-size:13px;text-align:left;cursor:pointer;margin-bottom:8px;transition:all .18s;display:flex;align-items:flex-start;gap:10px}
+.qopt:active{transform:scale(.98)}
+.qopt.correct{border-color:var(--mint)!important;background:rgba(52,211,153,.1)!important}
+.qopt.wrong{border-color:var(--red)!important;background:rgba(224,48,80,.08)!important}
+.qopt.reveal{border-color:var(--mint)!important;background:rgba(52,211,153,.05)!important}
+.ql{width:28px;height:28px;border-radius:7px;background:var(--bg3);border:1px solid var(--brd2);display:flex;align-items:center;justify-content:center;font-family:"Syne",sans-serif;font-size:12px;font-weight:700;flex-shrink:0;transition:all .2s}
+.qopt.correct .ql,.qopt.reveal .ql{background:var(--mint);border-color:var(--mint);color:#06101E}
+.qopt.wrong .ql{background:var(--red);border-color:var(--red);color:#fff}
+.qt{font-size:13px;color:var(--w2);line-height:1.5;flex:1}
+.qfb{margin-top:12px;padding:12px 14px;border-radius:11px;font-size:12px;line-height:1.65;display:none;border:1px solid}
+.qfb.show{display:block}
+.qfb.ok{background:rgba(52,211,153,.08);border-color:rgba(52,211,153,.3)}
+.qfb.err{background:rgba(224,48,80,.08);border-color:rgba(224,48,80,.25)}
+.qprog{display:flex;gap:5px;margin-bottom:14px}
+.qpd{flex:1;height:4px;border-radius:2px;background:var(--brd2)}
+.qpd.done{background:var(--rose)}.qpd.active{background:var(--gold)}
+.qnum{font-size:10px;color:var(--w3);font-weight:700;text-transform:uppercase;letter-spacing:.8px;margin-bottom:10px}
+
+/* SCORE */
+.score-wrap{text-align:center;padding:20px 0 10px}
+.score-ring{position:relative;width:110px;height:110px;margin:0 auto 10px}
+.score-ring svg{transform:rotate(-90deg)}
+.sr-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.sr-num{font-family:"Syne",sans-serif;font-size:32px;font-weight:800;line-height:1}
+.sr-den{font-size:11px;color:var(--w3)}
+.score-label{font-family:"Syne",sans-serif;font-size:18px;font-weight:700;margin-bottom:4px}
+
+/* VAL BANNER */
+.val-banner{background:linear-gradient(90deg,rgba(251,113,133,.1),rgba(224,48,80,.06));border:1px solid rgba(251,113,133,.25);border-radius:10px;padding:10px 13px;display:flex;gap:9px;align-items:flex-start;margin-bottom:14px}
+.vb-t{font-size:11px;color:var(--w2);line-height:1.55}
+.vb-t strong{color:var(--rose);display:block;font-size:12px}
+
+/* KEY MESSAGES */
+.kmsg{display:flex;gap:10px;align-items:flex-start;padding:10px 12px;background:var(--bg2);border-radius:10px;border:1px solid var(--brd);margin-bottom:7px}
+.km-num{width:24px;height:24px;border-radius:6px;font-family:"Syne",sans-serif;font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#fff}
+.km-body{font-size:12px;color:var(--w2);line-height:1.55;flex:1}
+
+/* SUIVI */
+.suivi-table{border:1px solid var(--brd);border-radius:10px;overflow:hidden;margin-bottom:10px}
+.suiv-head,.suiv-row{display:grid;grid-template-columns:1.5fr 0.8fr 1.2fr;font-size:11px}
+.suiv-head{background:var(--bg3);font-family:"Syne",sans-serif;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:var(--w3)}
+.suiv-head>div,.suiv-row>div{padding:8px 10px;border-right:1px solid var(--brd);line-height:1.4;color:var(--w2)}
+.suiv-head>div:last-child,.suiv-row>div:last-child{border-right:none}
+.suiv-row{border-top:1px solid var(--brd)}
+.suiv-row.hl{background:rgba(251,113,133,.05)}
+.suiv-val{font-weight:700;color:var(--rose);font-family:"JetBrains Mono",monospace;font-size:10px}
+
+/* BOTTOM NAV */
+#botnav{position:fixed;bottom:0;left:0;right:0;background:rgba(6,16,30,.97);backdrop-filter:blur(14px);border-top:1px solid var(--brd);padding:10px 14px;display:flex;gap:8px;z-index:100}
+.bnav-btn{flex:1;padding:12px;border-radius:11px;border:none;cursor:pointer;font-family:"Syne",sans-serif;font-size:13px;font-weight:700;transition:all .15s}
+.bnav-btn:active{transform:scale(.97)}
+.bnav-prev{background:var(--bg3);border:1px solid var(--brd2);color:var(--w2)}
+.bnav-next{background:var(--rose);color:#fff}
+.bnav-btn:disabled{opacity:.3;cursor:not-allowed}
+
+/* CI BOX */
+.ci-box{background:linear-gradient(135deg,rgba(224,48,80,.18),rgba(251,113,133,.1));border:3px solid var(--red);border-radius:14px;padding:16px;margin-bottom:14px}
+.ci-title{font-family:"Syne",sans-serif;font-size:16px;font-weight:800;color:var(--red);margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.ci-body{font-size:12px;color:var(--w2);line-height:1.75}
+
+/* MECHANISM CHAIN */
+.mech-chain{display:flex;flex-direction:column;gap:0}
+.mc-item{display:flex;gap:10px;align-items:flex-start;padding:10px 12px;background:var(--bg2);border-radius:10px;border-left:3px solid;margin-bottom:6px}
+.mc-icon{font-size:18px;flex-shrink:0;width:28px;text-align:center}
+.mc-body{font-size:12px;color:var(--w2);line-height:1.55;flex:1}
+.mc-title{font-family:"Syne",sans-serif;font-size:12px;font-weight:700;margin-bottom:2px}
+.mc-arrow{text-align:center;font-size:18px;color:var(--w3);padding:2px 0;margin-bottom:4px}
+</style>
+</head>
+<body>
+
+<div id="topbar">
+  <div class="tb-logo"><img src="data:image/png;base64,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" alt="CSC"></div>
+  <div style="flex:1">
+    <div class="tb-t">CIA · Cas 07 · H70 · Dysfonction VG · CI Fermeture</div>
+    <div class="tb-s">CSC Algeria · ACHD CORE-Team · ACC/AHA 2025</div>
+  </div>
+  <div class="tb-badge2">⭐⭐⭐</div>
+  <div class="tb-badge">Stade D</div>
+</div>
+
+<div id="stepnav">
+  <button class="snav active" data-slide="0">🚫 Présentation</button>
+  <button class="snav" data-slide="1">🎞 Iconographie</button>
+  <button class="snav" data-slide="2">🫀 Volet 1 — Anatomique</button>
+  <button class="snav" data-slide="3">🫁 Volet 2 — HTAP</button>
+  <button class="snav" data-slide="4">📊 Volet 3 — Stade D</button>
+  <button class="snav" data-slide="5">🎈 Test au Ballon</button>
+  <button class="snav" data-slide="6">❓ QCM</button>
+  <button class="snav" data-slide="7">⚕️ Décision CI & Suivi</button>
+  <button class="snav" data-slide="8">💡 Messages clés</button>
+</div>
+
+<div id="content">
+
+<!-- SLIDE 0 PRÉSENTATION -->
+<div class="slide active" id="slide-0">
+  <div class="val-banner">
+    <div style="font-size:18px">✅</div>
+    <div class="vb-t"><strong>Validé · CORE-TEAM ACHD-Algérie · CSC · ACC/AHA 2025</strong>Cas CIA 07 · Section 4.1.1 · Dysfonction VG · Test Ballon Positif · COR 3 CI Fermeture</div>
+  </div>
+
+  <div class="hero-card hero-rose">
+    <div class="hero-label">🚫 CIA · Cas 07 · Dysfonction VG Systolo-Diastolique · CI Fermeture</div>
+    <div class="hero-title">CIA OS 22 mm · RVP 1.5 WU · PTDVG 20 mmHg<br>Dysfonction VG · Stade D · Test Ballon Positif</div>
+    <div class="hero-sub">Homme de 70 ans · NYHA III · HTAP hypercinétique (RVP normale)<br>Dysfonction VG systolo-diastolique · Test ballon → OAP → CI fermeture CIA</div>
+    <div class="hero-pills">
+      <span class="hp p-red">COR 3 — CI Fermeture</span>
+      <span class="hp p-rose">PTDVG 20 mmHg</span>
+      <span class="hp p-gold">Stade D</span>
+      <span class="hp p-sky">RVP 1.5 WU (Faible)</span>
+      <span class="hp p-orange">Test Ballon Positif</span>
+      <span class="hp p-pur">Dysfonction VG</span>
+    </div>
+  </div>
+
+  <div class="ci-box">
+    <div class="ci-title">🚫 COR 3 — Contre-indication à la Fermeture CIA</div>
+    <div class="ci-body">
+      <strong style="color:var(--rose)">Paradoxe majeur :</strong> RVP = 1.5 WU (faible, zone COR I habituelle). Mais PTDVG = 20 mmHg → dysfonction diastolique VG sévère. La CIA joue ici le rôle de <strong>soupape de décompression OG</strong> → si on ferme la CIA, la pression OG ne peut plus se décharger → OAP aigu.<br><br>
+      <strong>Test au ballon :</strong> Occlusion temporaire CIA → PCWP monte à 28 mmHg · PTDVG monte à 32 mmHg · OG très élevée → contre-indication formelle confirmée.<br><br>
+      <strong>Ce cas illustre :</strong> Une CIA peut être BÉNÉFIQUE quand elle décompresse un VG défaillant. La fermer serait délétère. COR 3 — Recommandation #13 ACC 2025 (Eisenmenger) s'applique ici de facto par analogie avec dysfonction VG sévère.
+    </div>
+  </div>
+
+  <div class="sh">👤 Identité & Motif</div>
+  <div class="card">
+    <div class="drow"><div class="dl">Nom / Prénom</div><div class="dv">M. Abdelkader Bouafia</div></div>
+    <div class="drow"><div class="dl">Âge / Sexe</div><div class="dv">70 ans · Masculin</div></div>
+    <div class="drow"><div class="dl">Poids / Taille</div><div class="dv">83 kg · 170 cm · IMC 28.7</div></div>
+    <div class="drow"><div class="dl">SpO₂ repos</div><div class="dv warn">93% en air ambiant — hypoxémie légère</div></div>
+    <div class="drow"><div class="dl">SpO₂ effort</div><div class="dv alert">87% — désaturation significative (arrêt à 160 m)</div></div>
+    <div class="drow"><div class="dl">FC / TA</div><div class="dv">RS 78 bpm · 138/86 mmHg — HTA persistante</div></div>
+    <div class="drow"><div class="dl">NYHA</div><div class="dv alert">Classe III — dyspnée effort modéré + orthopnée nocturne occasionnelle</div></div>
+    <div class="drow"><div class="dl">Motif</div><div class="dv">CIA connue depuis 10 ans. Aggravation dyspnée. Adressé pour décision fermeture : RVP faible → a priori indiquée. Mais dysfonction VG découverte au bilan complet → test ballon avant décision.</div></div>
+  </div>
+
+  <div class="sh">📋 Antécédents & Histoire</div>
+  <div class="card">
+    <div class="drow"><div class="dl">CIA connue</div><div class="dv warn">CIA OS diagnostiquée à 60 ans lors d'un bilan de dyspnée. Considérée "pas d'indication de fermeture à l'époque" (PAPS 25 mmHg, RVP normale). Aggravation progressive.</div></div>
+    <div class="drow"><div class="dl">Cardiopathie HTA</div><div class="dv alert">HTA depuis 20 ans — traitée insuffisamment pendant 10 ans → cardiopathie hypertensive avec dysfonction diastolique sévère + altération systolique débutante</div></div>
+    <div class="drow"><div class="dl">ATCD IC</div><div class="dv alert">2 épisodes OAP dans les 18 mois (1 à l'effort, 1 au repos nocturne) · Hospitalisation × 2</div></div>
+    <div class="drow"><div class="dl">Traitements</div><div class="dv">Ramipril 10 mg/j · Bisoprolol 5 mg/j · Furosémide 80 mg/j · Spironolactone 25 mg/j · Amlodipine 10 mg/j · Aspirine 100 mg/j (ATCD coronarien léger)</div></div>
+    <div class="drow"><div class="dl">ATCD médicaux</div><div class="dv">HTA sévère 20 ans · Diabète type 2 (Metformine) · Dyslipidémie · ATCD coronarien — PAC 2012 (pontage × 2, stents normaux) · IRC légère</div></div>
+    <div class="drow"><div class="dl">Examen clinique</div><div class="dv">Souffle systolique 2/6 foyer pulmonaire · B2 modérément accentué · Crépitants bases pulmonaires bilatéraux + · Galop B3 audible · TJE 3 cm · OMI modérés ++ · Hépatomégalie 2 cm</div></div>
+  </div>
+
+  <div class="sh">🔬 Bilan biologique & ECG</div>
+  <div class="card">
+    <div class="drow"><div class="dl">BNP</div><div class="dv alert">724 pg/mL — très élevé · IC congestive gauche-droite</div></div>
+    <div class="drow"><div class="dl">NT-proBNP</div><div class="dv alert">3480 pg/mL — très élevé · Stade D confirmé</div></div>
+    <div class="drow"><div class="dl">Troponine hs</div><div class="dv warn">26 ng/L — légèrement élevée (cytolyse myocardique chronique)</div></div>
+    <div class="drow"><div class="dl">Créatinine / DFG</div><div class="dv warn">112 μmol/L · DFG 58 mL/min — IRC modérée (HTA + IC)</div></div>
+    <div class="drow"><div class="dl">Glycémie / HbA1c</div><div class="dv warn">7.8 mmol/L · HbA1c 7.4% — diabète insuffisamment équilibré</div></div>
+    <div class="drow"><div class="dl">Bilan hépatique</div><div class="dv warn">ASAT 48 · ALAT 42 · Bili 22 μmol/L — congestion hépatique légère</div></div>
+    <div class="drow"><div class="dl">NFS</div><div class="dv ok">Hb 13.1 g/dL · Plaquettes 198 G/L</div></div>
+    <div class="drow"><div class="dl">ECG</div><div class="dv alert">RS 78 bpm · HVG (Sokolow 42 mm) · BBG incomplet · Axe gauche -20° · Signes d'ischémie sous-endocardique inférolatéraux · QRS 118 ms</div></div>
+    <div class="drow"><div class="dl">Rx thorax</div><div class="dv alert">Cardiomégalie ICT 0.58 · VG prédominant · Redistribution vasculaire pulmonaire apicale · Lignes de Kerley B · Hile flou · Pas d'épanchement pleural</div></div>
+    <div class="drow"><div class="dl">TM6M</div><div class="dv alert">160 m — très réduit (seuil risque élevé &lt;165 m)</div></div>
+    <div class="drow"><div class="dl">ECO de stress</div><div class="dv warn">Ischémie résiduelle inférolatérale confirmée — coronarographie récente stents perméables · Ischémie microcirculatoire résiduelle sur cardiopathie diabétique-hypertensive</div></div>
+  </div>
+</div>
+
+<!-- SLIDE 1 ICONOGRAPHIE -->
+<div class="slide" id="slide-1">
+  <div class="canva-wrap">
+    <div class="canva-label">🎞 Iconographie · ETT · CIA OS 22 mm · Dysfonction VG · H70 ans</div>
+    <iframe src="https://www.canva.com/design/DAHGGeJYXmE/6KVTuxd_YRXKBtBQs1ZKUQ/view?embed" height="420" allow="fullscreen" allowfullscreen scrolling="no" loading="lazy"></iframe>
+  </div>
+  <div class="ib ib-rose">
+    <strong>🎓 Ce que vous devez observer :</strong><br>
+    CIA OS 22 mm avec shunt G→D. VG hypertrophié (cardiopathie HTA) + altération contractilité segmentaire. VD dilaté modérément. Pas de D-sign (RVP basse). Fonction VG systolique légèrement altérée. E/e' élevé (dysfonction diastolique grade III). Vmax IT 3 m/s — PAPS modérément élevée mais RVP normale = HTAP post-capillaire par insuffisance VG gauche + shunt de débit.
+  </div>
+
+  <div class="sh">📡 ETT — Données quantitatives complètes</div>
+  <div class="card">
+    <div class="drow"><div class="dl">FEVG (Simpson)</div><div class="dv warn">44% ⚠️ — altération systolique légère-modérée</div></div>
+    <div class="drow"><div class="dl">DTDVG / DTSVG</div><div class="dv warn">58 mm / 44 mm — VG dilaté (cardiopathie HTA dilatée)</div></div>
+    <div class="drow"><div class="dl">Hypertrophie VG</div><div class="dv alert">Masse VG 148 g/m² (N &lt;115) — HVG concentrique-excentrique</div></div>
+    <div class="drow"><div class="dl">Dysfonction diastolique</div><div class="dv alert">E/e' = 18 (N &lt;14) · Onde E 95 cm/s · e' = 5.3 cm/s → Dysfonction diastolique GRADE III</div></div>
+    <div class="drow"><div class="dl">Vol. OG (LAVI)</div><div class="dv alert">52 mL/m² (N &lt;34) — dilatation massive OG = surcharge de pression chronique</div></div>
+    <div class="drow"><div class="dl">VD — dimensions</div><div class="dv warn">DTDVD = 38 mm (N &lt;35) — dilatation légère (surcharge volumique CIA)</div></div>
+    <div class="drow"><div class="dl">TAPSE</div><div class="dv warn">17 mm ⚠️ (N ≥18) — légèrement diminué</div></div>
+    <div class="drow"><div class="dl">Strain VD (GLS)</div><div class="dv alert">-5% 🔴 (N &lt;-20%) — dysfonction VD sévère</div></div>
+    <div class="drow"><div class="dl">Strain VG (GLS)</div><div class="dv alert">-10% 🔴 (N &lt;-18%) — dysfonction VG sévère</div></div>
+    <div class="drow"><div class="dl">Vmax IT (peak)</div><div class="dv warn">3.0 m/s ⚠️ — modérément élevée</div></div>
+    <div class="drow"><div class="dl">PAPS estimée</div><div class="dv warn">45 mmHg — modérément élevée (post-capillaire)</div></div>
+    <div class="drow"><div class="dl">Acc. RVOT</div><div class="dv ok">108 ms ✅ (N &gt;105 ms) — normal · PAS d'HTAP vasculaire</div></div>
+    <div class="drow"><div class="dl">IVS aplati (D-sign)</div><div class="dv ok">ABSENT ✓ — pas de surcharge barométrique VD</div></div>
+    <div class="drow"><div class="dl">Qp/Qs ETT</div><div class="dv warn">1.9 — shunt modéré</div></div>
+    <div class="drow"><div class="dl">Valve mitrale</div><div class="dv alert">IM grade II fonctionnelle · Anneau dilaté 40 mm · E/A 2.2 (profil restrictif)</div></div>
+    <div class="drow"><div class="dl">VCI</div><div class="dv warn">24 mm — collapsus 45% — POD 8 mmHg</div></div>
+    <div class="drow"><div class="dl">Dilatation biatriale</div><div class="dv alert">OG massive 52 mL/m² · OD 32 cm² — dilatation biatriale ++ (HTA + CIA)</div></div>
+  </div>
+</div>
+
+<!-- SLIDE 2 VOLET 1 ANATOMIQUE -->
+<div class="slide" id="slide-2">
+  <div class="sh">🫀 Volet 1 — Évaluation Anatomique · ETO</div>
+  <div class="ib ib-rose">
+    <strong>Rôle de l'ETO ici :</strong> Confirmer l'anatomie CIA + <strong>évaluer la fonction VG</strong> (PTDVG, pressions de remplissage) + rechercher <strong>dysfonction diastolique</strong> pouvant contre-indiquer la fermeture. L'ETO est aussi utilisée pour guider le <strong>test au ballon</strong>.
+  </div>
+
+  <div class="card">
+    <div class="card-title">🎯 ETO — CIA : caractérisation</div>
+    <div class="drow"><div class="dl">Type anatomique</div><div class="dv hl">Ostium Secundum — fossette ovale centrale</div></div>
+    <div class="drow"><div class="dl">Taille max ETO</div><div class="dv warn">22 mm — CIA de taille modérée</div></div>
+    <div class="drow"><div class="dl">Morphologie</div><div class="dv ok">Belles berges — défect unique — éligible percutanée anatomiquement</div></div>
+    <div class="drow"><div class="dl">Shunt Doppler</div><div class="dv warn">G→D dominant · Qp/Qs 1.9 · Pas de renversement</div></div>
+    <div class="drow"><div class="dl">RVPPA</div><div class="dv ok">4 veines pulmonaires dans OG — normal</div></div>
+    <div class="drow"><div class="dl">Thrombus OG</div><div class="dv alert">AURICULE GAUCHE EXAMINÉ ATTENTIVEMENT — Pas de thrombus sous anticoagulant</div></div>
+    <div class="drow"><div class="dl">Fonction VG ETO</div><div class="dv alert">FEVG 44% · E/e' élevé à 18 · OG dilatée 52 mL/m² → DYSFONCTION DIASTOLIQUE III · PTDVG estimée 20 mmHg</div></div>
+    <div class="drow"><div class="dl">Rôle CIA</div><div class="dv rose">LA CIA SERT DE SOUPAPE OG → Si OG hypertensive, le shunt décomprime vers OD. Fermeture = suppression de cette issue → risque OAP.</div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📏 Berges ETO — Anatomiquement éligibles (mais CI fonctionnelle)</div>
+    <div class="eto-grid">
+      <div class="eto-berge eto-ok"><div class="eb-name">Berge Antérieure</div><div class="eb-val" style="color:var(--mint)">9<span class="eb-unit"> mm</span></div><div class="eb-unit" style="color:var(--mint)">✅ ≥ 5 mm</div></div>
+      <div class="eto-berge eto-ok"><div class="eb-name">Berge Postérieure</div><div class="eb-val" style="color:var(--mint)">12<span class="eb-unit"> mm</span></div><div class="eb-unit" style="color:var(--mint)">✅ ≥ 5 mm</div></div>
+      <div class="eto-berge eto-ok"><div class="eb-name">Berge Supérieure</div><div class="eb-val" style="color:var(--mint)">10<span class="eb-unit"> mm</span></div><div class="eb-unit" style="color:var(--mint)">✅ ≥ 5 mm</div></div>
+      <div class="eto-berge eto-ok"><div class="eb-name">Berge Inférieure</div><div class="eb-val" style="color:var(--mint)">8<span class="eb-unit"> mm</span></div><div class="eb-unit" style="color:var(--mint)">✅ ≥ 5 mm</div></div>
+    </div>
+    <div class="ib ib-red" style="margin-bottom:0">
+      <strong>⚠️ ANATOMIQUEMENT éligible MAIS FONCTIONNELLEMENT CONTRE-INDIQUÉE</strong><br>
+      C'est la leçon centrale de ce cas : la décision de fermeture CIA ne repose pas uniquement sur l'anatomie ni sur la PVR. La fonction VG et les pressions de remplissage OG sont déterminantes. Ici RVP 1.5 WU = zone COR I — MAIS PTDVG 20 mmHg + test ballon positif = COR 3.
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🩻 IRM Cardiaque</div>
+    <div class="param-grid">
+      <div class="param-box" style="border-color:rgba(240,160,48,.35);background:rgba(240,160,48,.07)"><div class="pb-label">FEVG</div><div class="pb-val" style="color:var(--gold)">44<span style="font-size:14px">%</span></div><div class="pb-status" style="color:var(--gold)">⚠️ Altérée</div></div>
+      <div class="param-box" style="border-color:rgba(240,160,48,.35);background:rgba(240,160,48,.07)"><div class="pb-label">FEVD</div><div class="pb-val" style="color:var(--gold)">46<span style="font-size:14px">%</span></div><div class="pb-status" style="color:var(--gold)">⚠️ Légèrement réduite</div></div>
+      <div class="param-box" style="border-color:rgba(251,113,133,.35);background:rgba(251,113,133,.07)"><div class="pb-label">Masse VG (g/m²)</div><div class="pb-val" style="color:var(--rose)">148</div><div class="pb-status" style="color:var(--rose)">🔴 HVG sévère</div></div>
+      <div class="param-box" style="border-color:rgba(251,113,133,.35);background:rgba(251,113,133,.07)"><div class="pb-label">LGE VG</div><div class="pb-val" style="color:var(--rose)" style="font-size:16px">Oui</div><div class="pb-status" style="color:var(--rose)">🔴 Fibrose VG</div></div>
+    </div>
+    <div class="drow"><div class="dl">LGE détail</div><div class="dv alert">LGE sous-endocardique inférolatéral + insertion points VD → fibrose ischémique + surcharge · Irréversible</div></div>
+    <div class="drow"><div class="dl">Vol. OG IRM</div><div class="dv alert">LAVI 58 mL/m² — dilatation massive OG (surcharge pression chronique)</div></div>
+    <div class="drow"><div class="dl">Aorte</div><div class="dv warn">Racine aortique 38 mm · Aorte ascendante 42 mm — dilatation modérée (HTA)</div></div>
+  </div>
+</div>
+
+<!-- SLIDE 3 VOLET 2 HTAP -->
+<div class="slide" id="slide-3">
+  <div class="sh">🫁 Volet 2 — Évaluation HTAP · Table 13 · Distinction postcapillaire</div>
+
+  <div class="paradox">
+    <div class="px-title">💡 Piège pédagogique majeur : HTAP postcapillaire ≠ HTAP précapillaire</div>
+    <div class="px-body">
+      <strong style="color:var(--rose)">PAPS = 45 mmHg · RVP = 1.5 WU (FAIBLE !)</strong><br>
+      → RVP normale = PAS d'HTAP précapillaire vasculaire<br>
+      → La PAPS élevée est <strong>POSTCAPILLAIRE</strong> : liée à l'élévation des pressions de remplissage OG (PTDVG 20 mmHg = surcharge diastolique VG)<br>
+      → Le shunt CIA (Qp/Qs 1.9) aggrave l'hyperdébit → élève encore la PAPS<br><br>
+      <strong>Définition HTAP précapillaire ACC 2025 :</strong> mPAP ≥20 mmHg + PVR ≥2 WU + PCWP ≤15 mmHg<br>
+      <strong>Ici :</strong> PVR 1.5 WU &lt;2 WU + PCWP 22 mmHg &gt;15 mmHg → <strong>HTAP POSTCAPILLAIRE</strong> par insuffisance VG gauche
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🩺 Clinique — Table 13 ACC 2025</div>
+    <div class="drow"><div class="dl">Classe WHO</div><div class="dv alert">WHO III — dyspnée + orthopnée + OAP antérieurs</div></div>
+    <div class="drow"><div class="dl">TM6M</div><div class="dv alert">160 m — très réduit (seuil élevé &lt;165 m)</div></div>
+    <div class="drow"><div class="dl">SpO₂ repos</div><div class="dv warn">93% — légère hypoxémie (OAP chronique)</div></div>
+    <div class="drow"><div class="dl">Crépitants</div><div class="dv alert">Bases bilatérales — IC gauche décompensée chronique</div></div>
+    <div class="drow"><div class="dl">Galop B3</div><div class="dv alert">Présent — surcharge volumique VG sévère</div></div>
+    <div class="drow"><div class="dl">OAP antérieurs</div><div class="dv alert">× 2 dans les 18 mois — IC gauche sévère décompensée</div></div>
+    <div class="drow"><div class="dl">Cyanose</div><div class="dv ok">Absente — shunt G→D dominant</div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📡 Signes ETT — Table 13</div>
+    <div class="gauge-row"><div class="gauge-label">Vmax IT (m/s)</div><div class="gauge-bar"><div class="gauge-fill" style="width:70%;background:var(--gold)"></div></div><div class="gauge-val" style="color:var(--gold)">3.0 ⚠️</div></div>
+    <div class="gauge-row"><div class="gauge-label">TAPSE (mm)</div><div class="gauge-bar"><div class="gauge-fill" style="width:48%;background:var(--gold)"></div></div><div class="gauge-val" style="color:var(--gold)">17 ⚠️</div></div>
+    <div class="gauge-row"><div class="gauge-label">Acc. RVOT (ms)</div><div class="gauge-bar"><div class="gauge-fill" style="width:56%;background:var(--mint)"></div></div><div class="gauge-val" style="color:var(--mint)">108 ✅</div></div>
+    <div class="gauge-row"><div class="gauge-label">Strain VD (%)</div><div class="gauge-bar"><div class="gauge-fill" style="width:12%;background:var(--red)"></div></div><div class="gauge-val" style="color:var(--red)">-5% 🔴</div></div>
+    <div class="gauge-row"><div class="gauge-label">E/e' (dysf. diast.)</div><div class="gauge-bar"><div class="gauge-fill" style="width:88%;background:var(--red)"></div></div><div class="gauge-val" style="color:var(--red)">18 🔴</div></div>
+    <div class="gauge-row"><div class="gauge-label">LAVI OG (mL/m²)</div><div class="gauge-bar"><div class="gauge-fill" style="width:100%;background:var(--red)"></div></div><div class="gauge-val" style="color:var(--red)">52 🔴</div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">💉 Cathétérisme Droit — Données décisionnelles</div>
+    <div class="drow"><div class="dl">Pressions AP</div><div class="dv warn">58 / 22 / 38 mmHg — HTAP modérée</div></div>
+    <div class="drow"><div class="dl">mPAP (PAPM)</div><div class="dv warn">38 mmHg — élevée (HTAP postcapillaire)</div></div>
+    <div class="drow"><div class="dl">PVR (RVP)</div><div class="dv ok">1.5 Wood Units ✅ — FAIBLE (&lt;2 WU) · PAS d'HTAP précapillaire</div></div>
+    <div class="drow"><div class="dl">PCWP</div><div class="dv alert">22 mmHg 🔴 — élevée (&gt;15 mmHg) → HTAP POSTCAPILLAIRE</div></div>
+    <div class="drow"><div class="dl">PTDVG mesurée</div><div class="dv alert">20 mmHg 🔴 (N &lt;12 mmHg) — dysfonction diastolique VG sévère confirmée</div></div>
+    <div class="drow"><div class="dl">DC (Fick)</div><div class="dv warn">4.1 L/min — réduit (IC gauche)</div></div>
+    <div class="drow"><div class="dl">Qp/Qs cathé</div><div class="dv warn">1.9 — shunt modéré G→D</div></div>
+    <div class="drow"><div class="dl">POD</div><div class="dv warn">9 mmHg — légèrement élevée</div></div>
+    <div class="drow"><div class="dl">Gradient TPG</div><div class="dv ok">TPG = mPAP - PCWP = 38 - 22 = 16 mmHg (N &lt;12) · DPG 2 mmHg (N &lt;7) → HTAP postcapillaire isolée</div></div>
+    <div class="drow"><div class="dl">Satimétries</div><div class="dv">OD 68% · AP 76% · VG 97% · Ao 97% · Step-up modéré</div></div>
+    <div class="drow"><div class="dl">Conclusion cathé</div><div class="dv rose">HTAP POSTCAPILLAIRE (PCWP 22 mmHg &gt;15) · PVR 1.5 WU (FAIBLE) · PTDVG 20 mmHg sévère · Test ballon OBLIGATOIRE avant décision</div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📊 3-Strata ACC 2025 — Applicable ?</div>
+    <div class="strata-table">
+      <div class="st-head"><div>Paramètre</div><div style="color:var(--mint)">Faible ← PVR</div><div style="color:var(--gold)">Intermédiaire</div><div style="color:var(--red)">Élevé</div></div>
+      <div class="st-row"><div>WHO</div><div>I–II</div><div>III</div><div class="st-high">III ✓</div></div>
+      <div class="st-row"><div>TM6M</div><div>&gt;440 m</div><div>165–440 m</div><div class="st-high">160 m ✓</div></div>
+      <div class="st-row"><div>NT-proBNP</div><div>&lt;300</div><div>300–1400</div><div class="st-high">3480 pg/mL ✓</div></div>
+      <div class="st-row"><div>TAPSE</div><div>≥18 mm</div><div>—</div><div class="st-high">17 mm (limite) ✓</div></div>
+      <div class="st-row"><div>PVR</div><div class="st-low">1.5 WU ✓ FAIBLE</div><div>5–15</div><div>&gt;15</div></div>
+    </div>
+    <div class="ib ib-orange" style="margin-bottom:0">
+      <strong>⚠️ 3-Strata FAIBLE pour la PVR (1.5 WU) — MAIS clinique très sévère</strong><br>
+      Le 3-Strata évalue l'HTAP <em>précapillaire</em> — il n'est pas validé pour l'HTAP postcapillaire (IC gauche). Ici la PVR est faible MAIS la dyspnée WHO III, TM6M 160 m, NT-proBNP 3480 = gravité clinique majeure due à l'IC gauche (pas à l'HTAP vasculaire). Le 3-Strata est ici trompeur et non applicable à la décision CIA.
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 4 VOLET 3 STADE D -->
+<div class="slide" id="slide-4">
+  <div class="sh">📊 Volet 3 — Stade D · Table 4 ACC/AHA 2025 · Pourquoi Stade D malgré RVP faible ?</div>
+
+  <div class="paradox">
+    <div class="px-title">⚖️ Paradoxe pédagogique : RVP faible (1.5 WU) mais Stade D</div>
+    <div class="px-body">
+      Ce cas est le contraire exact du Cas 06 (RVP élevée mais Stade B).<br>
+      Ici RVP = 1.5 WU = zone COR I habituelle → on attendrait Stade B ou C maximum.<br><br>
+      MAIS Stade D car : <strong>IC gauche hospitalisée × 2 dans les 18 mois</strong> + NYHA III + LGE VG (fibrose irréversible) + Strain VG -10% + NT-proBNP 3480 pg/mL + OAP récidivants.<br><br>
+      <strong>→ La dysfonction VG sévère fait Stade D, indépendamment de la RVP.</strong>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Critères Stade D — Table 4 ACC 2025 — Tous présents</div>
+    <div class="physio-table">
+      <div class="phys-head"><div>Critère Stade D</div><div>Présent ?</div><div>Valeur / Justification</div></div>
+      <div class="phys-row phys-hl-d"><div>Hospitalisation IC &lt;12 mois</div><div class="phys-yes">✅ OUI</div><div>× 2 dans 18 mois (OAP)</div></div>
+      <div class="phys-row phys-hl-d"><div>NYHA III–IV</div><div class="phys-yes">✅ OUI</div><div>NYHA III + orthopnée</div></div>
+      <div class="phys-row phys-hl-d"><div>Dysfonction VG sévère</div><div class="phys-yes">✅ OUI</div><div>FEVG 44% · Strain VG -10% · LGE</div></div>
+      <div class="phys-row phys-hl-d"><div>NT-proBNP &gt;2×LSN</div><div class="phys-yes">✅ OUI</div><div>3480 pg/mL (&gt;&gt; 600 pg/mL)</div></div>
+      <div class="phys-row phys-hl-d"><div>Hypoxémie effort &lt;85%</div><div class="phys-yes">✅ OUI</div><div>SpO₂ effort 87%</div></div>
+      <div class="phys-row"><div>HTAP risque interméd./élevé</div><div class="phys-no">✗ NON</div><div>HTAP postcapillaire (PVR 1.5 WU)</div></div>
+    </div>
+    <div class="ib ib-red">
+      <strong>Stade D — 5 critères positifs · RVP faible ≠ Stade faible</strong><br>
+      La classification physiologique évalue l'état global du patient. Un patient en IC gauche sévère (OAP récidivants, FEVG 44%, LGE) est Stade D même si la RVP est normale. Le Stade D ne nécessite pas d'HTAP précapillaire élevée.
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🔍 Physiopathologie — Pourquoi la CIA ne doit pas être fermée ici ?</div>
+    <div class="mech-chain">
+      <div class="mc-item" style="border-color:var(--gold)">
+        <div class="mc-icon">🫀</div>
+        <div class="mc-body">
+          <div class="mc-title" style="color:var(--gold)">VG défaillant (FEVG 44%, PTDVG 20 mmHg)</div>
+          Dysfonction systolo-diastolique sévère. OG hypertensive. Pression OG chroniquement élevée = risque OAP.
+        </div>
+      </div>
+      <div class="mc-arrow">↓</div>
+      <div class="mc-item" style="border-color:var(--sky)">
+        <div class="mc-icon">↔️</div>
+        <div class="mc-body">
+          <div class="mc-title" style="color:var(--sky)">CIA = soupape de décompression OG</div>
+          Le shunt G→D CIA permet à l'OG hypertensive de se "vider" partiellement vers OD → soulage la pression OG → réduit le risque OAP. C'est un mécanisme compensateur.
+        </div>
+      </div>
+      <div class="mc-arrow">↓</div>
+      <div class="mc-item" style="border-color:var(--red)">
+        <div class="mc-icon">🔒</div>
+        <div class="mc-body">
+          <div class="mc-title" style="color:var(--red)">Si fermeture CIA</div>
+          Suppression de la soupape OG → OG ne peut plus se décharger → pression OG monte rapidement → redistribution vers capillaires pulmonaires → <strong>OAP aigu</strong>
+        </div>
+      </div>
+      <div class="mc-arrow">↓</div>
+      <div class="mc-item" style="border-color:var(--rose)">
+        <div class="mc-icon">🚨</div>
+        <div class="mc-body">
+          <div class="mc-title" style="color:var(--rose)">Test ballon confirme ce mécanisme</div>
+          Occlusion temporaire CIA → PCWP 22 → 28 mmHg · PTDVG 20 → 32 mmHg · Symptômes OAP → <strong>COR 3 CI confirmée</strong>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 5 TEST AU BALLON -->
+<div class="slide" id="slide-5">
+  <div class="sh">🎈 Test au Ballon Occlusif — COR 2b · Indication et Résultats</div>
+
+  <div class="ib ib-gold">
+    <strong>COR 2b C-LD — Recommandation #4 Section 4.1.1 ACC 2025 :</strong><br>
+    "In adults with an unrepaired ASD, <strong>balloon test occlusion before closure may be reasonable</strong> to assess hemodynamic changes."<br><br>
+    Indication ici : suspicion de dysfonction diastolique VG significative (PTDVG 20 mmHg au cathé, E/e' 18, LAVI 52 mL/m²) → test ballon OBLIGATOIRE pour évaluer si la fermeture est tolérée sans élévation dangereuse des pressions OG.
+  </div>
+
+  <div class="balloon-test">
+    <div class="bt-title">🎈 Résultats complets du Test au Ballon Occlusif</div>
+    <div class="bt-phases">
+      <div class="bt-phase" style="border-color:rgba(52,211,153,.4);background:rgba(52,211,153,.07)">
+        <div class="bt-phase-title" style="color:var(--mint)">Avant occlusion</div>
+        <div class="bt-val-row"><div class="bt-label">PCWP</div><div class="bt-num" style="color:var(--mint)">22 mmHg</div></div>
+        <div class="bt-val-row"><div class="bt-label">PTDVG</div><div class="bt-num" style="color:var(--gold)">20 mmHg</div></div>
+        <div class="bt-val-row"><div class="bt-label">DC</div><div class="bt-num" style="color:var(--mint)">4.1 L/min</div></div>
+        <div class="bt-val-row"><div class="bt-label">mPAP</div><div class="bt-num" style="color:var(--gold)">38 mmHg</div></div>
+        <div class="bt-val-row"><div class="bt-label">Clinique</div><div class="bt-num" style="color:var(--mint)">Stable</div></div>
+      </div>
+      <div class="bt-phase" style="border-color:rgba(251,113,133,.4);background:rgba(251,113,133,.07)">
+        <div class="bt-phase-title" style="color:var(--rose)">Pendant occlusion (5 min)</div>
+        <div class="bt-val-row"><div class="bt-label">PCWP</div><div class="bt-num" style="color:var(--red)">28 mmHg 🔴</div></div>
+        <div class="bt-val-row"><div class="bt-label">PTDVG</div><div class="bt-num" style="color:var(--red)">32 mmHg 🔴</div></div>
+        <div class="bt-val-row"><div class="bt-label">DC</div><div class="bt-num" style="color:var(--red)">2.8 L/min 🔴</div></div>
+        <div class="bt-val-row"><div class="bt-label">mPAP</div><div class="bt-num" style="color:var(--red)">52 mmHg 🔴</div></div>
+        <div class="bt-val-row"><div class="bt-label">Clinique</div><div class="bt-num" style="color:var(--red)">OAP ! Arrêt</div></div>
+      </div>
+      <div class="bt-phase" style="border-color:rgba(56,189,248,.4);background:rgba(56,189,248,.07)">
+        <div class="bt-phase-title" style="color:var(--sky)">Après réouverture (15 min)</div>
+        <div class="bt-val-row"><div class="bt-label">PCWP</div><div class="bt-num" style="color:var(--mint)">22 mmHg</div></div>
+        <div class="bt-val-row"><div class="bt-label">PTDVG</div><div class="bt-num" style="color:var(--gold)">21 mmHg</div></div>
+        <div class="bt-val-row"><div class="bt-label">DC</div><div class="bt-num" style="color:var(--mint)">4.0 L/min</div></div>
+        <div class="bt-val-row"><div class="bt-label">mPAP</div><div class="bt-num" style="color:var(--gold)">39 mmHg</div></div>
+        <div class="bt-val-row"><div class="bt-label">Clinique</div><div class="bt-num" style="color:var(--mint)">Stable</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ci-box">
+    <div class="ci-title">🚫 Test au Ballon POSITIF — COR 3 Contre-indication confirmée</div>
+    <div class="ci-body">
+      <strong>Critères de positivité du test ballon :</strong><br>
+      ✅ PCWP augmente de ≥5 mmHg sous occlusion (ici : 22 → 28 mmHg = +6 mmHg)<br>
+      ✅ PTDVG augmente de ≥10 mmHg (ici : 20 → 32 mmHg = +12 mmHg)<br>
+      ✅ Symptômes cliniques : signes d'OAP (dyspnée aiguë, désaturation, crépitants)<br>
+      ✅ Chute DC : 4.1 → 2.8 L/min (réduction 32%)<br><br>
+      <strong>Conclusion :</strong> Fermeture CIA CI car le VG ne tolère pas la suppression du shunt de décompression OG. <strong>COR 3</strong> selon ACC 2025 par analogie — note: le COR 3 explicite ACC 2025 concerne Eisenmenger, mais par extension ACC 2025 Section 4.1.1 précise que la dysfonction diastolique VG sévère est une contre-indication à la fermeture CIA (cf. texte de support recommandation #4).
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🎓 Astuces cliniques — Quand faire le Test au Ballon ?</div>
+    <div class="ib ib-sky" style="margin-bottom:8px">
+      <strong>Indications du test ballon COR 2b :</strong><br>
+      ① Âge &gt;60 ans avec HTA longue durée (risque dysfonction diastolique)<br>
+      ② E/e' &gt;14 à l'ETT (dysfonction diastolique suspectée)<br>
+      ③ PTDVG &gt;15 mmHg au cathé basal<br>
+      ④ LAVI &gt;40 mL/m² (dilatation OG chronique)<br>
+      ⑤ Antécédent d'OAP<br>
+      ⑥ FEVG &lt;50% avec cardiopathie gauche associée
+    </div>
+    <div class="ib ib-gold" style="margin-bottom:8px">
+      <strong>⚠️ Limitation du test ballon (ACC 2025 Rec #4) :</strong><br>
+      L'ACC 2025 précise que le test ballon <em>surestime souvent</em> le PCWP post-fermeture définitive (car l'occlusion temporaire est brutale, contrairement à la fermeture définitive progressive). Un test ballon positif ne signifie pas toujours contre-indication absolue — mais ici les critères sont trop francs (PTDVG +12 mmHg + OAP clinique) pour ignorer le résultat.
+    </div>
+    <div class="ib ib-teal" style="margin-bottom:0">
+      <strong>Fermeture fenêtrée discutée et refusée ici :</strong><br>
+      La fenêtrée a été discutée (COR 2b). MAIS test ballon avec OAP + chute DC 32% = contre-indication même pour fenêtrée. VG trop défaillant pour tolérer toute réduction du shunt décompresseur. Fenêtrée envisageable uniquement si PCWP &lt;25 mmHg sous occlusion et pas de symptômes cliniques.
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 6 QCM -->
+<div class="slide" id="slide-6">
+  <div class="sh">❓ QCM — 6 questions · Cas CIA 07 · Dysfonction VG · Test Ballon</div>
+  <div id="qcm-area"></div>
+  <div id="score-area" style="display:none"></div>
+</div>
+
+<!-- SLIDE 7 DÉCISION CI & SUIVI -->
+<div class="slide" id="slide-7">
+  <div class="sh">⚕️ Décision finale — CI fermeture + Prise en charge alternative</div>
+
+  <div class="ci-box">
+    <div class="ci-title">🚫 COR 3 — CONTRE-INDICATION à la fermeture CIA</div>
+    <div class="ci-body">
+      Test ballon occlusif positif (PTDVG 20 → 32 mmHg + OAP clinique) + Dysfonction VG systolo-diastolique sévère (FEVG 44%, PTDVG 20 mmHg, LGE VG) + Stade D IC gauche.<br>
+      La CIA joue un rôle de soupape bénéfique chez ce patient. La fermer aggraverait l'IC gauche.<br>
+      <strong>Décision : Surveiller la CIA · Traiter l'IC gauche de façon optimale.</strong>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">💊 Traitement médical optimal (OUI à l'IC, NON à la fermeture CIA)</div>
+    <div class="drow"><div class="dl">IEC/ARAII</div><div class="dv">Ramipril 10 mg/j (ou Sacubitril/Valsartan si toléré) — traitement de fond IC</div></div>
+    <div class="drow"><div class="dl">Béta-bloquant</div><div class="dv">Bisoprolol optimisé 7.5–10 mg/j (IC systolique FEVG 44%)</div></div>
+    <div class="drow"><div class="dl">Diurétiques</div><div class="dv">Furosémide 80–120 mg/j + Spironolactone 25 mg/j · Objectif : PCWP &lt;18 mmHg</div></div>
+    <div class="drow"><div class="dl">Sacubitril/Valsartan</div><div class="dv warn">À introduire après stabilisation (FEVG 44% + IC décompensée) — séquencer avec IEC</div></div>
+    <div class="drow"><div class="dl">Dapagliflozine</div><div class="dv ok">Dapagliflozine 10 mg/j — IC + diabète type 2 = double indication · Réduit hospitalisation IC</div></div>
+    <div class="drow"><div class="dl">Équilibre HTA</div><div class="dv alert">ESSENTIEL — Amlodipine 10 mg/j · Objectif TA &lt;130/80 mmHg · HTA = moteur de la dysfonction diastolique</div></div>
+    <div class="drow"><div class="dl">Diabète</div><div class="dv warn">Optimiser HbA1c &lt;7% · Metformine + Dapagliflozine (double bénéfice IC-diabète)</div></div>
+    <div class="drow"><div class="dl">DAI / CRT</div><div class="dv warn">FEVG 44% · BBG + · QRS 118 ms → Réévaluer FEVG à 6 mois sous traitement optimisé · Si FEVG &lt;35% → CRT-D discuté</div></div>
+    <div class="drow"><div class="dl">CIA</div><div class="dv ok">SURVEILLANCE SEULE · Pas de geste · Rôle bénéfique de décompression OG · Réévaluer annuellement</div></div>
+  </div>
+
+  <div class="sh">📅 Suivi — Stade D · Table 12 ACC 2025</div>
+  <div class="suivi-table">
+    <div class="suiv-head"><div>Examen</div><div>Délai</div><div>Objectif</div></div>
+    <div class="suiv-row hl"><div>Consultation ACHD + IC avancée</div><div class="suiv-val">J15</div><div>Stabilisation · Réponse traitement</div></div>
+    <div class="suiv-row"><div>ETT + BNP + E/e'</div><div class="suiv-val">M1</div><div>Amélioration PCWP ? FEVG ?</div></div>
+    <div class="suiv-row hl"><div>Réévaluation FEVG + QRS</div><div class="suiv-val">M6</div><div>FEVG &lt;35% → CRT-D discussion</div></div>
+    <div class="suiv-row"><div>ETT CIA + pressions</div><div class="suiv-val">M12</div><div>Surveillance CIA · PTDVG amélioré ?</div></div>
+    <div class="suiv-row hl"><div>Réévaluation test ballon</div><div class="suiv-val">1–2 ans si amélioration VG</div><div>Si PTDVG &lt;15 mmHg sous traitement → re-évaluer CI</div></div>
+    <div class="suiv-row"><div>ACHD + IC long terme</div><div class="suiv-val">3–6 mois</div><div>Table 12 Stade D · Suivi à vie</div></div>
+  </div>
+
+  <div class="ib ib-teal">
+    <strong>💡 Point d'espoir :</strong> Si le traitement médical optimal (Sacubitril/Valsartan + Dapagliflozine + contrôle HTA strict) améliore significativement la FEVG (&gt;50%) et réduit le PTDVG (&lt;15 mmHg), une réévaluation du test ballon à 12–18 mois est envisageable. Si test ballon négatif → fermeture CIA reconsidérée. La CI n'est pas définitive si la dysfonction VG est réversible.
+  </div>
+</div>
+
+<!-- SLIDE 8 MESSAGES CLÉS -->
+<div class="slide" id="slide-8">
+  <div class="val-banner">
+    <div style="font-size:18px">✅</div>
+    <div class="vb-t"><strong>CORE-TEAM ACHD-Algérie · CSC · ACC/AHA 2025</strong>Messages clés — Cas CIA 07 · Dysfonction VG · Test Ballon · COR 3</div>
+  </div>
+
+  <div class="sh">📊 Tableau complet 6 cas CIA — La progression pédagogique totale</div>
+  <div class="card" style="overflow-x:auto">
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr 1fr 1fr 1fr;gap:0;font-size:10px;min-width:420px">
+      <div style="font-family:Syne,sans-serif;font-weight:700;padding:5px 3px;border-bottom:1px solid var(--brd);color:var(--w3)">Param</div>
+      <div style="font-family:Syne,sans-serif;font-weight:700;padding:5px 3px;border-bottom:1px solid var(--brd);color:var(--teal);text-align:center">C01</div>
+      <div style="font-family:Syne,sans-serif;font-weight:700;padding:5px 3px;border-bottom:1px solid var(--brd);color:var(--red);text-align:center">C02</div>
+      <div style="font-family:Syne,sans-serif;font-weight:700;padding:5px 3px;border-bottom:1px solid var(--brd);color:var(--pur);text-align:center">C03</div>
+      <div style="font-family:Syne,sans-serif;font-weight:700;padding:5px 3px;border-bottom:1px solid var(--brd);color:var(--orange);text-align:center">C04</div>
+      <div style="font-family:Syne,sans-serif;font-weight:700;padding:5px 3px;border-bottom:1px solid var(--brd);color:var(--cyan);text-align:center">C06</div>
+      <div style="font-family:Syne,sans-serif;font-weight:700;padding:5px 3px;border-bottom:1px solid var(--brd);color:var(--rose);text-align:center">C07</div>
+      <div style="padding:4px 3px;border-bottom:1px solid var(--brd);color:var(--w3)">Stade</div>
+      <div style="padding:4px 3px;border-bottom:1px solid var(--brd);color:var(--mint);text-align:center">B</div>
+      <div style="padding:4px 3px;border-bottom:1px solid var(--brd);color:var(--red);text-align:center">D</div>
+      <div style="padding:4px 3px;border-bottom:1px solid var(--brd);color:var(--pur);text-align:center">D</div>
+      <div style="padding:4px 3px;border-bottom:1px solid var(--brd);color:var(--orange);text-align:center">C</div>
+      <div style="padding:4px 3px;border-bottom:1px solid var(--brd);color:var(--cyan);text-align:center">B</div>
+      <div style="padding:4px 3px;border-bottom:1px solid var(--brd);color:var(--rose);text-align:center;font-weight:800">D</div>
+      <div style="padding:4px 3px;border-bottom:1px solid var(--brd);color:var(--w3)">RVP WU</div>
+      <div style="padding:4px 3px;border-bottom:1px solid var(--brd);color:var(--mint);text-align:center">1.6</div>
+      <div style="padding:4px 3px;border-bottom:1px solid var(--brd);color:var(--red);text-align:center">4.1</div>
+      <div style="padding:4px 3px;border-bottom:1px solid var(--brd);color:var(--pur);text-align:center">3.1</div>
+      <div style="padding:4px 3px;border-bottom:1px solid var(--brd);color:var(--orange);text-align:center">6.2</div>
+      <div style="padding:4px 3px;border-bottom:1px solid var(--brd);color:var(--cyan);text-align:center">7.0</div>
+      <div style="padding:4px 3px;border-bottom:1px solid var(--brd);color:var(--rose);text-align:center;font-weight:800">1.5</div>
+      <div style="padding:4px 3px;border-bottom:1px solid var(--brd);color:var(--w3)">COR</div>
+      <div style="padding:4px 3px;border-bottom:1px solid var(--brd);color:var(--mint);text-align:center">I</div>
+      <div style="padding:4px 3px;border-bottom:1px solid var(--brd);color:var(--red);text-align:center">2a</div>
+      <div style="padding:4px 3px;border-bottom:1px solid var(--brd);color:var(--pur);text-align:center">2a</div>
+      <div style="padding:4px 3px;border-bottom:1px solid var(--brd);color:var(--orange);text-align:center">2a</div>
+      <div style="padding:4px 3px;border-bottom:1px solid var(--brd);color:var(--cyan);text-align:center">2b</div>
+      <div style="padding:4px 3px;border-bottom:1px solid var(--brd);color:var(--rose);text-align:center;font-weight:800">3</div>
+      <div style="padding:4px 3px;color:var(--w3)">Décision</div>
+      <div style="padding:4px 3px;color:var(--mint);text-align:center;font-size:9px">Perc. COR I</div>
+      <div style="padding:4px 3px;color:var(--red);text-align:center;font-size:9px">Optim.</div>
+      <div style="padding:4px 3px;color:var(--pur);text-align:center;font-size:9px">Chir+TV</div>
+      <div style="padding:4px 3px;color:var(--orange);text-align:center;font-size:9px">T-Close</div>
+      <div style="padding:4px 3px;color:var(--cyan);text-align:center;font-size:9px">Fenêtrée</div>
+      <div style="padding:4px 3px;color:var(--rose);text-align:center;font-size:9px;font-weight:800">🚫 CI</div>
+    </div>
+  </div>
+
+  <div class="sh">💡 8 Messages clés — Cas CIA 07</div>
+  <div class="kmsg"><div class="km-num" style="background:var(--rose)">1</div><div class="km-body"><strong>RVP faible (1.5 WU) ≠ fermeture toujours indiquée.</strong> Ce cas est l'inverse des cas précédents. On attend COR I mais PTDVG 20 mmHg + test ballon positif = COR 3. La décision de fermeture CIA n'est pas dictée par la RVP seule mais par l'ensemble de la physiopathologie.</div></div>
+  <div class="kmsg"><div class="km-num" style="background:var(--red)">2</div><div class="km-body"><strong>La CIA peut être BÉNÉFIQUE dans la dysfonction VG.</strong> Elle joue le rôle de soupape de décompression OG. Fermer une CIA bénéfique = aggraver l'IC gauche. Toujours évaluer la fonction VG avant fermeture CIA chez le sujet âgé.</div></div>
+  <div class="kmsg"><div class="km-num" style="background:var(--gold)">3</div><div class="km-body"><strong>HTAP postcapillaire vs précapillaire — distinction essentielle.</strong> Ici PAPS 45 mmHg mais RVP 1.5 WU + PCWP 22 mmHg = HTAP postcapillaire (IC gauche). Pas d'HTAP vasculaire. Le 3-Strata n'est pas applicable. Traiter l'IC gauche = traiter l'HTAP.</div></div>
+  <div class="kmsg"><div class="km-num" style="background:var(--sky)">4</div><div class="km-body"><strong>Test au ballon COR 2b — indispensable chez le sujet âgé avec comorbidités VG.</strong> Chez tout patient CIA &gt;60 ans avec HTA, diabète, antécédent OAP ou E/e' &gt;14 → test ballon AVANT décision. Seuils de positivité : PCWP +≥5 mmHg + PTDVG +≥10 mmHg + symptômes.</div></div>
+  <div class="kmsg"><div class="km-num" style="background:var(--pur)">5</div><div class="km-body"><strong>Stade D sans HTAP précapillaire élevée.</strong> La dysfonction VG sévère + IC hospitalisée × 2 = Stade D indépendamment de la RVP. La RVP seule ne détermine pas le stade. Le Cas 07 (RVP 1.5 WU) et le Cas 01 (RVP 1.6 WU) ont la même RVP mais Stade D vs Stade B.</div></div>
+  <div class="kmsg"><div class="km-num" style="background:var(--mint)">6</div><div class="km-body"><strong>La CI n'est pas forcément définitive.</strong> Si traitement IC optimal (Sacubitril/Valsartan + Dapagliflozine + contrôle HTA) améliore FEVG et réduit PTDVG &lt;15 mmHg → réévaluation test ballon à 12–18 mois → CI potentiellement levée.</div></div>
+  <div class="kmsg"><div class="km-num" style="background:var(--orange)">7</div><div class="km-body"><strong>Dapagliflozine — double indication IC + diabète.</strong> Ce médicament réduit les hospitalisations pour IC (DAPA-HF) + améliore contrôle glycémique. Ici : FEVG 44% + diabète type 2 = COR I pour initiation selon ACC/AHA 2022 IC guidelines.</div></div>
+  <div class="kmsg"><div class="km-num" style="background:var(--teal);color:#06101E">8</div><div class="km-body"><strong>Bilan CIA complet ≠ ETT seule + RVP.</strong> Ce cas illustre que l'évaluation CIA doit inclure : âge + comorbidités + E/e' + LAVI + PTDVG au cathé + test ballon si doute. La décision multiparamétrique est la norme en ACHD 2025.</div></div>
+
+  <div class="sh">📚 Référence</div>
+  <div class="card">
+    <div class="drow"><div class="dl">Guideline</div><div class="dv">Gurvitz et al. 2025 ACC/AHA/HRS/ISACHD/SCAI · JACC 2025</div></div>
+    <div class="drow"><div class="dl">Recommandations</div><div class="dv">COR 2b Rec #4 (test ballon) · Supportive text Rec #4 (dysfonction VG = CI) · Table 4 (stade) · Table 12 (suivi)</div></div>
+    <div class="drow"><div class="dl">ACHD CORE-Team</div><div class="dv">CSC Algeria · contact@csc-cardio.com · WhatsApp +213 540 910 869</div></div>
+  </div>
+</div>
+
+</div>
+
+<div id="botnav">
+  <button class="bnav-btn bnav-prev" id="btn-prev" disabled>← Précédent</button>
+  <button class="bnav-btn bnav-next" id="btn-next">Suivant →</button>
+</div>
+
+<script>
+var cur=0,total=9,qIdx=0,qScore=0,qAnswered=[];
+var snavs=document.querySelectorAll('.snav');
+snavs.forEach(function(b){b.addEventListener('click',function(){goTo(parseInt(this.getAttribute('data-slide')));});});
+function goTo(n){
+  if(n<0||n>=total)return;
+  document.querySelectorAll('.slide').forEach(function(s){s.classList.remove('active');});
+  document.getElementById('slide-'+n).classList.add('active');
+  snavs.forEach(function(b){b.classList.remove('active');});
+  snavs[n].classList.add('active');
+  if(n>0)snavs[n-1].classList.add('done');
+  cur=n;
+  document.getElementById('btn-prev').disabled=(n===0);
+  document.getElementById('btn-next').disabled=(n===total-1);
+  document.getElementById('btn-next').textContent=n===total-2?'Terminer ✓':'Suivant →';
+  window.scrollTo(0,0);
+  if(n===6&&qIdx===0)renderQ(0);
+}
+document.getElementById('btn-prev').addEventListener('click',function(){goTo(cur-1);});
+document.getElementById('btn-next').addEventListener('click',function(){goTo(cur+1);});
+
+var QCM=[
+  {q:"RVP = 1.5 WU (zone COR I habituelle), PTDVG = 20 mmHg, E/e' = 18, PCWP = 22 mmHg. Quelle est l'interprétation de l'HTAP et la décision initiale ?",
+   opts:["RVP faible → COR I fermeture immédiate → anatomie favorable → pas d'obstacle","HTAP postcapillaire (PCWP > 15 mmHg + RVP < 2 WU). La CIA décompresse l'OG hypertensive. Test au ballon obligatoire avant toute décision de fermeture.","HTAP précapillaire légère → COR 2a fermeture raisonnable","RVP < 2 WU → pas d'HTAP → fermeture percutanée COR I sans test ballon nécessaire"],
+   ans:1,
+   fb:"HTAP POSTCAPILLAIRE (IC gauche) : mPAP 38 > 20 mmHg + PVR 1.5 WU < 2 WU + PCWP 22 mmHg > 15 mmHg. Ce n'est pas une HTAP vasculaire (PVR normale) mais une HTAP postcapillaire liée à la dysfonction diastolique VG (PTDVG 20 mmHg). La CIA joue un rôle de soupape OG bénéfique. Test au ballon occlusif obligatoire (COR 2b) avant toute décision de fermeture chez ce patient âgé avec dysfonction VG."},
+  {q:"Le test au ballon montre : PCWP avant = 22 mmHg → pendant occlusion = 28 mmHg · PTDVG 20 → 32 mmHg · DC 4.1 → 2.8 L/min · OAP clinique pendant occlusion. Comment interpréter ce résultat ?",
+   opts:["Test négatif — variation de PCWP < 10 mmHg = test négatif selon les critères","Test positif — PTDVG +12 mmHg + DC chute 32% + OAP clinique = contre-indication formelle à la fermeture CIA (même fenêtrée). Le VG ne tolère pas la suppression du shunt de décompression OG.","Test équivoque — continuer l'occlusion 30 minutes supplémentaires pour confirmer","Test invalide — le test ballon n'est pas fiable dans la dysfonction VG"],
+   ans:1,
+   fb:"TEST BALLON POSITIF : Critères de positivité : PCWP augmente ≥5 mmHg (ici +6 mmHg ✓) + PTDVG augmente ≥10 mmHg (ici +12 mmHg ✓) + symptômes cliniques OAP ✓ + chute DC ✓. Ce résultat confirme que la fermeture CIA supprimera la soupape de décompression OG et provoquera un OAP immédiat. COR 3 contre-indication formelle. Même la fermeture fenêtrée est contre-indiquée (chute DC trop importante)."},
+  {q:"Quel est le rôle physiopathologique de la CIA dans ce cas de dysfonction VG sévère (PTDVG 20 mmHg) ?",
+   opts:["La CIA aggrave la dysfonction VG en augmentant la surcharge volumique","La CIA joue le rôle de soupape de décompression de l'OG hypertensive. Le shunt G→D soulage partiellement la pression OG élevée et réduit le risque d'OAP. Fermer la CIA supprime cet effet protecteur.","La CIA n'a aucun impact sur la pression OG","La CIA est sans conséquence hémodynamique si RVP < 2 WU"],
+   ans:1,
+   fb:"Physiopathologie essentielle : PTDVG 20 mmHg → pression OG très élevée (PCWP 22 mmHg) → sans CIA, tout l'éjectum OG doit passer par la valve mitrale, aggravant la surcharge VG. Le shunt G→D CIA détourne une partie du volume de l'OG vers l'OD → soulage partiellement l'OG → réduit la pression OG → réduit le risque OAP. C'est pourquoi fermer la CIA chez ce patient aggraverait l'IC gauche plutôt que de l'améliorer."},
+  {q:"Ce patient est Stade D malgré RVP = 1.5 WU (zone COR I). Comment justifier le Stade D ?",
+   opts:["Stade D impossible si RVP < 2 WU — contradiction dans les données","Stade D justifié par les critères indépendants de la RVP : hospitalisations IC × 2 dans 18 mois + FEVG 44% + Strain VG -10% + LGE VG + NT-proBNP 3480 pg/mL + NYHA III. La RVP faible n'empêche pas le Stade D si la dysfonction VG est sévère.","Stade D car l'âge du patient (70 ans) impose le Stade D","Stade D car CIA > 20 mm"],
+   ans:1,
+   fb:"Stade D Table 4 ACC 2025 : Multiple critères indépendants de la RVP : (1) Hospitalisation IC × 2 dans 18 mois (OAP) (2) NYHA III (3) FEVG 44% + Strain VG -10% = dysfonction VG sévère (4) NT-proBNP 3480 >> 2×LSN (5) LGE VG = fibrose irréversible (6) SpO₂ effort 87% < 85% → Stade D. La RVP faible aurait pu suggérer Stade B-C mais les critères de dysfonction VG imposent Stade D. Comparer avec Cas 07 (RVP 1.6 WU) et Cas 01 (RVP 1.6 WU) = même RVP mais Stade D vs Stade B."},
+  {q:"Quel est le critère principal permettant de distinguer l'HTAP postcapillaire de l'HTAP précapillaire au cathétérisme ?",
+   opts:["Le niveau de PAPS — si > 50 mmHg c'est précapillaire, si < 50 mmHg c'est postcapillaire","La PVR seule — si PVR > 2 WU c'est précapillaire","Le PCWP — précapillaire : PCWP ≤15 mmHg + PVR ≥2 WU · Postcapillaire : PCWP > 15 mmHg · (ici PCWP 22 mmHg = postcapillaire)","La Vmax IT — si > 3 m/s c'est précapillaire obligatoirement"],
+   ans:2,
+   fb:"Définition ACC 2025 : HTAP précapillaire = mPAP > 20 mmHg + PVR ≥ 2 WU + PCWP ≤ 15 mmHg. HTAP postcapillaire = mPAP > 20 mmHg + PVR < 2 WU + PCWP > 15 mmHg (IC gauche). Le critère discriminant est le PCWP (mesure directe des pressions OG) et la PVR (résistances artérielles pulmonaires). Ici PCWP 22 mmHg > 15 mmHg + PVR 1.5 WU < 2 WU = HTAP POSTCAPILLAIRE par IC gauche. Le 3-Strata est réservé à l'HTAP précapillaire (groupe 1 OMS)."},
+  {q:"Si dans 12 mois, sous traitement IC optimisé (Sacubitril/Valsartan + Dapagliflozine + contrôle HTA strict), la FEVG s'améliore à 55% et le PTDVG descend à 12 mmHg, quelle est la conduite à tenir concernant la CIA ?",
+   opts:["Maintien de la contre-indication définitive — test ballon positif = CI permanente","Réévaluation avec test au ballon répété. Si test ballon négatif (PCWP < 5 mmHg d'augmentation sous occlusion + pas de symptômes) → la CI peut être levée → fermeture CIA discutée en RCP ACHD.","Fermeture CIA immédiate sans nouveau test ballon — la FEVG améliorée suffit","Maintien surveillance CIA mais jamais de fermeture après un test ballon positif"],
+   ans:1,
+   fb:"La contre-indication n'est pas nécessairement définitive. Si le traitement IC améliore la FEVG (55%) et surtout réduit le PTDVG à 12 mmHg (< 15 mmHg), les conditions hémodynamiques qui rendaient le test ballon positif ont changé. Un nouveau test ballon peut être réalisé. Si négatif (PCWP sous occlusion reste < 18 mmHg, pas d'OAP, DC stable) → la fermeture CIA peut être reconsidérée (COR 2a si PVR reste < 2 WU). Décision en RCP ACHD multidisciplinaire."}
+];
+
+function renderQ(idx){
+  if(idx>=QCM.length){showScore();return;}
+  var q=QCM[idx],letters=['A','B','C','D'];
+  var prog='';
+  for(var k=0;k<QCM.length;k++) prog+='<div class="qpd'+(k<idx?' done':k===idx?' active':'')+'"></div>';
+  var html='<div class="qprog">'+prog+'</div>';
+  html+='<div class="qnum">Question '+(idx+1)+' / '+QCM.length+' · Cas CIA 07 · Dysfonction VG · Test Ballon</div>';
+  html+='<div class="card"><div class="qcm-q">'+q.q+'</div>';
+  for(var j=0;j<4;j++) html+='<button class="qopt" data-qi="'+idx+'" data-j="'+j+'"><div class="ql">'+letters[j]+'</div><div class="qt">'+q.opts[j]+'</div></button>';
+  html+='<div class="qfb" id="qfb-'+idx+'"></div></div>';
+  document.getElementById('qcm-area').innerHTML=html;
+  document.querySelectorAll('.qopt').forEach(function(b){b.addEventListener('click',function(){ansQ(parseInt(this.getAttribute('data-qi')),parseInt(this.getAttribute('data-j')));});});
+  qIdx=idx;
+}
+function ansQ(qi,chosen){
+  if(qAnswered.indexOf(qi)>=0)return;
+  qAnswered.push(qi);
+  var q=QCM[qi],correct=chosen===q.ans,letters=['A','B','C','D'];
+  if(correct)qScore++;
+  document.querySelectorAll('.qopt').forEach(function(b){
+    b.style.pointerEvents='none';
+    var j=parseInt(b.getAttribute('data-j'));
+    if(j===q.ans)b.classList.add('reveal');
+    if(j===chosen&&!correct)b.classList.add('wrong');
+    if(j===chosen&&correct)b.classList.add('correct');
+  });
+  var fb=document.getElementById('qfb-'+qi);
+  if(fb){fb.innerHTML='<strong style="color:'+(correct?'var(--mint)':'var(--red)')+'">'+( correct?'✅ Correct !':'❌ Incorrect — Réponse : '+letters[q.ans])+'</strong><br><span style="color:var(--w2)">'+q.fb+'</span>';fb.className='qfb show '+(correct?'ok':'err');}
+  setTimeout(function(){renderQ(qi+1);},3400);
+}
+function showScore(){
+  var pct=Math.round(qScore/QCM.length*100);
+  var sc=pct>=80?'var(--mint)':pct>=60?'var(--gold)':'var(--red)';
+  var lbl=pct>=80?'Excellent !':pct>=60?'Bien !':pct>=40?'À revoir':'Recommencer';
+  var circ=2*Math.PI*48,dash=(pct/100)*circ;
+  document.getElementById('qcm-area').innerHTML='';
+  document.getElementById('score-area').style.display='block';
+  document.getElementById('score-area').innerHTML=
+    '<div class="score-wrap"><div class="score-ring"><svg width="110" height="110" viewBox="0 0 110 110"><circle cx="55" cy="55" r="48" fill="none" stroke="rgba(255,255,255,.08)" stroke-width="9"/><circle cx="55" cy="55" r="48" fill="none" stroke="'+sc+'" stroke-width="9" stroke-linecap="round" stroke-dasharray="'+circ.toFixed(1)+'" stroke-dashoffset="'+(circ-dash).toFixed(1)+'" transform="rotate(-90 55 55)"/></svg><div class="sr-center"><div class="sr-num" style="color:'+sc+'">'+qScore+'</div><div class="sr-den">/ '+QCM.length+'</div></div></div><div class="score-label" style="color:'+sc+'">'+pct+'% — '+lbl+'</div><div style="font-size:12px;color:var(--w3)">Cas CIA 07 · Dysfonction VG · CSC Algeria</div></div>'+
+    '<div class="ib ib-rose" style="margin-top:12px"><strong>→ Consultez le slide Test au Ballon</strong> pour les données complètes de la procédure et la logique de la contre-indication.</div>';
+}
+goTo(0);
+</script>
+</body>
+</html>
