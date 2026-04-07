@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<title>CIA · Cas 06 · Fermeture Fenêtrée · F52 · CSC Algeria</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#06101E;--bg2:#0B1928;--bg3:#0F2035;
+  --teal:#00C4AE;--t2:rgba(0,196,174,.13);
+  --sky:#38BDF8;--s2:rgba(56,189,248,.12);
+  --mint:#34D399;--m2:rgba(52,211,153,.12);
+  --gold:#F0A030;--g2:rgba(240,160,48,.12);
+  --red:#E03050;--r2:rgba(224,48,80,.12);
+  --pur:#A78BFA;--p2:rgba(167,139,250,.12);
+  --orange:#FB923C;--or2:rgba(251,146,60,.12);
+  --cyan:#22D3EE;--cy2:rgba(34,211,238,.12);
+  --rose:#FB7185;--ro2:rgba(251,113,133,.1);
+  --w1:#EEF5FF;--w2:rgba(238,245,255,.65);--w3:rgba(238,245,255,.32);
+  --brd:rgba(255,255,255,.08);--brd2:rgba(255,255,255,.15);
+  --r:14px;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{min-height:100%;background:var(--bg);color:var(--w1);font-family:"DM Sans",sans-serif;font-size:14px;overflow-x:hidden}
+
+#topbar{background:rgba(6,16,30,.97);backdrop-filter:blur(16px);border-bottom:1px solid var(--brd);padding:10px 16px;display:flex;align-items:center;gap:10px;position:sticky;top:0;z-index:100}
+.tb-logo{width:34px;height:34px;border-radius:9px;background:#fff;padding:2px;flex-shrink:0}
+.tb-logo img{width:100%;height:100%;object-fit:contain}
+.tb-t{font-family:"Syne",sans-serif;font-size:14px;font-weight:700;color:var(--cyan)}
+.tb-s{font-size:10px;color:var(--w3)}
+.tb-badge{background:var(--s2);border:1px solid rgba(56,189,248,.4);border-radius:8px;padding:3px 9px;font-size:9px;font-weight:700;color:var(--sky)}
+.tb-badge2{background:var(--cy2);border:1px solid rgba(34,211,238,.35);border-radius:8px;padding:3px 9px;font-size:9px;font-weight:700;color:var(--cyan)}
+
+#stepnav{background:rgba(6,16,30,.95);border-bottom:1px solid var(--brd);padding:10px 14px;display:flex;gap:6px;overflow-x:auto;-webkit-overflow-scrolling:touch;position:sticky;top:54px;z-index:90}
+#stepnav::-webkit-scrollbar{display:none}
+.snav{padding:7px 12px;border-radius:20px;font-family:"Syne",sans-serif;font-size:10px;font-weight:700;cursor:pointer;border:1px solid var(--brd2);background:transparent;color:var(--w3);white-space:nowrap;transition:all .15s}
+.snav.active{background:var(--cyan);color:#06101E;border-color:var(--cyan)}
+.snav.done{background:rgba(52,211,153,.12);border-color:rgba(52,211,153,.3);color:var(--mint)}
+
+#content{padding:14px 14px 100px}
+.slide{display:none;animation:fadeUp .3s ease}
+.slide.active{display:block}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+.card{background:var(--bg2);border-radius:var(--r);padding:14px;border:1px solid var(--brd);margin-bottom:12px}
+.card-title{font-family:"Syne",sans-serif;font-size:13px;font-weight:700;margin-bottom:10px;display:flex;align-items:center;gap:7px}
+.sh{font-family:"Syne",sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.9px;color:var(--w3);margin:16px 0 8px;padding-bottom:6px;border-bottom:1px solid var(--brd)}
+
+.hero-card{border-radius:var(--r);padding:18px;margin-bottom:14px;overflow:hidden}
+.hero-cyan{background:linear-gradient(135deg,rgba(34,211,238,.16),rgba(56,189,248,.1));border:2px solid rgba(34,211,238,.45)}
+.hero-label{font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:1px;text-transform:uppercase;margin-bottom:8px;color:var(--cyan)}
+.hero-title{font-family:"Syne",sans-serif;font-size:20px;font-weight:800;line-height:1.2;margin-bottom:6px}
+.hero-sub{font-size:13px;color:var(--w2);line-height:1.6;margin-bottom:12px}
+.hero-pills{display:flex;flex-wrap:wrap;gap:6px}
+.hp{padding:4px 10px;border-radius:20px;font-size:10px;font-weight:700;border:1px solid}
+.p-cyan{background:var(--cy2);border-color:rgba(34,211,238,.3);color:var(--cyan)}
+.p-sky{background:var(--s2);border-color:rgba(56,189,248,.3);color:var(--sky)}
+.p-red{background:var(--r2);border-color:rgba(224,48,80,.35);color:var(--red)}
+.p-gold{background:var(--g2);border-color:rgba(240,160,48,.3);color:var(--gold)}
+.p-pur{background:var(--p2);border-color:rgba(167,139,250,.3);color:var(--pur)}
+.p-orange{background:var(--or2);border-color:rgba(251,146,60,.35);color:var(--orange)}
+.p-mint{background:var(--m2);border-color:rgba(52,211,153,.3);color:var(--mint)}
+
+.drow{display:flex;padding:8px 0;border-bottom:1px solid var(--brd);align-items:flex-start;gap:8px}
+.drow:last-child{border-bottom:none}
+.dl{width:145px;flex-shrink:0;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:var(--w3);line-height:1.4;padding-top:1px}
+.dv{flex:1;font-size:13px;color:var(--w1);line-height:1.5}
+.dv.ok{color:var(--mint);font-weight:700}
+.dv.warn{color:var(--gold);font-weight:700}
+.dv.alert{color:var(--red);font-weight:700}
+.dv.cyan{color:var(--cyan);font-weight:700}
+.dv.sky{color:var(--sky);font-weight:700}
+.dv.hl{color:var(--teal);font-weight:700}
+.dv.pur{color:var(--pur);font-weight:700}
+
+.cor{display:inline-flex;align-items:center;justify-content:center;padding:2px 8px;border-radius:5px;font-family:"JetBrains Mono",monospace;font-size:9px;font-weight:700;margin-right:4px}
+.cor1{background:rgba(52,211,153,.2);color:var(--mint)}
+.cor2a{background:rgba(56,189,248,.2);color:var(--sky)}
+.cor2b{background:rgba(240,160,48,.2);color:var(--gold)}
+.cor3{background:rgba(224,48,80,.15);color:var(--red)}
+
+.ib{border-radius:10px;padding:10px 13px;font-size:12px;line-height:1.65;border-left:3px solid;margin-bottom:10px}
+.ib-teal{background:var(--t2);border-color:var(--teal)}
+.ib-sky{background:var(--s2);border-color:var(--sky)}
+.ib-gold{background:var(--g2);border-color:var(--gold)}
+.ib-red{background:var(--r2);border-color:var(--red)}
+.ib-mint{background:var(--m2);border-color:var(--mint)}
+.ib-cyan{background:var(--cy2);border-color:var(--cyan)}
+.ib-pur{background:var(--p2);border-color:var(--pur)}
+.ib-orange{background:var(--or2);border-color:var(--orange)}
+
+.gauge-row{display:flex;align-items:center;gap:10px;margin-bottom:7px}
+.gauge-label{font-size:11px;color:var(--w3);width:140px;flex-shrink:0;font-weight:600}
+.gauge-bar{flex:1;height:10px;background:var(--bg3);border-radius:5px;overflow:hidden}
+.gauge-fill{height:100%;border-radius:5px;transition:width .7s ease}
+.gauge-val{font-family:"JetBrains Mono",monospace;font-size:11px;font-weight:700;width:65px;text-align:right;flex-shrink:0}
+
+.canva-wrap{border-radius:12px;overflow:hidden;border:1px solid var(--brd2);background:var(--bg3);margin-bottom:12px}
+.canva-label{padding:10px 13px;border-bottom:1px solid var(--brd);font-family:"Syne",sans-serif;font-size:11px;font-weight:700;color:var(--cyan)}
+.canva-wrap iframe{width:100%;border:none;display:block}
+
+.eto-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px}
+.eto-berge{border-radius:10px;padding:10px 12px;border:2px solid;text-align:center}
+.eto-ok{border-color:rgba(52,211,153,.4);background:rgba(52,211,153,.08)}
+.eb-name{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--w3);margin-bottom:4px}
+.eb-val{font-family:"Syne",sans-serif;font-size:20px;font-weight:800;line-height:1}
+.eb-unit{font-size:10px;color:var(--w3)}
+
+.param-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px}
+.param-box{border-radius:10px;padding:12px;border:1px solid;text-align:center}
+.pb-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--w3);margin-bottom:4px}
+.pb-val{font-family:"Syne",sans-serif;font-size:22px;font-weight:800;line-height:1;margin-bottom:2px}
+.pb-status{font-size:10px;font-weight:700;margin-top:4px}
+
+.strata-table{border:1px solid var(--brd);border-radius:10px;overflow:hidden;margin-bottom:10px}
+.st-head,.st-row{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;font-size:11px}
+.st-head{background:var(--bg3);font-family:"Syne",sans-serif;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.4px}
+.st-head>div,.st-row>div{padding:7px 8px;border-right:1px solid var(--brd);line-height:1.4}
+.st-row>div:last-child,.st-head>div:last-child{border-right:none}
+.st-row{border-top:1px solid var(--brd)}
+.st-high{background:rgba(224,48,80,.08);font-weight:700;color:var(--red)}
+.st-low{background:rgba(52,211,153,.07);font-weight:700;color:var(--mint)}
+.st-int{background:rgba(240,160,48,.07);font-weight:700;color:var(--gold)}
+
+/* FENESTRATION DIAGRAM */
+.fenest-schema{background:linear-gradient(135deg,rgba(34,211,238,.1),rgba(56,189,248,.07));border:2px solid rgba(34,211,238,.4);border-radius:14px;padding:16px;margin-bottom:12px}
+.fs-title{font-family:"Syne",sans-serif;font-size:14px;font-weight:800;color:var(--cyan);margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.fs-compare{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.fs-item{border-radius:11px;padding:12px;border:2px solid}
+.fs-item-label{font-family:"Syne",sans-serif;font-size:12px;font-weight:700;margin-bottom:8px}
+.fs-item-body{font-size:11px;color:var(--w2);line-height:1.6}
+
+/* COMP TABLE */
+.comp-table{border:1px solid var(--brd);border-radius:10px;overflow:hidden;margin-bottom:10px}
+.ct-head,.ct-row{display:grid;grid-template-columns:1.5fr 1fr 1fr;font-size:11px}
+.ct-head{background:var(--bg3);font-family:"Syne",sans-serif;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:var(--w3)}
+.ct-head>div,.ct-row>div{padding:8px 10px;border-right:1px solid var(--brd);line-height:1.4}
+.ct-head>div:last-child,.ct-row>div:last-child{border-right:none}
+.ct-row{border-top:1px solid var(--brd)}
+.ct-row:nth-child(odd){background:rgba(255,255,255,.02)}
+.ct-good{color:var(--mint);font-weight:700}
+.ct-warn{color:var(--gold);font-weight:700}
+.ct-bad{color:var(--red);font-weight:700}
+
+/* PARADOX BOX */
+.paradox{background:linear-gradient(135deg,rgba(34,211,238,.12),rgba(56,189,248,.08));border:2px solid rgba(34,211,238,.4);border-radius:14px;padding:14px;margin-bottom:14px}
+.px-title{font-family:"Syne",sans-serif;font-size:14px;font-weight:800;color:var(--cyan);margin-bottom:8px;display:flex;align-items:center;gap:7px}
+.px-body{font-size:12px;color:var(--w2);line-height:1.7}
+
+/* STEP FLOW */
+.step-flow{display:flex;flex-direction:column;gap:0}
+.step-item{padding:12px 14px;border-radius:11px;border:2px solid;display:flex;align-items:flex-start;gap:10px;margin-bottom:6px}
+.step-num{width:26px;height:26px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-family:"Syne",sans-serif;font-size:13px;font-weight:800;flex-shrink:0}
+.step-body{font-size:12px;color:var(--w2);line-height:1.65;flex:1}
+.step-title{font-family:"Syne",sans-serif;font-size:13px;font-weight:700;margin-bottom:4px}
+.step-arrow{text-align:center;font-size:20px;color:var(--w3);padding:2px 0;margin-bottom:4px}
+
+/* QCM */
+.qcm-q{font-family:"Syne",sans-serif;font-size:15px;font-weight:700;margin-bottom:16px;line-height:1.45}
+.qopt{width:100%;padding:12px 14px;border-radius:11px;border:2px solid var(--brd2);background:var(--bg2);color:var(--w1);font-family:"DM Sans",sans-serif;font-size:13px;text-align:left;cursor:pointer;margin-bottom:8px;transition:all .18s;display:flex;align-items:flex-start;gap:10px}
+.qopt:active{transform:scale(.98)}
+.qopt.correct{border-color:var(--mint)!important;background:rgba(52,211,153,.1)!important}
+.qopt.wrong{border-color:var(--red)!important;background:rgba(224,48,80,.08)!important}
+.qopt.reveal{border-color:var(--mint)!important;background:rgba(52,211,153,.05)!important}
+.ql{width:28px;height:28px;border-radius:7px;background:var(--bg3);border:1px solid var(--brd2);display:flex;align-items:center;justify-content:center;font-family:"Syne",sans-serif;font-size:12px;font-weight:700;flex-shrink:0;transition:all .2s}
+.qopt.correct .ql,.qopt.reveal .ql{background:var(--mint);border-color:var(--mint);color:#06101E}
+.qopt.wrong .ql{background:var(--red);border-color:var(--red);color:#fff}
+.qt{font-size:13px;color:var(--w2);line-height:1.5;flex:1}
+.qfb{margin-top:12px;padding:12px 14px;border-radius:11px;font-size:12px;line-height:1.65;display:none;border:1px solid}
+.qfb.show{display:block}
+.qfb.ok{background:rgba(52,211,153,.08);border-color:rgba(52,211,153,.3)}
+.qfb.err{background:rgba(224,48,80,.08);border-color:rgba(224,48,80,.25)}
+.qprog{display:flex;gap:5px;margin-bottom:14px}
+.qpd{flex:1;height:4px;border-radius:2px;background:var(--brd2)}
+.qpd.done{background:var(--cyan)}.qpd.active{background:var(--gold)}
+.qnum{font-size:10px;color:var(--w3);font-weight:700;text-transform:uppercase;letter-spacing:.8px;margin-bottom:10px}
+
+/* SCORE */
+.score-wrap{text-align:center;padding:20px 0 10px}
+.score-ring{position:relative;width:110px;height:110px;margin:0 auto 10px}
+.score-ring svg{transform:rotate(-90deg)}
+.sr-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.sr-num{font-family:"Syne",sans-serif;font-size:32px;font-weight:800;line-height:1}
+.sr-den{font-size:11px;color:var(--w3)}
+.score-label{font-family:"Syne",sans-serif;font-size:18px;font-weight:700;margin-bottom:4px}
+
+/* VAL BANNER */
+.val-banner{background:linear-gradient(90deg,rgba(34,211,238,.1),rgba(56,189,248,.06));border:1px solid rgba(34,211,238,.25);border-radius:10px;padding:10px 13px;display:flex;gap:9px;align-items:flex-start;margin-bottom:14px}
+.vb-t{font-size:11px;color:var(--w2);line-height:1.55}
+.vb-t strong{color:var(--cyan);display:block;font-size:12px}
+
+/* KEY MESSAGES */
+.kmsg{display:flex;gap:10px;align-items:flex-start;padding:10px 12px;background:var(--bg2);border-radius:10px;border:1px solid var(--brd);margin-bottom:7px}
+.km-num{width:24px;height:24px;border-radius:6px;font-family:"Syne",sans-serif;font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#06101E}
+.km-body{font-size:12px;color:var(--w2);line-height:1.55;flex:1}
+
+/* SUIVI */
+.suivi-table{border:1px solid var(--brd);border-radius:10px;overflow:hidden;margin-bottom:10px}
+.suiv-head,.suiv-row{display:grid;grid-template-columns:1.5fr 0.8fr 1.2fr;font-size:11px}
+.suiv-head{background:var(--bg3);font-family:"Syne",sans-serif;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:var(--w3)}
+.suiv-head>div,.suiv-row>div{padding:8px 10px;border-right:1px solid var(--brd);line-height:1.4;color:var(--w2)}
+.suiv-head>div:last-child,.suiv-row>div:last-child{border-right:none}
+.suiv-row{border-top:1px solid var(--brd)}
+.suiv-row.hl{background:rgba(34,211,238,.05)}
+.suiv-val{font-weight:700;color:var(--cyan);font-family:"JetBrains Mono",monospace;font-size:10px}
+
+/* BOTTOM NAV */
+#botnav{position:fixed;bottom:0;left:0;right:0;background:rgba(6,16,30,.97);backdrop-filter:blur(14px);border-top:1px solid var(--brd);padding:10px 14px;display:flex;gap:8px;z-index:100}
+.bnav-btn{flex:1;padding:12px;border-radius:11px;border:none;cursor:pointer;font-family:"Syne",sans-serif;font-size:13px;font-weight:700;transition:all .15s}
+.bnav-btn:active{transform:scale(.97)}
+.bnav-prev{background:var(--bg3);border:1px solid var(--brd2);color:var(--w2)}
+.bnav-next{background:var(--cyan);color:#06101E}
+.bnav-btn:disabled{opacity:.3;cursor:not-allowed}
+</style>
+</head>
+<body>
+
+<div id="topbar">
+  <div class="tb-logo"><img src="data:image/png;base64,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" alt="CSC"></div>
+  <div style="flex:1">
+    <div class="tb-t">CIA · Cas 06 · F52 · Fermeture Fenêtrée</div>
+    <div class="tb-s">CSC Algeria · ACHD CORE-Team · ACC/AHA 2025</div>
+  </div>
+  <div class="tb-badge2">⭐⭐⭐</div>
+  <div class="tb-badge">Stade B</div>
+</div>
+
+<div id="stepnav">
+  <button class="snav active" data-slide="0">🩺 Présentation</button>
+  <button class="snav" data-slide="1">🎞 Iconographie</button>
+  <button class="snav" data-slide="2">🫀 Volet 1 — Anatomique</button>
+  <button class="snav" data-slide="3">🫁 Volet 2 — HTAP</button>
+  <button class="snav" data-slide="4">📊 Volet 3 — Stade B</button>
+  <button class="snav" data-slide="5">🕳️ Fermeture Fenêtrée</button>
+  <button class="snav" data-slide="6">❓ QCM</button>
+  <button class="snav" data-slide="7">⚕️ Décision & Suivi</button>
+  <button class="snav" data-slide="8">💡 Messages clés</button>
+</div>
+
+<div id="content">
+
+<!-- SLIDE 0 : PRÉSENTATION -->
+<div class="slide active" id="slide-0">
+  <div class="val-banner">
+    <div style="font-size:18px">✅</div>
+    <div class="vb-t"><strong>Validé · CORE-TEAM ACHD-Algérie · CSC · ACC/AHA 2025</strong>Cas CIA 06 · Section 4.1.1 · Fermeture Fenêtrée COR 2b · Paradoxe Stade B + HTAP élevée</div>
+  </div>
+
+  <div class="hero-card hero-cyan">
+    <div class="hero-label">🕳️ CIA · Cas 06 · Fermeture Fenêtrée · COR 2b · Situation unique</div>
+    <div class="hero-title">CIA OS 22 mm · RVP 7 WU · Fermeture Fenêtrée<br>HTAP Élevée · FA · Stade B — Le paradoxe</div>
+    <div class="hero-sub">Femme de 52 ans · FA paroxystique · Bonne fonction VD (Strain -20%)<br>HTAP élevée (3-Strata) mais Stade B · Prothèse fenêtrée COR 2b</div>
+    <div class="hero-pills">
+      <span class="hp p-cyan">Fermeture Fenêtrée COR 2b</span>
+      <span class="hp p-red">RVP 7 WU</span>
+      <span class="hp p-sky">Stade B ← Paradoxe</span>
+      <span class="hp p-gold">HTAP Élevée 3-Strata</span>
+      <span class="hp p-pur">FA paroxystique</span>
+      <span class="hp p-mint">Strain VD -20% ✅</span>
+    </div>
+  </div>
+
+  <div class="paradox">
+    <div class="px-title">⚖️ Double paradoxe pédagogique central</div>
+    <div class="px-body">
+      <strong style="color:var(--cyan)">Paradoxe 1 — Stade B avec HTAP élevée :</strong><br>
+      RVP 7 WU + HTAP élevée (3-Strata) → attendrait Stade C ou D. MAIS Strain VD -20% (normal !), pas d'IC décompensée, pas d'hospitalisation, FA paroxystique (pas permanente) → <strong>Stade B</strong> selon critères stricts Table 4 ACC 2025. La préservation de la fonction VD sauve le stade.<br><br>
+      <strong style="color:var(--gold)">Paradoxe 2 — Fermeture fenêtrée COR 2b :</strong><br>
+      RVP 7 WU (zone 5–8 WU). Pas de réduction &lt;5 WU sous PAH initialement → pas de Treat-to-Close possible → fermeture fenêtrée : décompresse le VD tout en conservant un <em>shunt résiduel de sécurité</em> si la HTAP progresse post-fermeture.
+    </div>
+  </div>
+
+  <div class="sh">👤 Identité & Motif</div>
+  <div class="card">
+    <div class="drow"><div class="dl">Nom / Prénom</div><div class="dv">K. Nadia</div></div>
+    <div class="drow"><div class="dl">Âge / Sexe</div><div class="dv">52 ans · Féminin</div></div>
+    <div class="drow"><div class="dl">Poids / Taille</div><div class="dv">65 kg · 163 cm · IMC 24.4</div></div>
+    <div class="drow"><div class="dl">SpO₂ repos</div><div class="dv warn">94% — hypoxémie légère (limite inférieure normale en FA)</div></div>
+    <div class="drow"><div class="dl">SpO₂ effort</div><div class="dv warn">90% au TM6M (arrêt à 320 m) — désaturation modérée</div></div>
+    <div class="drow"><div class="dl">FC / TA</div><div class="dv warn">FA 102 bpm irrégulier · 128/80 mmHg</div></div>
+    <div class="drow"><div class="dl">NYHA</div><div class="dv warn">Classe II–III — dyspnée effort modéré · palpitations fréquentes</div></div>
+    <div class="drow"><div class="dl">Motif</div><div class="dv">Bilan CIA connue (3 ans) devant HTAP progressive documentée. Adressée pour décision thérapeutique urgente : Treat-to-Close vs fermeture fenêtrée.</div></div>
+  </div>
+
+  <div class="sh">📋 Antécédents & Histoire</div>
+  <div class="card">
+    <div class="drow"><div class="dl">CIA connue</div><div class="dv warn">CIA OS diagnostiquée à 49 ans. Refus de fermeture initiale (peur). Suivi cardiologique annuel. HTAP diagnostiquée à 51 ans.</div></div>
+    <div class="drow"><div class="dl">FA</div><div class="dv warn">FA paroxystique depuis 18 mois. Crises 1–2/mois. Cardioversion médicale efficace (Flécaïne). Pas de FA permanente. Sous anticoagulants.</div></div>
+    <div class="drow"><div class="dl">Treat-to-Close tenté</div><div class="dv alert">ERA (Ambrisentan 5 mg/j) + iPDE5 (Tadalafil 20 mg/j) pendant 4 mois → PVR : 8.2 → 7.0 WU · Réduction insuffisante (objectif &lt;5 WU non atteint)</div></div>
+    <div class="drow"><div class="dl">Traitements</div><div class="dv">Ambrisentan 5 mg/j · Tadalafil 20 mg/j · Rivaroxaban 20 mg/j · Furosémide 40 mg/j · Bisoprolol 5 mg/j · Candesartan 8 mg/j (HTA)</div></div>
+    <div class="drow"><div class="dl">ATCD médicaux</div><div class="dv">HTA légère · Pas de diabète · Non fumeuse · Ménopause à 48 ans · Pas d'antécédent thromboembolique</div></div>
+    <div class="drow"><div class="dl">Examen clinique</div><div class="dv">Souffle éjectionnel systolique 2/6 foyer pulmonaire · B2 très accentué ++ · Dédoublement fixe B2 · Pas de signes IC droite · Pas de TJE · Pas d'OMI · Pas d'ascite · Pas de cyanose</div></div>
+  </div>
+
+  <div class="sh">🔬 Bilan biologique & ECG</div>
+  <div class="card">
+    <div class="drow"><div class="dl">BNP</div><div class="dv alert">382 pg/mL — élevé (N &lt;50) · HTAP + surcharge VD</div></div>
+    <div class="drow"><div class="dl">NT-proBNP</div><div class="dv alert">1620 pg/mL — élevé · &gt;1400 = critère risque élevé 3-Strata</div></div>
+    <div class="drow"><div class="dl">Troponine hs</div><div class="dv warn">18 ng/L — légèrement élevée (cytolyse VD HTAP)</div></div>
+    <div class="drow"><div class="dl">Créatinine / DFG</div><div class="dv ok">82 μmol/L · DFG 78 mL/min — normal</div></div>
+    <div class="drow"><div class="dl">Bilan hépatique</div><div class="dv warn">ASAT 35 · ALAT 38 — légèrement élevées sous ERA (Ambrisentan)</div></div>
+    <div class="drow"><div class="dl">NFS</div><div class="dv ok">Hb 13.6 g/dL · Plaquettes 205 G/L · Leucocytes normaux</div></div>
+    <div class="drow"><div class="dl">Acide urique</div><div class="dv warn">468 μmol/L — légèrement élevé (HTAP)</div></div>
+    <div class="drow"><div class="dl">INR / AOD</div><div class="dv ok">Rivaroxaban 20 mg/j — anticoagulation efficace (FA)</div></div>
+    <div class="drow"><div class="dl">ECG</div><div class="dv warn">FA 102 bpm irrégulier · BBD incomplet (V1 rSr') · Axe droit +95° · HVD modérée · QRS 110 ms</div></div>
+    <div class="drow"><div class="dl">Rx thorax</div><div class="dv warn">Cardiomégalie modérée ICT 0.56 · AP proéminentes · Pas d'épanchement pleural · OD et VD dilatés</div></div>
+    <div class="drow"><div class="dl">TM6M</div><div class="dv warn">320 m (intermédiaire 165–440 m) — réduit mais conservé (Strain VD -20% encore préservé)</div></div>
+  </div>
+</div>
+
+<!-- SLIDE 1 : ICONOGRAPHIE -->
+<div class="slide" id="slide-1">
+  <div class="canva-wrap">
+    <div class="canva-label">🎞 Iconographie · ETT + ETO · CIA OS 22 mm · HTAP élevée · Fermeture Fenêtrée</div>
+    <iframe src="https://www.canva.com/design/DAHGGaFLyEE/Y9Mqd8KfxITvDfKky13Y_g/view?embed" height="420" allow="fullscreen" allowfullscreen scrolling="no" loading="lazy"></iframe>
+  </div>
+  <div class="ib ib-cyan">
+    <strong>🎓 Ce que vous devez observer :</strong><br>
+    CIA OS 22 mm centrale — petite taille malgré HTAP élevée. VD dilaté mais Strain VD encore -20% = fonction préservée. Vmax IT = 4.23 m/s = PAPS 80 mmHg très élevée. D-sign léger (surcharge barométrique débutante). Flux CIA G→D encore dominant (pas Eisenmenger). IT grade II uniquement. Fonction VG conservée.
+  </div>
+
+  <div class="sh">📡 ETT — Données quantitatives</div>
+  <div class="card">
+    <div class="drow"><div class="dl">FEVG (Simpson)</div><div class="dv ok">62% — bien conservée</div></div>
+    <div class="drow"><div class="dl">DTDVG / DTSVG</div><div class="dv ok">52 mm / 34 mm — VG normal, peu comprimé</div></div>
+    <div class="drow"><div class="dl">VD — dimensions</div><div class="dv alert">DTDVD = 44 mm ⚠️ (N &lt;35) · Surface diastolique VD = 28 cm² — dilatation modérée</div></div>
+    <div class="drow"><div class="dl">TAPSE</div><div class="dv warn">16 mm ⚠️ (N ≥18) — légèrement diminué</div></div>
+    <div class="drow"><div class="dl">S' TDI tricuspide</div><div class="dv warn">10 cm/s (limite basse N &gt;10)</div></div>
+    <div class="drow"><div class="dl">Strain VD (GLS)</div><div class="dv ok">-20% ✅ (N &lt;-20%) — fonction VD PRÉSERVÉE ← élément clé</div></div>
+    <div class="drow"><div class="dl">Vmax IT (peak)</div><div class="dv alert">4.23 m/s 🔴 — très élevée (&gt;2.9 m/s Table 13)</div></div>
+    <div class="drow"><div class="dl">PAPS estimée</div><div class="dv alert">80 mmHg ++ (4×4.23²+POD) — très élevée</div></div>
+    <div class="drow"><div class="dl">IT grade</div><div class="dv warn">Grade II — modérée fonctionnelle (anneau 36 mm)</div></div>
+    <div class="drow"><div class="dl">Acc. RVOT</div><div class="dv alert">72 ms 🔴 (N &gt;105 ms) — HTAP vasculaire sévère confirmée</div></div>
+    <div class="drow"><div class="dl">IVS aplati (D-sign)</div><div class="dv warn">LÉGER — surcharge barométrique débutante</div></div>
+    <div class="drow"><div class="dl">Qp/Qs ETT</div><div class="dv warn">1.8 — shunt modéré (CIA petite + HTAP élevée)</div></div>
+    <div class="drow"><div class="dl">Sens shunt</div><div class="dv cyan">G→D encore dominant · Pas de renversement → PAS d'Eisenmenger ✓</div></div>
+    <div class="drow"><div class="dl">Dilatation biatriale</div><div class="dv alert">OD 42 cm² · OG 38 mL/m² — DILATATION BIATRIALE (substrat FA)</div></div>
+    <div class="drow"><div class="dl">VCI</div><div class="dv warn">22 mm — collapsus 45% — POD estimée 8 mmHg</div></div>
+    <div class="drow"><div class="dl">Épanchement péric.</div><div class="dv warn">Minime 4 mm — signe surcharge HTAP</div></div>
+  </div>
+</div>
+
+<!-- SLIDE 2 : VOLET 1 ANATOMIQUE -->
+<div class="slide" id="slide-2">
+  <div class="sh">🫀 Volet 1 — Évaluation Anatomique · ETO + IRM</div>
+  <div class="ib ib-teal"><span class="cor cor1">COR I B-NR</span> ETO obligatoire — ici double objectif : confirmer l'éligibilité percutanée ET évaluer l'anatomie pour la prothèse fenêtrée (taille de la fenestration ?).</div>
+
+  <div class="card">
+    <div class="card-title">🎯 ETO — CIA : caractérisation complète</div>
+    <div class="drow"><div class="dl">Type anatomique</div><div class="dv hl">Ostium Secundum — fossette ovale centrale</div></div>
+    <div class="drow"><div class="dl">Taille max ETO</div><div class="dv warn">22 mm — CIA de taille modérée</div></div>
+    <div class="drow"><div class="dl">Balloon stretch</div><div class="dv warn">24–26 mm estimé (ETO 3D confirmé)</div></div>
+    <div class="drow"><div class="dl">Morphologie</div><div class="dv">Ovale — défect unique — belles berges bien délimitées</div></div>
+    <div class="drow"><div class="dl">Anévrisme septum</div><div class="dv ok">Absent</div></div>
+    <div class="drow"><div class="dl">Shunt Doppler</div><div class="dv cyan">G→D dominant · Qp/Qs 1.8 — pas de renversement ✓</div></div>
+    <div class="drow"><div class="dl">RVPPA</div><div class="dv ok">4 veines pulmonaires dans OG — pas de retour anormal</div></div>
+    <div class="drow"><div class="dl">Thrombus OG</div><div class="dv warn">EXCLU par ETO — OBLIGATOIRE (FA paroxystique + anticoag)</div></div>
+    <div class="drow"><div class="dl">Dysfonction VG</div><div class="dv ok">PCWP 10 mmHg ≤15 — pas de dysfonction diastolique</div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📏 Berges ETO — Toutes suffisantes ✅</div>
+    <div class="eto-grid">
+      <div class="eto-berge eto-ok"><div class="eb-name">Berge Antérieure</div><div class="eb-val" style="color:var(--mint)">8<span class="eb-unit"> mm</span></div><div class="eb-unit" style="color:var(--mint)">✅ ≥ 5 mm</div></div>
+      <div class="eto-berge eto-ok"><div class="eb-name">Berge Postérieure</div><div class="eb-val" style="color:var(--mint)">12<span class="eb-unit"> mm</span></div><div class="eb-unit" style="color:var(--mint)">✅ ≥ 5 mm</div></div>
+      <div class="eto-berge eto-ok"><div class="eb-name">Berge Supérieure</div><div class="eb-val" style="color:var(--mint)">10<span class="eb-unit"> mm</span></div><div class="eb-unit" style="color:var(--mint)">✅ ≥ 5 mm</div></div>
+      <div class="eto-berge eto-ok"><div class="eb-name">Berge Inférieure</div><div class="eb-val" style="color:var(--mint)">9<span class="eb-unit"> mm</span></div><div class="eb-unit" style="color:var(--mint)">✅ ≥ 5 mm</div></div>
+    </div>
+    <div class="ib ib-cyan" style="margin-bottom:0">
+      <strong>✅ Anatomiquement éligible fermeture percutanée ET fenêtrée</strong><br>
+      CIA 22 mm + toutes berges ≥ 5 mm = éligible. Pour la prothèse fenêtrée percutanée : device 26 mm avec fenestration centrale 5–8 mm (permet maintien shunt résiduel contrôlé). Guidance ETO periprocédurale obligatoire pour positionner la fenestration face au flux CIA.
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🩻 IRM Cardiaque</div>
+    <div class="param-grid">
+      <div class="param-box" style="border-color:rgba(52,211,153,.3);background:rgba(52,211,153,.06)"><div class="pb-label">FEVG</div><div class="pb-val" style="color:var(--mint)">62<span style="font-size:14px">%</span></div><div class="pb-status" style="color:var(--mint)">✅ Conservée</div></div>
+      <div class="param-box" style="border-color:rgba(52,211,153,.3);background:rgba(52,211,153,.06)"><div class="pb-label">FEVD</div><div class="pb-val" style="color:var(--mint)">50<span style="font-size:14px">%</span></div><div class="pb-status" style="color:var(--mint)">✅ Conservée</div></div>
+      <div class="param-box" style="border-color:rgba(240,160,48,.35);background:rgba(240,160,48,.07)"><div class="pb-label">VTSI-VD (mL/m²)</div><div class="pb-val" style="color:var(--gold)">72</div><div class="pb-status" style="color:var(--gold)">Limite haute</div></div>
+      <div class="param-box" style="border-color:rgba(240,160,48,.35);background:rgba(240,160,48,.07)"><div class="pb-label">Qp/Qs IRM</div><div class="pb-val" style="color:var(--gold)">1.8</div><div class="pb-status" style="color:var(--gold)">Modéré</div></div>
+    </div>
+    <div class="drow"><div class="dl">LGE</div><div class="dv warn">LGE insertion points VD léger — fibrose débutante HTAP</div></div>
+    <div class="drow"><div class="dl">Hypertrophie VD</div><div class="dv warn">Épaisseur paroi 7 mm (N &lt;5) — hypertrophie modérée</div></div>
+    <div class="drow"><div class="dl">Tronc AP</div><div class="dv alert">38 mm — dilaté (HTAP sévère)</div></div>
+  </div>
+</div>
+
+<!-- SLIDE 3 : VOLET 2 HTAP -->
+<div class="slide" id="slide-3">
+  <div class="sh">🫁 Volet 2 — Évaluation HTAP · Table 13 · 3-Strata ACC 2025</div>
+
+  <div class="ib ib-gold">
+    <strong>⚡ Situation HTAP de ce cas :</strong> RVP = 7.0 WU sous traitement PAH (avant : 8.2 WU). Zone 5–8 WU = COR 2b Fermeture Fenêtrée. Le Treat-to-Close a été ESSAYÉ (4 mois ERA+iPDE5) mais <strong>objectif &lt;5 WU non atteint</strong> → décision fermeture fenêtrée. Strain VD -20% = argument FORT pour intervenir maintenant avant dégradation VD.
+  </div>
+
+  <div class="card">
+    <div class="card-title">🩺 Clinique — Table 13 ACC 2025</div>
+    <div class="drow"><div class="dl">Classe WHO</div><div class="dv warn">WHO II–III — effort limité mais TM6M 320 m conservé</div></div>
+    <div class="drow"><div class="dl">TM6M</div><div class="dv warn">320 m (intermédiaire 165–440 m)</div></div>
+    <div class="drow"><div class="dl">SpO₂ repos</div><div class="dv warn">94% — hypoxémie légère</div></div>
+    <div class="drow"><div class="dl">SpO₂ effort</div><div class="dv warn">90% à l'effort — désaturation modérée</div></div>
+    <div class="drow"><div class="dl">IC droite</div><div class="dv ok">ABSENTE — pas d'OMI, pas d'ascite, pas de TJE significative</div></div>
+    <div class="drow"><div class="dl">B2 accentué</div><div class="dv alert">Très accentué ++ — HTAP pulmonaire importante</div></div>
+    <div class="drow"><div class="dl">Cyanose</div><div class="dv ok">Absente — shunt G→D encore dominant</div></div>
+    <div class="drow"><div class="dl">Épanch. péricardique</div><div class="dv warn">4 mm — critère 3-Strata risque élevé (présent)</div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📡 Signes ETT — Table 13</div>
+    <div class="gauge-row"><div class="gauge-label">Vmax IT (m/s)</div><div class="gauge-bar"><div class="gauge-fill" style="width:100%;background:var(--red)"></div></div><div class="gauge-val" style="color:var(--red)">4.23 🔴</div></div>
+    <div class="gauge-row"><div class="gauge-label">TAPSE (mm)</div><div class="gauge-bar"><div class="gauge-fill" style="width:45%;background:var(--gold)"></div></div><div class="gauge-val" style="color:var(--gold)">16 ⚠️</div></div>
+    <div class="gauge-row"><div class="gauge-label">Acc. RVOT (ms)</div><div class="gauge-bar"><div class="gauge-fill" style="width:34%;background:var(--red)"></div></div><div class="gauge-val" style="color:var(--red)">72 🔴</div></div>
+    <div class="gauge-row"><div class="gauge-label">Strain VD (%)</div><div class="gauge-bar"><div class="gauge-fill" style="width:72%;background:var(--mint)"></div></div><div class="gauge-val" style="color:var(--mint)">-20% ✅</div></div>
+    <div class="gauge-row"><div class="gauge-label">IVS aplati</div><div class="gauge-bar"><div class="gauge-fill" style="width:30%;background:var(--gold)"></div></div><div class="gauge-val" style="color:var(--gold)">Léger ⚠️</div></div>
+    <div class="gauge-row"><div class="gauge-label">Épanch. péricardique</div><div class="gauge-bar"><div class="gauge-fill" style="width:25%;background:var(--gold)"></div></div><div class="gauge-val" style="color:var(--gold)">4 mm ⚠️</div></div>
+    <div class="ib ib-mint" style="margin-top:10px;margin-bottom:0">
+      <strong>💡 Élément clé — Strain VD -20% préservé :</strong><br>
+      C'est l'argument principal pour l'intervention immédiate. Tant que le Strain VD est normal, la déformation myocardique VD est préservée → la fenêtrée peut stabiliser l'évolution. Si on attend → risque de dégradation irréversible du Strain VD → fenêtrée moins efficace.
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">💉 Cathétérisme — Données complètes</div>
+    <div class="drow"><div class="dl">Pressions AP</div><div class="dv alert">75 / 32 / 50 mmHg (syst/diast/moy)</div></div>
+    <div class="drow"><div class="dl">mPAP (PAPM)</div><div class="dv alert">50 mmHg — HTAP sévère</div></div>
+    <div class="drow"><div class="dl">PVR (RVP)</div><div class="dv alert">7.0 WU sous ERA+iPDE5 (avant traitement : 8.2 WU)<br>Zone 5–8 WU → COR 2b Fermeture Fenêtrée</div></div>
+    <div class="drow"><div class="dl">PCWP</div><div class="dv ok">10 mmHg ✅ — précapillaire (≤15 mmHg)</div></div>
+    <div class="drow"><div class="dl">DC (Fick)</div><div class="dv ok">5.2 L/min — conservé (bonne fonction VD)</div></div>
+    <div class="drow"><div class="dl">Qp/Qs cathé</div><div class="dv warn">1.8 — shunt modéré persistant</div></div>
+    <div class="drow"><div class="dl">POD mesurée</div><div class="dv warn">9 mmHg — légèrement élevée</div></div>
+    <div class="drow"><div class="dl">PTDVD</div><div class="dv warn">12 mmHg — dysfonction diastolique VD légère</div></div>
+    <div class="drow"><div class="dl">Test NO vasodilatation</div><div class="dv warn">PVR 7.0 → 5.8 WU (réduction 17%) — réponse partielle insuffisante pour permettre fermeture standard</div></div>
+    <div class="drow"><div class="dl">Satimétries</div><div class="dv">OD 68% · VD 74% · AP 79% · VG 97% · Ao 97%</div></div>
+    <div class="drow"><div class="dl">Conclusion cathé</div><div class="dv cyan">HTAP précapillaire · PVR 7.0 WU · Zone 5–8 WU · Shunt G→D · Fermeture fenêtrée COR 2b indiquée</div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📊 Stratification 3-Strata</div>
+    <div class="strata-table">
+      <div class="st-head"><div>Paramètre</div><div style="color:var(--mint)">Faible</div><div style="color:var(--gold)">Intermédiaire</div><div style="color:var(--red)">Élevé ← CE CAS</div></div>
+      <div class="st-row"><div>WHO</div><div>I–II</div><div class="st-int">II–III ✓</div><div>III–IV</div></div>
+      <div class="st-row"><div>TM6M</div><div>&gt;440 m</div><div class="st-int">320 m ✓</div><div>&lt;165 m</div></div>
+      <div class="st-row"><div>NT-proBNP</div><div>&lt;300</div><div>300–1400</div><div class="st-high">1620 pg/mL ✓</div></div>
+      <div class="st-row"><div>TAPSE</div><div>≥18 mm</div><div>—</div><div class="st-high">16 mm ✓ (limite)</div></div>
+      <div class="st-row"><div>Épanch. péricardique</div><div>Absent</div><div>—</div><div class="st-high">4 mm présent ✓</div></div>
+      <div class="st-row"><div>PVR</div><div>&lt;5</div><div>5–15</div><div class="st-high">7.0 WU ✓</div></div>
+    </div>
+    <div class="ib ib-red" style="margin-bottom:0">
+      <strong>3-Strata : RISQUE ÉLEVÉ</strong><br>
+      NT-proBNP 1620 &gt;1400 + TAPSE 16 (limite) + épanchement + PVR 7.0 &gt;5 → Risque élevé confirmé. MAIS Stade B (paradoxe) car pas d'IC décompensée, Strain VD préservé, pas de FA permanente.
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 4 : VOLET 3 STADE B -->
+<div class="slide" id="slide-4">
+  <div class="sh">📊 Volet 3 — Stade B · Table 4 ACC/AHA 2025 · Le paradoxe Stade B + HTAP élevée</div>
+
+  <div class="paradox">
+    <div class="px-title">⚖️ Pourquoi Stade B malgré HTAP élevée et RVP 7 WU ?</div>
+    <div class="px-body">
+      Critères ABSENTS pour passer en Stade C ou D :<br>
+      ✗ Pas d'hospitalisation IC dans les 12 mois<br>
+      ✗ BNP &lt; 2×LSN ? Non — BNP 382 &gt; 2×LSN → <strong>→ en réalité ce critère seul suffit pour Stade C</strong><br><br>
+      <strong>Discussion académique :</strong> Strictement, BNP 382 &gt; 2×LSN (seuil ≈ 100 pg/mL) = Stade C. Mais le tableau clinique global (pas d'IC décompensée, Strain VD -20% préservé, TM6M 320 m, pas de FA permanente) oriente vers Stade B-C limite.<br><br>
+      <strong>Conclusion pédagogique :</strong> Ce cas illustre la zone grise B/C. Certains centres classeraient C. L'essentiel est que la décision fenêtrée est justifiée par le RVP 7 WU = zone 5–8 WU = COR 2b, indépendamment du stade.
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Analyse comparative des critères Table 4</div>
+    <div class="strata-table">
+      <div class="st-head"><div>Critère Table 4</div><div style="color:var(--sky)">Stade B ?</div><div style="color:var(--gold)">Stade C ?</div><div>Ce cas</div></div>
+      <div class="st-row"><div>BNP / NT-proBNP</div><div>Normal ou légt élevé</div><div>&gt;2×LSN</div><div class="st-high">382 / 1620 → Stade C</div></div>
+      <div class="st-row"><div>HTAP</div><div>Absente</div><div>Faible risque</div><div class="st-high">Élevée → Stade C-D</div></div>
+      <div class="st-row"><div>Hospitalisation IC</div><div>Absente</div><div>Absente</div><div class="st-low">Absente ✓ → B/C</div></div>
+      <div class="st-row"><div>Dysfonction VD</div><div>Légère</div><div>Modérée-sévère</div><div class="st-low">Légère (FEVD 50%, Strain -20%) → B</div></div>
+      <div class="st-row"><div>Arythmie</div><div>Légère, non traitée</div><div>Sous traitement</div><div class="st-int">FA paroxysmique (Bisoprolol) → B-C</div></div>
+      <div class="st-row"><div>SpO₂</div><div>&gt;92%</div><div>86–92%</div><div class="st-int">94% repos / 90% effort → C effort</div></div>
+    </div>
+    <div class="ib ib-sky">
+      <strong>Conclusion : Stade B-C limite → Classification Stade B retenue ici</strong><br>
+      Arguments Stade B : Pas d'IC décompensée · FEVD 50% · Strain VD -20% · FA paroxystique (pas permanente) · TM6M 320 m encore conservé<br>
+      Arguments Stade C : BNP &gt;2×LSN · HTAP précapillaire élevée · SpO₂ 90% à l'effort<br><br>
+      <strong>La décision thérapeutique (fenêtrée COR 2b) est identique quel que soit le stade B ou C dans ce cas.</strong>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 5 : FERMETURE FENÊTRÉE -->
+<div class="slide" id="slide-5">
+  <div class="sh">🕳️ Fermeture Fenêtrée CIA — COR 2b B-NR · ACC/AHA 2025</div>
+
+  <div class="ib ib-gold">
+    <strong>COR 2b B-NR — Recommandation #10 Section 4.1.1 ACC 2025 :</strong><br>
+    "In adults with an unrepaired ASD and PAH <strong>for whom closure is indicated</strong>, <strong>fenestrated repair can be considered</strong> to improve functional class and clinical outcomes."<br><br>
+    Contexte ici : RVP 7 WU après Treat-to-Close partiel → zone 5–8 WU persistante → fermeture standard trop risquée → <strong>fermeture fenêtrée = compromis optimal</strong>
+  </div>
+
+  <div class="fenest-schema">
+    <div class="fs-title">🕳️ Qu'est-ce que la Fermeture Fenêtrée ?</div>
+    <div class="fs-compare">
+      <div class="fs-item" style="border-color:rgba(52,211,153,.4);background:rgba(52,211,153,.06)">
+        <div class="fs-item-label" style="color:var(--mint)">🔒 Fermeture Standard</div>
+        <div class="fs-item-body">Occlusion TOTALE de la CIA. Supprime complètement le shunt G→D. Si RVP élevée post-fermeture → VD sans issue de décompression → risque décompensation aigüe VD</div>
+      </div>
+      <div class="fs-item" style="border-color:rgba(34,211,238,.4);background:rgba(34,211,238,.06)">
+        <div class="fs-item-label" style="color:var(--cyan)">🕳️ Fermeture Fenêtrée</div>
+        <div class="fs-item-body">Occlusion PARTIELLE : fenestration résiduelle de 5–8 mm. Réduit le shunt (Qp/Qs 1.8 → ~1.1). Conserve une issue de décompression VD si HTAP progresse. "Valve de sécurité" biologique</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🔬 Technique de la Fermeture Fenêtrée — Détails procéduraux</div>
+    <div class="drow"><div class="dl">Voie d'abord</div><div class="dv">Veineuse fémorale droite — cathétérisme transseptal</div></div>
+    <div class="drow"><div class="dl">Device</div><div class="dv cyan">Amplatzer ASD Occluder 26 mm avec fenestration manuelle 5 mm (ou device fenêtré dédié si disponible)</div></div>
+    <div class="drow"><div class="dl">Technique fenestration</div><div class="dv">Perforation au crochet chaud ou aiguille dans le disque gauche du device Amplatzer · Diamètre cible 5–8 mm · Confirmé ETO post-deploy</div></div>
+    <div class="drow"><div class="dl">Guidage periprocédural</div><div class="dv alert">ETO OBLIGATOIRE en salle · Visualisation fenestration + flux résiduel + position device · Monitoring hémodynamique continu</div></div>
+    <div class="drow"><div class="dl">Test d'occlusion ballon</div><div class="dv warn">Réalisé préalablement : PCWP sous occlusion = 14 mmHg (≤15 mmHg ✓) — confirm tolérance à la fermeture</div></div>
+    <div class="drow"><div class="dl">Monitoring periprocédural</div><div class="dv">Swan-Ganz ou ligne AP continue · Mesure DC · Satimétries · TA invasive · Échocardiographie continue</div></div>
+    <div class="drow"><div class="dl">Objectif hémodynamique</div><div class="dv ok">Réduction Qp/Qs : 1.8 → ~1.1 · PAPS post-fermeture ≤ PAPS initiale (pas d'augmentation)</div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📊 Comparaison des stratégies possibles — Pourquoi fenêtrée ?</div>
+    <div class="comp-table">
+      <div class="ct-head"><div>Stratégie</div><div>Indication ici ?</div><div>Raison</div></div>
+      <div class="ct-row"><div>Fermeture standard COR I</div><div class="ct-bad">❌ Non</div><div>RVP 7 WU &gt;5 WU — trop risqué sans "valve de sécurité"</div></div>
+      <div class="ct-row"><div>Treat-to-Close COR 2a</div><div class="ct-bad">❌ Échec</div><div>Déjà essayé 4 mois — objectif &lt;5 WU non atteint</div></div>
+      <div class="ct-row"><div>Fermeture fenêtrée COR 2b</div><div class="ct-good">✅ OUI</div><div>RVP 7 WU + Strain VD préservé + Treat-to-Close insuffisant</div></div>
+      <div class="ct-row"><div>Fermeture chirurgicale</div><div class="ct-warn">⚠️ Alternative</div><div>Si percutanée impossible — même principe fenêtré</div></div>
+      <div class="ct-row"><div>Surveillance seule COR 3</div><div class="ct-bad">❌ Non</div><div>HTAP progressive — Strain VD encore préservé = urgence relative d'agir</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">💊 Traitement PAH post-fenêtrée — maintenu obligatoirement</div>
+    <div class="ib ib-cyan" style="margin-bottom:8px">
+      <strong>La fermeture fenêtrée ne remplace pas le traitement PAH.</strong> Les deux sont complémentaires. Après fenêtrée : maintien ERA + iPDE5 + réévaluation cathétérisme à 6–12 mois. Si RVP descend &lt;5 WU → fermeture fenestration résiduelle possible (2e procédure).
+    </div>
+    <div class="drow"><div class="dl">ERA maintenu</div><div class="dv">Ambrisentan → escalade vers Macitentan 10 mg/j si tolérance</div></div>
+    <div class="drow"><div class="dl">iPDE5 augmenté</div><div class="dv">Tadalafil 20 → 40 mg/j post-fenêtrée</div></div>
+    <div class="drow"><div class="dl">Prostacycline</div><div class="dv warn">À discuter si 3-Strata reste élevé à M6 sous bithérapie</div></div>
+    <div class="drow"><div class="dl">Anticoagulation FA</div><div class="dv">Rivaroxaban maintenu · FA paroxystique + CIA + device = anticoagulation indispensable</div></div>
+  </div>
+</div>
+
+<!-- SLIDE 6 : QCM -->
+<div class="slide" id="slide-6">
+  <div class="sh">❓ QCM — 6 questions · Cas CIA 06 · Fermeture Fenêtrée COR 2b</div>
+  <div id="qcm-area"></div>
+  <div id="score-area" style="display:none"></div>
+</div>
+
+<!-- SLIDE 7 : DÉCISION & SUIVI -->
+<div class="slide" id="slide-7">
+  <div class="sh">⚕️ Décision finale et plan de prise en charge</div>
+  <div class="card">
+    <div class="card-title">🎯 Récapitulatif décisionnel</div>
+    <div class="drow"><div class="dl">Décision</div><div class="dv cyan">Fermeture fenêtrée CIA percutanée — COR 2b B-NR (RVP 7 WU après Treat-to-Close insuffisant)</div></div>
+    <div class="drow"><div class="dl">Device</div><div class="dv">Amplatzer ASD Occluder 26 mm + fenestration 5–8 mm (ou équivalent fenêtré)</div></div>
+    <div class="drow"><div class="dl">Guidance</div><div class="dv">ETO periprocédurale + Swan-Ganz + monitoring hémodynamique continu</div></div>
+    <div class="drow"><div class="dl">Test ballon pré-proc.</div><div class="dv ok">PCWP 14 mmHg ≤15 sous occlusion → tolérance confirmée</div></div>
+    <div class="drow"><div class="dl">PAH post-fenêtrée</div><div class="dv alert">ERA + iPDE5 MAINTENUS · Escalade si nécessaire · Ne pas arrêter le traitement PAH</div></div>
+    <div class="drow"><div class="dl">FA</div><div class="dv">Rivaroxaban maintenu · Tenter cardioversion 4–6 semaines post-fenêtrée si sinusal possible</div></div>
+    <div class="drow"><div class="dl">Objectif à 6 mois</div><div class="dv ok">RVP &lt;5 WU → fermeture fenestration résiduelle (2e procédure) · Ou poursuite PAH si RVP persiste</div></div>
+    <div class="drow"><div class="dl">Centre expert</div><div class="dv alert">OBLIGATOIRE — ACHD + HTAP · Salle hybride ou cathlab avec réanimation disponible</div></div>
+  </div>
+
+  <div class="step-flow">
+    <div class="step-item" style="border-color:rgba(34,211,238,.4);background:rgba(34,211,238,.07)">
+      <div class="step-num" style="background:var(--cyan)">1</div>
+      <div class="step-body">
+        <div class="step-title" style="color:var(--cyan)">Pré-procédure (J0 à J-7)</div>
+        ETO confirmation berges + thrombus OG exclu · Bilan coagulation · Escalade Tadalafil 40 mg/j · Rivaroxaban bridging · Test ballon occlusif · Consentement éclairé fenêtrée
+      </div>
+    </div>
+    <div class="step-arrow">↓</div>
+    <div class="step-item" style="border-color:rgba(167,139,250,.4);background:rgba(167,139,250,.07)">
+      <div class="step-num" style="background:var(--pur);color:#fff">2</div>
+      <div class="step-body">
+        <div class="step-title" style="color:var(--pur)">Procédure — Fermeture fenêtrée percutanée</div>
+        Salle cathlab équipée réanimation · Swan-Ganz + monitoring hémodynamique continu · ETO periprocédurale · Deploy Amplatzer 26 mm + fenestration 5–8 mm · Vérification ETO : position device, taille fenestration, flux résiduel, stabilité
+      </div>
+    </div>
+    <div class="step-arrow">↓</div>
+    <div class="step-item" style="border-color:rgba(52,211,153,.4);background:rgba(52,211,153,.07)">
+      <div class="step-num" style="background:var(--mint);color:#06101E">3</div>
+      <div class="step-body">
+        <div class="step-title" style="color:var(--mint)">Post-procédure immédiat (J0–J7)</div>
+        ETT J1 (position device, flux fenêtré résiduel, PAPS, IT) · Monitoring SpO₂ · Maintien ERA+iPDE5 · Rivaroxaban repris H12 · Anticoagulation Aspirine 100 mg/j × 6 mois + Clopidogrel 1 mois
+      </div>
+    </div>
+    <div class="step-arrow">↓</div>
+    <div class="step-item" style="border-color:rgba(240,160,48,.4);background:rgba(240,160,48,.07)">
+      <div class="step-num" style="background:var(--gold);color:#06101E">4</div>
+      <div class="step-body">
+        <div class="step-title" style="color:var(--gold)">Réévaluation à 6 mois — Décision 2e procédure</div>
+        ETT + TM6M + NT-proBNP + Strain VD · <strong>Cathétérisme de contrôle RVP sous traitement PAH</strong><br>
+        → Si RVP &lt;5 WU : fermeture fenestration résiduelle (COR 2a)<br>
+        → Si RVP 5–8 WU : poursuite PAH + rééval à 12 mois<br>
+        → Si RVP &gt;8 WU : PAH exclusif + centre expert
+      </div>
+    </div>
+  </div>
+
+  <div class="sh">📅 Suivi Table 12 ACC 2025 · Post-fermeture fenêtrée</div>
+  <div class="suivi-table">
+    <div class="suiv-head"><div>Examen</div><div>Délai</div><div>Objectif</div></div>
+    <div class="suiv-row hl"><div>ETT + SpO₂ + NT-proBNP</div><div class="suiv-val">J7</div><div>Position device · Flux fenêtré · Hémodynamique</div></div>
+    <div class="suiv-row"><div>Consultation ACHD + HTAP</div><div class="suiv-val">M1</div><div>Tolérance ERA · Bilan hépatique · Réponse clinique</div></div>
+    <div class="suiv-row hl"><div>ETT + TM6M + Strain VD</div><div class="suiv-val">M3</div><div>Amélioration TAPSE · Strain · Régression VD ?</div></div>
+    <div class="suiv-row"><div>Cathétérisme de contrôle</div><div class="suiv-val">M6</div><div>RVP sous PAH → décision fermeture fenestration</div></div>
+    <div class="suiv-row hl"><div>2e procédure si indiquée</div><div class="suiv-val">M6–12</div><div>Fermeture fenestration si RVP &lt;5 WU</div></div>
+    <div class="suiv-row"><div>ACHD + HTAP long terme</div><div class="suiv-val">6–12 mois</div><div>Table 12 · Stade B-C · Suivi à vie</div></div>
+  </div>
+</div>
+
+<!-- SLIDE 8 : MESSAGES CLÉS -->
+<div class="slide" id="slide-8">
+  <div class="val-banner">
+    <div style="font-size:18px">✅</div>
+    <div class="vb-t"><strong>CORE-TEAM ACHD-Algérie · CSC · ACC/AHA 2025</strong>Messages clés — Cas CIA 06 · Fermeture Fenêtrée · HTAP Élevée · Stade B</div>
+  </div>
+
+  <div class="sh">📊 Tableau comparatif 5 cas CIA — Progression complète</div>
+  <div class="card" style="overflow-x:auto">
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr 1fr 1fr;gap:0;font-size:10px;min-width:380px">
+      <div style="font-family:Syne,sans-serif;font-weight:700;padding:6px 4px;border-bottom:1px solid var(--brd);color:var(--w3)">Param.</div>
+      <div style="font-family:Syne,sans-serif;font-weight:700;padding:6px 4px;border-bottom:1px solid var(--brd);color:var(--teal);text-align:center">C01</div>
+      <div style="font-family:Syne,sans-serif;font-weight:700;padding:6px 4px;border-bottom:1px solid var(--brd);color:var(--red);text-align:center">C02</div>
+      <div style="font-family:Syne,sans-serif;font-weight:700;padding:6px 4px;border-bottom:1px solid var(--brd);color:var(--pur);text-align:center">C03</div>
+      <div style="font-family:Syne,sans-serif;font-weight:700;padding:6px 4px;border-bottom:1px solid var(--brd);color:var(--orange);text-align:center">C04</div>
+      <div style="font-family:Syne,sans-serif;font-weight:700;padding:6px 4px;border-bottom:1px solid var(--brd);color:var(--cyan);text-align:center">C06</div>
+      <div style="padding:5px 4px;border-bottom:1px solid var(--brd);color:var(--w3)">Stade</div>
+      <div style="padding:5px 4px;border-bottom:1px solid var(--brd);color:var(--mint);text-align:center">B</div>
+      <div style="padding:5px 4px;border-bottom:1px solid var(--brd);color:var(--red);text-align:center">D</div>
+      <div style="padding:5px 4px;border-bottom:1px solid var(--brd);color:var(--pur);text-align:center">D</div>
+      <div style="padding:5px 4px;border-bottom:1px solid var(--brd);color:var(--orange);text-align:center">C</div>
+      <div style="padding:5px 4px;border-bottom:1px solid var(--brd);color:var(--cyan);text-align:center">B</div>
+      <div style="padding:5px 4px;border-bottom:1px solid var(--brd);color:var(--w3)">PVR WU</div>
+      <div style="padding:5px 4px;border-bottom:1px solid var(--brd);color:var(--mint);text-align:center">1.6</div>
+      <div style="padding:5px 4px;border-bottom:1px solid var(--brd);color:var(--red);text-align:center">4.1</div>
+      <div style="padding:5px 4px;border-bottom:1px solid var(--brd);color:var(--pur);text-align:center">3.1</div>
+      <div style="padding:5px 4px;border-bottom:1px solid var(--brd);color:var(--orange);text-align:center">6.2</div>
+      <div style="padding:5px 4px;border-bottom:1px solid var(--brd);color:var(--cyan);text-align:center">7.0</div>
+      <div style="padding:5px 4px;border-bottom:1px solid var(--brd);color:var(--w3)">COR</div>
+      <div style="padding:5px 4px;border-bottom:1px solid var(--brd);color:var(--mint);text-align:center">I</div>
+      <div style="padding:5px 4px;border-bottom:1px solid var(--brd);color:var(--red);text-align:center">2a</div>
+      <div style="padding:5px 4px;border-bottom:1px solid var(--brd);color:var(--pur);text-align:center">2a</div>
+      <div style="padding:5px 4px;border-bottom:1px solid var(--brd);color:var(--orange);text-align:center">2a</div>
+      <div style="padding:5px 4px;border-bottom:1px solid var(--brd);color:var(--cyan);text-align:center;font-weight:800">2b</div>
+      <div style="padding:5px 4px;color:var(--w3)">Décision</div>
+      <div style="padding:5px 4px;color:var(--mint);text-align:center;font-size:10px">Perc. immédiate</div>
+      <div style="padding:5px 4px;color:var(--red);text-align:center;font-size:10px">Optim.→Rééval</div>
+      <div style="padding:5px 4px;color:var(--pur);text-align:center;font-size:10px">Chir+Annulo</div>
+      <div style="padding:5px 4px;color:var(--orange);text-align:center;font-size:10px">T-to-Close</div>
+      <div style="padding:5px 4px;color:var(--cyan);text-align:center;font-size:10px;font-weight:800">Fenêtrée</div>
+    </div>
+  </div>
+
+  <div class="sh">💡 8 Messages clés — Cas CIA 06</div>
+  <div class="kmsg"><div class="km-num" style="background:var(--cyan)">1</div><div class="km-body"><strong>Fermeture fenêtrée COR 2b = "valve de sécurité"</strong>. La fenestration (5–8 mm) permet de décomprimer le VD tout en maintenant une issue si la HTAP progresse post-fermeture. Indiquée quand PVR 5–8 WU après optimisation PAH.</div></div>
+  <div class="kmsg"><div class="km-num" style="background:var(--red)">2</div><div class="km-body"><strong>Stade B + HTAP élevée = paradoxe possible</strong>. La préservation de la fonction VD (Strain -20%, FEVD 50%, pas d'IC décompensée) peut maintenir un stade B même avec 3-Strata élevé. Le stade est une évaluation GLOBALE, pas uniquement hémodynamique.</div></div>
+  <div class="kmsg"><div class="km-num" style="background:var(--gold)">3</div><div class="km-body"><strong>Strain VD -20% normal = fenêtre d'action à ne pas manquer</strong>. Si on attendait que le Strain se dégrade → risque de fibrose VD irréversible. La fermeture fenêtrée maintenant, tant que la déformation VD est préservée, maximise les chances de récupération.</div></div>
+  <div class="kmsg"><div class="km-num" style="background:var(--pur)">4</div><div class="km-body"><strong>Treat-to-Close échoué → passage à COR 2b fenêtrée</strong>. Le Treat-to-Close a réduit PVR 8.2 → 7.0 WU (réduction insuffisante). Quand l'objectif &lt;5 WU n'est pas atteint malgré ERA+iPDE5 → fermeture fenêtrée = prochaine étape logique.</div></div>
+  <div class="kmsg"><div class="km-num" style="background:var(--sky)">5</div><div class="km-body"><strong>Traitement PAH MAINTENU après fenêtrée</strong>. La fenêtrée et le traitement PAH sont complémentaires. Ne jamais arrêter l'ERA+iPDE5 après fermeture fenêtrée. Réévaluation RVP à 6 mois → si &lt;5 WU → fermeture de la fenestration résiduelle (2e procédure).</div></div>
+  <div class="kmsg"><div class="km-num" style="background:var(--mint)">6</div><div class="km-body"><strong>Anticoagulation obligatoire FA + CIA + device</strong>. FA paroxystique + CIA non fermée + risque thromboembolique élevé. Rivaroxaban maintenu avant et après procédure. Le device fenêtré ne supprime pas l'indication anticoagulante tant que la FA persiste.</div></div>
+  <div class="kmsg"><div class="km-num" style="background:var(--orange)">7</div><div class="km-body"><strong>Dilatation biatriale = substrat de FA persistante</strong>. OD 42 cm² + OG 38 mL/m² = FA paroxystique → risque de FA permanente. Après fenêtrée : tentative de cardioversion si FA persiste, sous anticoag efficace. Réduction OD si régression VD → améliore contrôle FA.</div></div>
+  <div class="kmsg"><div class="km-num" style="background:var(--rose);color:#fff">8</div><div class="km-body"><strong>Test ballon occlusif préalable confirme la tolérance</strong>. PCWP sous occlusion = 14 mmHg ≤15 mmHg → la fermeture (même partielle fenêtrée) est tolérée sans risque d'OAP post-fermeture. Ce test est COR 2b recommandé quand HTAP élevée et risque VG diastolique.</div></div>
+
+  <div class="sh">📚 Référence</div>
+  <div class="card">
+    <div class="drow"><div class="dl">Guideline</div><div class="dv">Gurvitz et al. 2025 ACC/AHA/HRS/ISACHD/SCAI · JACC 2025</div></div>
+    <div class="drow"><div class="dl">Recommandation</div><div class="dv">COR 2b Rec #10 (fenêtrée) · COR I Rec #1 (ETO) · Table 4 (stade) · Table 13 (HTAP)</div></div>
+    <div class="drow"><div class="dl">Evidence</div><div class="dv">Yan et al. JACC CI 2020 (F-ASO + PAH) · Cho et al. 2012 (fenêtrée chirurgicale)</div></div>
+    <div class="drow"><div class="dl">ACHD CORE-Team</div><div class="dv">CSC Algeria · contact@csc-cardio.com · WhatsApp +213 540 910 869</div></div>
+  </div>
+</div>
+
+</div>
+
+<div id="botnav">
+  <button class="bnav-btn bnav-prev" id="btn-prev" disabled>← Précédent</button>
+  <button class="bnav-btn bnav-next" id="btn-next">Suivant →</button>
+</div>
+
+<script>
+var cur=0,total=9,qIdx=0,qScore=0,qAnswered=[];
+var snavs=document.querySelectorAll('.snav');
+snavs.forEach(function(b){b.addEventListener('click',function(){goTo(parseInt(this.getAttribute('data-slide')));});});
+function goTo(n){
+  if(n<0||n>=total)return;
+  document.querySelectorAll('.slide').forEach(function(s){s.classList.remove('active');});
+  document.getElementById('slide-'+n).classList.add('active');
+  snavs.forEach(function(b){b.classList.remove('active');});
+  snavs[n].classList.add('active');
+  if(n>0)snavs[n-1].classList.add('done');
+  cur=n;
+  document.getElementById('btn-prev').disabled=(n===0);
+  document.getElementById('btn-next').disabled=(n===total-1);
+  document.getElementById('btn-next').textContent=n===total-2?'Terminer ✓':'Suivant →';
+  window.scrollTo(0,0);
+  if(n===6&&qIdx===0)renderQ(0);
+}
+document.getElementById('btn-prev').addEventListener('click',function(){goTo(cur-1);});
+document.getElementById('btn-next').addEventListener('click',function(){goTo(cur+1);});
+
+var QCM=[
+  {q:"RVP = 7.0 WU après 4 mois de traitement ERA+iPDE5 (Treat-to-Close), objectif <5 WU non atteint. Quelle est la recommandation ACC 2025 ?",
+   opts:["COR I — Fermeture percutanée standard immédiate car Qp/Qs ≥1.5","COR 2b — Fermeture fenêtrée CIA : occlusion partielle avec fenestration résiduelle 5–8 mm comme valve de sécurité","COR 3 — Contre-indication absolue car RVP > 5 WU = Eisenmenger","Surveillance simple — continuer ERA+iPDE5 6 mois supplémentaires avant toute décision"],
+   ans:1,
+   fb:"COR 2b B-NR Recommandation #10 ACC 2025 : La fermeture fenêtrée est indiquée quand la fermeture CIA est justifiée (Qp/Qs ≥1.5 + VD dilaté) MAIS que la RVP reste 5–8 WU malgré traitement PAH optimal. La fenestration (5–8 mm) permet de décomprimer le VD tout en maintenant une 'valve de sécurité' si la HTAP progresse post-fermeture. RVP 7 WU + Treat-to-Close insuffisant = indication parfaite COR 2b fenêtrée."},
+  {q:"Pourquoi la fermeture fenêtrée est-elle préférée à la fermeture standard ici, alors que RVP = 7 WU ?",
+   opts:["La fermeture fenêtrée est moins coûteuse et techniquement plus simple","La fenestration résiduelle maintient une issue de décompression VD si la HTAP progresse post-fermeture. La fermeture standard (occlusion totale) exposerait le VD à une surcharge barométrique brutale sans issue, avec risque de décompensation aigüe VD.","La fenêtrée est indiquée uniquement pour les CIA > 30 mm","La fermeture standard est équivalente — la fenêtrée n'apporte pas de bénéfice prouvé"],
+   ans:1,
+   fb:"La logique physiopathologique est essentielle : en cas de RVP élevée (7 WU), si on ferme complètement la CIA, le VD perd son 'issue de secours'. Si la HTAP progresse après fermeture, la POD monte et il n'y a plus de décompression possible → décompensation VD aiguë. La fenestration (5–8 mm) maintient un shunt résiduel contrôlé (Qp/Qs ~1.1) qui peut s'inverser (D→G) si la POD dépasse la POG → valve de sécurité naturelle. C'est le principe fondamental de la fermeture fenêtrée."},
+  {q:"Strain VD = -20% dans ce cas. Comment cela influence-t-il la décision et le timing de la fermeture fenêtrée ?",
+   opts:["Strain -20% = dysfonction sévère → contre-indication à toute fermeture","Strain -20% = fonction VD PRÉSERVÉE (valeur normale ≈ -20%). C'est l'argument FORT pour agir maintenant : tant que la déformation VD est conservée, la fermeture fenêtrée peut stabiliser et améliorer le VD. Attendre = risque de fibrose irréversible.","Strain VD n'a pas de valeur pour décider de la fermeture CIA","Strain -20% = anormal — nécessite IRM avant toute décision"],
+   ans:1,
+   fb:"Strain VD -20% = NORMAL (valeur physiologique ≈ -20% à -25%). C'est précisément parce que le Strain est encore préservé que l'indication fenêtrée est urgente. Si on attend que le Strain se dégrade (ex. -12% comme dans le Cas 02), la fibrose myocardique VD s'installe → récupération post-fenêtrée moins complète. La fenêtrée maintenant, avec Strain préservé + FEVD 50%, a les meilleures chances de succès."},
+  {q:"Ce cas est classé Stade B. Pourtant HTAP 3-Strata élevée + NT-proBNP 1620 pg/mL + NYHA II-III. Comment justifier le Stade B ?",
+   opts:["Stade B car CIA < 25 mm = anatomie légère","Stade B car pas d'hospitalisation IC dans les 12 mois + FEVD 50% conservée + FA paroxystique (pas permanente) + Strain VD préservé. BNP élevé = argument Stade C — c'est un cas B-C limite. La décision fenêtrée est identique.","Stade B car RVP < 10 WU = automatiquement Stade B","Stade B car bonne FEVG (62%)"],
+   ans:1,
+   fb:"Justification Stade B : Pas d'hospitalisation IC < 12 mois ✓ · FEVD 50% légèrement réduite (modérée) ✓ · Strain VD -20% préservé ✓ · FA paroxystique (pas permanente) ✓ · TM6M 320 m encore conservé ✓. Arguments contre-Stade C : BNP 382 > 2×LSN et HTAP élevée = critères Stade C. Ce cas est B-C limite (zone grise). Certains centres classeraient C. L'important : la décision fenêtrée COR 2b est justifiée dans les deux cas. Ne pas débattre trop longtemps du stade si la décision est claire."},
+  {q:"Quel est l'objectif hémodynamique principal de la fermeture fenêtrée et comment est-il évalué ?",
+   opts:["Disparition complète du shunt résiduel — l'objectif est une fermeture totale à terme","Réduction du Qp/Qs de 1.8 à ~1.1 avec maintien d'une fenestration résiduelle de sécurité. Évaluation : ETT post-procédure (flux fenêtré, PAPS), puis cathétérisme RVP à 6 mois. Si RVP < 5 WU → fermeture de la fenestration (2e procédure).","Augmenter le Qp/Qs pour améliorer l'oxygénation","Normaliser la PAPM à ≤20 mmHg immédiatement après la procédure"],
+   ans:1,
+   fb:"L'objectif fenêtrée : Réduire le shunt G→D de Qp/Qs 1.8 à ~1.1 (réduction de ~40%) tout en maintenant la petite fenestration. La fenestration de 5–8 mm permet : (1) Réduction de la surcharge volumique VD (2) Maintien d'un shunt minimal de décompression si POD augmente. L'évaluation se fait par ETT à J7 (position device, flux fenêtré, PAPS) puis cathétérisme à 6 mois. Si RVP descend < 5 WU → 2e procédure pour fermer la fenestration."},
+  {q:"La patiente est sous Rivaroxaban 20 mg/j pour FA paroxystique. Quelle est la stratégie d'anticoagulation autour de la procédure de fermeture fenêtrée ?",
+   opts:["Arrêt définitif des anticoagulants après la fenêtrée — le device remplace l'indication","Maintien Rivaroxaban jusqu'à J-1 · Bridging périprocédural héparine si nécessaire · Reprise Rivaroxaban H12 post-procédure · Ajouter Aspirine 100 mg/j × 6 mois + Clopidogrel × 1 mois · FA paroxystique + device = anticoagulation à vie maintenue.","Passer aux AVK après la procédure car le Rivaroxaban est contre-indiqué avec un device","Anticoagulation seulement si FA revient — suspendre entre les crises"],
+   ans:1,
+   fb:"Stratégie anticoagulation post-fenêtrée : Rivaroxaban maintenu (FA paroxystique = indication anticoagulation indépendante du device) + Aspirine 100 mg/j × 6 mois (endothélialisation device) + Clopidogrel 75 mg/j × 1 mois (anti-thrombose initiale). La FA paroxystique maintient l'indication AOD à vie même si la CIA est fermée. Le device fenêtré (flux résiduel) maintient également un risque thromboembolique = double indication anticoagulation. Ne jamais arrêter sans avis ACHD spécialisé."}
+];
+
+function renderQ(idx){
+  if(idx>=QCM.length){showScore();return;}
+  var q=QCM[idx],letters=['A','B','C','D'];
+  var prog='';
+  for(var k=0;k<QCM.length;k++) prog+='<div class="qpd'+(k<idx?' done':k===idx?' active':'')+'"></div>';
+  var html='<div class="qprog">'+prog+'</div>';
+  html+='<div class="qnum">Question '+(idx+1)+' / '+QCM.length+' · Cas CIA 06 · Fermeture Fenêtrée</div>';
+  html+='<div class="card"><div class="qcm-q">'+q.q+'</div>';
+  for(var j=0;j<4;j++) html+='<button class="qopt" data-qi="'+idx+'" data-j="'+j+'"><div class="ql">'+letters[j]+'</div><div class="qt">'+q.opts[j]+'</div></button>';
+  html+='<div class="qfb" id="qfb-'+idx+'"></div></div>';
+  document.getElementById('qcm-area').innerHTML=html;
+  document.querySelectorAll('.qopt').forEach(function(b){b.addEventListener('click',function(){ansQ(parseInt(this.getAttribute('data-qi')),parseInt(this.getAttribute('data-j')));});});
+  qIdx=idx;
+}
+function ansQ(qi,chosen){
+  if(qAnswered.indexOf(qi)>=0)return;
+  qAnswered.push(qi);
+  var q=QCM[qi],correct=chosen===q.ans,letters=['A','B','C','D'];
+  if(correct)qScore++;
+  document.querySelectorAll('.qopt').forEach(function(b){
+    b.style.pointerEvents='none';
+    var j=parseInt(b.getAttribute('data-j'));
+    if(j===q.ans)b.classList.add('reveal');
+    if(j===chosen&&!correct)b.classList.add('wrong');
+    if(j===chosen&&correct)b.classList.add('correct');
+  });
+  var fb=document.getElementById('qfb-'+qi);
+  if(fb){fb.innerHTML='<strong style="color:'+(correct?'var(--mint)':'var(--red)')+'">'+( correct?'✅ Correct !':'❌ Incorrect — Réponse : '+letters[q.ans])+'</strong><br><span style="color:var(--w2)">'+q.fb+'</span>';fb.className='qfb show '+(correct?'ok':'err');}
+  setTimeout(function(){renderQ(qi+1);},3400);
+}
+function showScore(){
+  var pct=Math.round(qScore/QCM.length*100);
+  var sc=pct>=80?'var(--mint)':pct>=60?'var(--gold)':'var(--red)';
+  var lbl=pct>=80?'Excellent !':pct>=60?'Bien !':pct>=40?'À revoir':'Recommencer';
+  var circ=2*Math.PI*48,dash=(pct/100)*circ;
+  document.getElementById('qcm-area').innerHTML='';
+  document.getElementById('score-area').style.display='block';
+  document.getElementById('score-area').innerHTML=
+    '<div class="score-wrap"><div class="score-ring"><svg width="110" height="110" viewBox="0 0 110 110"><circle cx="55" cy="55" r="48" fill="none" stroke="rgba(255,255,255,.08)" stroke-width="9"/><circle cx="55" cy="55" r="48" fill="none" stroke="'+sc+'" stroke-width="9" stroke-linecap="round" stroke-dasharray="'+circ.toFixed(1)+'" stroke-dashoffset="'+(circ-dash).toFixed(1)+'" transform="rotate(-90 55 55)"/></svg><div class="sr-center"><div class="sr-num" style="color:'+sc+'">'+qScore+'</div><div class="sr-den">/ '+QCM.length+'</div></div></div><div class="score-label" style="color:'+sc+'">'+pct+'% — '+lbl+'</div><div style="font-size:12px;color:var(--w3)">Cas CIA 06 · Fermeture Fenêtrée · CSC Algeria</div></div>'+
+    '<div class="ib ib-cyan" style="margin-top:12px"><strong>→ Consultez la slide Fermeture Fenêtrée</strong> pour le détail de la procédure et le protocole post-interventionnel.</div>';
+}
+goTo(0);
+</script>
+</body>
+</html>
