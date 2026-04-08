@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<title>CIA · Cas 09 · Sinus Veineux Supérieur + RVPPA · H56 · CSC Algeria</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#06101E;--bg2:#0B1928;--bg3:#0F2035;
+  --teal:#00C4AE;--t2:rgba(0,196,174,.13);
+  --sky:#38BDF8;--s2:rgba(56,189,248,.12);
+  --mint:#34D399;--m2:rgba(52,211,153,.12);
+  --gold:#F0A030;--g2:rgba(240,160,48,.12);
+  --red:#E03050;--r2:rgba(224,48,80,.12);
+  --pur:#A78BFA;--p2:rgba(167,139,250,.12);
+  --orange:#FB923C;--or2:rgba(251,146,60,.12);
+  --lime:#84CC16;--li2:rgba(132,204,22,.12);
+  --cyan:#22D3EE;--cy2:rgba(34,211,238,.12);
+  --w1:#EEF5FF;--w2:rgba(238,245,255,.65);--w3:rgba(238,245,255,.32);
+  --brd:rgba(255,255,255,.08);--brd2:rgba(255,255,255,.15);
+  --r:14px;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{min-height:100%;background:var(--bg);color:var(--w1);font-family:"DM Sans",sans-serif;font-size:14px;overflow-x:hidden}
+
+#topbar{background:rgba(6,16,30,.97);backdrop-filter:blur(16px);border-bottom:1px solid var(--brd);padding:10px 16px;display:flex;align-items:center;gap:10px;position:sticky;top:0;z-index:100}
+.tb-logo{width:34px;height:34px;border-radius:9px;background:#fff;padding:2px;flex-shrink:0}
+.tb-logo img{width:100%;height:100%;object-fit:contain}
+.tb-t{font-family:"Syne",sans-serif;font-size:14px;font-weight:700;color:var(--lime)}
+.tb-s{font-size:10px;color:var(--w3)}
+.tb-badge{background:var(--li2);border:1px solid rgba(132,204,22,.4);border-radius:8px;padding:3px 9px;font-size:9px;font-weight:700;color:var(--lime)}
+.tb-badge2{background:var(--s2);border:1px solid rgba(56,189,248,.35);border-radius:8px;padding:3px 9px;font-size:9px;font-weight:700;color:var(--sky)}
+
+#stepnav{background:rgba(6,16,30,.95);border-bottom:1px solid var(--brd);padding:10px 14px;display:flex;gap:6px;overflow-x:auto;-webkit-overflow-scrolling:touch;position:sticky;top:54px;z-index:90}
+#stepnav::-webkit-scrollbar{display:none}
+.snav{padding:7px 12px;border-radius:20px;font-family:"Syne",sans-serif;font-size:10px;font-weight:700;cursor:pointer;border:1px solid var(--brd2);background:transparent;color:var(--w3);white-space:nowrap;transition:all .15s}
+.snav.active{background:var(--lime);color:#06101E;border-color:var(--lime)}
+.snav.done{background:rgba(52,211,153,.12);border-color:rgba(52,211,153,.3);color:var(--mint)}
+
+#content{padding:14px 14px 100px}
+.slide{display:none;animation:fadeUp .3s ease}
+.slide.active{display:block}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+.card{background:var(--bg2);border-radius:var(--r);padding:14px;border:1px solid var(--brd);margin-bottom:12px}
+.card-title{font-family:"Syne",sans-serif;font-size:13px;font-weight:700;margin-bottom:10px;display:flex;align-items:center;gap:7px}
+.sh{font-family:"Syne",sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.9px;color:var(--w3);margin:16px 0 8px;padding-bottom:6px;border-bottom:1px solid var(--brd)}
+
+.hero-card{border-radius:var(--r);padding:18px;margin-bottom:14px;overflow:hidden}
+.hero-lime{background:linear-gradient(135deg,rgba(132,204,22,.16),rgba(34,211,238,.08));border:2px solid rgba(132,204,22,.45)}
+.hero-label{font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:1px;text-transform:uppercase;margin-bottom:8px;color:var(--lime)}
+.hero-title{font-family:"Syne",sans-serif;font-size:19px;font-weight:800;line-height:1.2;margin-bottom:6px}
+.hero-sub{font-size:13px;color:var(--w2);line-height:1.6;margin-bottom:12px}
+.hero-pills{display:flex;flex-wrap:wrap;gap:6px}
+.hp{padding:4px 10px;border-radius:20px;font-size:10px;font-weight:700;border:1px solid}
+.p-lime{background:var(--li2);border-color:rgba(132,204,22,.35);color:var(--lime)}
+.p-sky{background:var(--s2);border-color:rgba(56,189,248,.3);color:var(--sky)}
+.p-gold{background:var(--g2);border-color:rgba(240,160,48,.3);color:var(--gold)}
+.p-pur{background:var(--p2);border-color:rgba(167,139,250,.3);color:var(--pur)}
+.p-mint{background:var(--m2);border-color:rgba(52,211,153,.3);color:var(--mint)}
+.p-teal{background:var(--t2);border-color:rgba(0,196,174,.3);color:var(--teal)}
+.p-cyan{background:var(--cy2);border-color:rgba(34,211,238,.3);color:var(--cyan)}
+.p-orange{background:var(--or2);border-color:rgba(251,146,60,.35);color:var(--orange)}
+.p-red{background:var(--r2);border-color:rgba(224,48,80,.35);color:var(--red)}
+
+.drow{display:flex;padding:8px 0;border-bottom:1px solid var(--brd);align-items:flex-start;gap:8px}
+.drow:last-child{border-bottom:none}
+.dl{width:148px;flex-shrink:0;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:var(--w3);line-height:1.4;padding-top:1px}
+.dv{flex:1;font-size:13px;color:var(--w1);line-height:1.5}
+.dv.ok{color:var(--mint);font-weight:700}
+.dv.warn{color:var(--gold);font-weight:700}
+.dv.alert{color:var(--red);font-weight:700}
+.dv.lime{color:var(--lime);font-weight:700}
+.dv.sky{color:var(--sky);font-weight:700}
+.dv.hl{color:var(--teal);font-weight:700}
+.dv.pur{color:var(--pur);font-weight:700}
+.dv.cyan{color:var(--cyan);font-weight:700}
+
+.cor{display:inline-flex;align-items:center;justify-content:center;padding:2px 8px;border-radius:5px;font-family:"JetBrains Mono",monospace;font-size:9px;font-weight:700;margin-right:4px}
+.cor1{background:rgba(52,211,153,.2);color:var(--mint)}
+.cor2a{background:rgba(56,189,248,.2);color:var(--sky)}
+.cor2b{background:rgba(240,160,48,.2);color:var(--gold)}
+.cor3{background:rgba(224,48,80,.15);color:var(--red)}
+
+.ib{border-radius:10px;padding:10px 13px;font-size:12px;line-height:1.65;border-left:3px solid;margin-bottom:10px}
+.ib-teal{background:var(--t2);border-color:var(--teal)}
+.ib-sky{background:var(--s2);border-color:var(--sky)}
+.ib-gold{background:var(--g2);border-color:var(--gold)}
+.ib-red{background:var(--r2);border-color:var(--red)}
+.ib-mint{background:var(--m2);border-color:var(--mint)}
+.ib-lime{background:var(--li2);border-color:var(--lime)}
+.ib-pur{background:var(--p2);border-color:var(--pur)}
+.ib-cyan{background:var(--cy2);border-color:var(--cyan)}
+
+.gauge-row{display:flex;align-items:center;gap:10px;margin-bottom:7px}
+.gauge-label{font-size:11px;color:var(--w3);width:145px;flex-shrink:0;font-weight:600}
+.gauge-bar{flex:1;height:10px;background:var(--bg3);border-radius:5px;overflow:hidden}
+.gauge-fill{height:100%;border-radius:5px;transition:width .7s ease}
+.gauge-val{font-family:"JetBrains Mono",monospace;font-size:11px;font-weight:700;width:65px;text-align:right;flex-shrink:0}
+
+.canva-wrap{border-radius:12px;overflow:hidden;border:1px solid rgba(132,204,22,.35);background:var(--bg3);margin-bottom:12px}
+.canva-label{padding:10px 13px;border-bottom:1px solid rgba(132,204,22,.2);font-family:"Syne",sans-serif;font-size:11px;font-weight:700;color:var(--lime)}
+.canva-wrap iframe{width:100%;border:none;display:block}
+
+.param-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px}
+.param-box{border-radius:10px;padding:12px;border:1px solid;text-align:center}
+.pb-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--w3);margin-bottom:4px}
+.pb-val{font-family:"Syne",sans-serif;font-size:22px;font-weight:800;line-height:1;margin-bottom:2px}
+.pb-status{font-size:10px;font-weight:700;margin-top:4px}
+
+.strata-table{border:1px solid var(--brd);border-radius:10px;overflow:hidden;margin-bottom:10px}
+.st-head,.st-row{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;font-size:11px}
+.st-head{background:var(--bg3);font-family:"Syne",sans-serif;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.4px}
+.st-head>div,.st-row>div{padding:7px 8px;border-right:1px solid var(--brd);line-height:1.4}
+.st-row>div:last-child,.st-head>div:last-child{border-right:none}
+.st-row{border-top:1px solid var(--brd)}
+.st-low{background:rgba(52,211,153,.07);font-weight:700;color:var(--mint)}
+
+/* ANATOMY SCHEMA */
+.anatomy-schema{background:linear-gradient(135deg,rgba(132,204,22,.1),rgba(34,211,238,.06));border:2px solid rgba(132,204,22,.4);border-radius:14px;padding:16px;margin-bottom:12px}
+.as-title{font-family:"Syne",sans-serif;font-size:14px;font-weight:800;color:var(--lime);margin-bottom:12px;display:flex;align-items:center;gap:8px}
+
+/* SVG diagram */
+.svg-wrap{background:var(--bg3);border-radius:12px;padding:12px;margin-bottom:10px;border:1px solid var(--brd)}
+
+/* COMP TABLE */
+.comp-table{border:1px solid var(--brd);border-radius:10px;overflow:hidden;margin-bottom:10px}
+.ct-head,.ct-row{display:grid;grid-template-columns:1.5fr 1fr 1fr;font-size:11px}
+.ct-head{background:var(--bg3);font-family:"Syne",sans-serif;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:var(--w3)}
+.ct-head>div,.ct-row>div{padding:8px 10px;border-right:1px solid var(--brd);line-height:1.4}
+.ct-head>div:last-child,.ct-row>div:last-child{border-right:none}
+.ct-row{border-top:1px solid var(--brd)}
+.ct-row:nth-child(odd){background:rgba(255,255,255,.02)}
+.ct-good{color:var(--mint);font-weight:700}
+.ct-bad{color:var(--red);font-weight:700}
+.ct-warn{color:var(--gold);font-weight:700}
+.ct-lime{color:var(--lime);font-weight:700}
+
+/* TECHNIQUE STEPS */
+.tech-steps{display:flex;flex-direction:column;gap:6px}
+.ts-item{display:flex;gap:10px;align-items:flex-start;padding:10px 12px;background:var(--bg2);border-radius:10px;border-left:3px solid}
+.ts-num{width:24px;height:24px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-family:"Syne",sans-serif;font-size:12px;font-weight:800;flex-shrink:0}
+.ts-body{font-size:12px;color:var(--w2);line-height:1.55;flex:1}
+.ts-title{font-family:"Syne",sans-serif;font-size:12px;font-weight:700;margin-bottom:3px}
+
+/* QCM */
+.qcm-q{font-family:"Syne",sans-serif;font-size:15px;font-weight:700;margin-bottom:16px;line-height:1.45}
+.qopt{width:100%;padding:12px 14px;border-radius:11px;border:2px solid var(--brd2);background:var(--bg2);color:var(--w1);font-family:"DM Sans",sans-serif;font-size:13px;text-align:left;cursor:pointer;margin-bottom:8px;transition:all .18s;display:flex;align-items:flex-start;gap:10px}
+.qopt:active{transform:scale(.98)}
+.qopt.correct{border-color:var(--mint)!important;background:rgba(52,211,153,.1)!important}
+.qopt.wrong{border-color:var(--red)!important;background:rgba(224,48,80,.08)!important}
+.qopt.reveal{border-color:var(--mint)!important;background:rgba(52,211,153,.05)!important}
+.ql{width:28px;height:28px;border-radius:7px;background:var(--bg3);border:1px solid var(--brd2);display:flex;align-items:center;justify-content:center;font-family:"Syne",sans-serif;font-size:12px;font-weight:700;flex-shrink:0;transition:all .2s}
+.qopt.correct .ql,.qopt.reveal .ql{background:var(--mint);border-color:var(--mint);color:#06101E}
+.qopt.wrong .ql{background:var(--red);border-color:var(--red);color:#fff}
+.qt{font-size:13px;color:var(--w2);line-height:1.5;flex:1}
+.qfb{margin-top:12px;padding:12px 14px;border-radius:11px;font-size:12px;line-height:1.65;display:none;border:1px solid}
+.qfb.show{display:block}
+.qfb.ok{background:rgba(52,211,153,.08);border-color:rgba(52,211,153,.3)}
+.qfb.err{background:rgba(224,48,80,.08);border-color:rgba(224,48,80,.25)}
+.qprog{display:flex;gap:5px;margin-bottom:14px}
+.qpd{flex:1;height:4px;border-radius:2px;background:var(--brd2)}
+.qpd.done{background:var(--lime)}.qpd.active{background:var(--gold)}
+.qnum{font-size:10px;color:var(--w3);font-weight:700;text-transform:uppercase;letter-spacing:.8px;margin-bottom:10px}
+
+.score-wrap{text-align:center;padding:20px 0 10px}
+.score-ring{position:relative;width:110px;height:110px;margin:0 auto 10px}
+.score-ring svg{transform:rotate(-90deg)}
+.sr-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.sr-num{font-family:"Syne",sans-serif;font-size:32px;font-weight:800;line-height:1}
+.sr-den{font-size:11px;color:var(--w3)}
+.score-label{font-family:"Syne",sans-serif;font-size:18px;font-weight:700;margin-bottom:4px}
+
+.val-banner{background:linear-gradient(90deg,rgba(132,204,22,.1),rgba(34,211,238,.06));border:1px solid rgba(132,204,22,.25);border-radius:10px;padding:10px 13px;display:flex;gap:9px;align-items:flex-start;margin-bottom:14px}
+.vb-t{font-size:11px;color:var(--w2);line-height:1.55}
+.vb-t strong{color:var(--lime);display:block;font-size:12px}
+
+.kmsg{display:flex;gap:10px;align-items:flex-start;padding:10px 12px;background:var(--bg2);border-radius:10px;border:1px solid var(--brd);margin-bottom:7px}
+.km-num{width:24px;height:24px;border-radius:6px;font-family:"Syne",sans-serif;font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#06101E}
+.km-body{font-size:12px;color:var(--w2);line-height:1.55;flex:1}
+
+.suivi-table{border:1px solid var(--brd);border-radius:10px;overflow:hidden;margin-bottom:10px}
+.suiv-head,.suiv-row{display:grid;grid-template-columns:1.5fr 0.8fr 1.2fr;font-size:11px}
+.suiv-head{background:var(--bg3);font-family:"Syne",sans-serif;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:var(--w3)}
+.suiv-head>div,.suiv-row>div{padding:8px 10px;border-right:1px solid var(--brd);line-height:1.4;color:var(--w2)}
+.suiv-head>div:last-child,.suiv-row>div:last-child{border-right:none}
+.suiv-row{border-top:1px solid var(--brd)}
+.suiv-row.hl{background:rgba(132,204,22,.05)}
+.suiv-val{font-weight:700;color:var(--lime);font-family:"JetBrains Mono",monospace;font-size:10px}
+
+#botnav{position:fixed;bottom:0;left:0;right:0;background:rgba(6,16,30,.97);backdrop-filter:blur(14px);border-top:1px solid var(--brd);padding:10px 14px;display:flex;gap:8px;z-index:100}
+.bnav-btn{flex:1;padding:12px;border-radius:11px;border:none;cursor:pointer;font-family:"Syne",sans-serif;font-size:13px;font-weight:700;transition:all .15s}
+.bnav-btn:active{transform:scale(.97)}
+.bnav-prev{background:var(--bg3);border:1px solid var(--brd2);color:var(--w2)}
+.bnav-next{background:var(--lime);color:#06101E}
+.bnav-btn:disabled{opacity:.3;cursor:not-allowed}
+
+.alert-box{background:linear-gradient(135deg,rgba(132,204,22,.12),rgba(34,211,238,.08));border:2px solid rgba(132,204,22,.4);border-radius:14px;padding:14px;margin-bottom:14px}
+.ab-title{font-family:"Syne",sans-serif;font-size:14px;font-weight:800;color:var(--lime);margin-bottom:8px;display:flex;align-items:center;gap:7px}
+.ab-body{font-size:12px;color:var(--w2);line-height:1.7}
+</style>
+</head>
+<body>
+
+<div id="topbar">
+  <div class="tb-logo"><img src="data:image/png;base64,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" alt="CSC"></div>
+  <div style="flex:1">
+    <div class="tb-t">CIA · Cas 09 · Sinus Veineux + RVPPA · H56</div>
+    <div class="tb-s">CSC Algeria · ACHD CORE-Team · ACC/AHA 2025</div>
+  </div>
+  <div class="tb-badge2">⭐⭐⭐</div>
+  <div class="tb-badge">Stade B</div>
+</div>
+
+<div id="stepnav">
+  <button class="snav active" data-slide="0">🔬 Présentation</button>
+  <button class="snav" data-slide="1">🎞 Iconographie</button>
+  <button class="snav" data-slide="2">🫀 Volet 1 — Anatomique</button>
+  <button class="snav" data-slide="3">🫁 Volet 2 — HTAP</button>
+  <button class="snav" data-slide="4">📊 Volet 3 — Stade B</button>
+  <button class="snav" data-slide="5">🔧 Technique Fermeture</button>
+  <button class="snav" data-slide="6">❓ QCM</button>
+  <button class="snav" data-slide="7">⚕️ Décision & Suivi</button>
+  <button class="snav" data-slide="8">💡 Messages clés</button>
+</div>
+
+<div id="content">
+
+<!-- SLIDE 0 PRÉSENTATION -->
+<div class="slide active" id="slide-0">
+  <div class="val-banner">
+    <div style="font-size:18px">✅</div>
+    <div class="vb-t"><strong>Validé · CORE-TEAM ACHD-Algérie · CSC · ACC/AHA 2025</strong>Cas CIA 09 · Section 4.1.2 · CIA Sinus Veineux Supérieur + RVPPA · Stade B</div>
+  </div>
+
+  <div class="hero-card hero-lime">
+    <div class="hero-label">🔬 CIA · Cas 09 · Anatomie Complexe · Sinus Veineux Supérieur + RVPPA</div>
+    <div class="hero-title">CIA Sinus Veineux Sup. 22×18 mm<br>+ RVPPA (VPDS → VCS) · Stade B · H56</div>
+    <div class="hero-sub">Homme de 56 ans · NYHA II · Découverte fortuite + investigation dyspnée d'effort<br>Anomalie anatomique complexe : Amplatzer OS impossible · Warden ou stent couvert</div>
+    <div class="hero-pills">
+      <span class="hp p-lime">Sinus Veineux Sup.</span>
+      <span class="hp p-sky">RVPPA VPDS→VCS</span>
+      <span class="hp p-gold">Amplatzer impossible</span>
+      <span class="hp p-teal">RVP 2.2 WU</span>
+      <span class="hp p-mint">Stade B</span>
+      <span class="hp p-cyan">Warden ou Stent</span>
+    </div>
+  </div>
+
+  <div class="alert-box">
+    <div class="ab-title">🔑 Point anatomique central de ce cas</div>
+    <div class="ab-body">
+      La CIA sinus veineux supérieur est <strong>fondamentalement différente</strong> de la CIA OS.<br><br>
+      <strong>Différence clé :</strong> Le défect est localisé à la jonction VCS-OD. La berge supérieure (entre le défect et la VCS) est ABSENTE ou insuffisante → impossible de placer un device Amplatzer percutané standard (il tomberait dans la VCS).<br><br>
+      <strong>Complication associée obligatoire :</strong> La VPDS (veine pulmonaire droite supérieure) se draine dans la VCS au lieu de l'OG → retour veineux pulmonaire partiellement anormal (RVPPA) → shunt G→D DOUBLÉ (par le défect ET par la veine aberrante).<br><br>
+      <strong>Options thérapeutiques :</strong> ① Chirurgie Warden (réimplantation VPDS + fermeture CIA) ② Stent couvert VCS-OD (selon anatomie favorable au test ballon ETO)
+    </div>
+  </div>
+
+  <div class="sh">👤 Identité & Motif</div>
+  <div class="card">
+    <div class="drow"><div class="dl">Nom / Prénom</div><div class="dv">B. Hocine Meziane</div></div>
+    <div class="drow"><div class="dl">Âge / Sexe</div><div class="dv">56 ans · Masculin</div></div>
+    <div class="drow"><div class="dl">Poids / Taille</div><div class="dv ok">78 kg · 175 cm · IMC 25.5</div></div>
+    <div class="drow"><div class="dl">SpO₂ repos</div><div class="dv ok">97% — normale</div></div>
+    <div class="drow"><div class="dl">SpO₂ effort</div><div class="dv warn">93% au TM6M — désaturation légère à l'effort (arrêt à 420 m)</div></div>
+    <div class="drow"><div class="dl">FC / TA</div><div class="dv ok">RS 72 bpm · 128/78 mmHg — TA normale sous traitement</div></div>
+    <div class="drow"><div class="dl">NYHA</div><div class="dv warn">Classe II — dyspnée effort soutenu · tolérance activité quotidienne conservée</div></div>
+    <div class="drow"><div class="dl">Motif</div><div class="dv">Bilan de dyspnée d'effort progressive (2 ans). ETT de débrouillage : VD dilaté + anomalie jonction VCS-OD évoquant sinus veineux. Adressé pour bilan complet en centre ACHD.</div></div>
+  </div>
+
+  <div class="sh">📋 Antécédents & Examen</div>
+  <div class="card">
+    <div class="drow"><div class="dl">CIA connue</div><div class="dv warn">Sinus veineux supérieur NON connu avant ce bilan. Aucune exploration cardiaque antérieure malgré souffle discret signalé à 30 ans (non investigué).</div></div>
+    <div class="drow"><div class="dl">FA</div><div class="dv ok">Rythme sinusal maintenu. Pas de FA documentée.</div></div>
+    <div class="drow"><div class="dl">ATCD médicaux</div><div class="dv">HTA légère (Amlodipine 5 mg/j) · Dyslipidémie (Rosuvastatine 10 mg) · Pas de diabète · Non-fumeur · Pas de chirurgie cardiaque antérieure</div></div>
+    <div class="drow"><div class="dl">Examen clinique</div><div class="dv">Souffle systolique éjectionnel 2/6 foyer pulmonaire · Dédoublement fixe B2 (discret) · B2 modérément accentué · Pas d'IC droite · Pas d'OMI · Pas de cyanose</div></div>
+    <div class="drow"><div class="dl">ECG</div><div class="dv warn">RS 72 bpm · BBD incomplet (V1 rSr') · Axe +85° · P positif large en V1 (onde P droit) · QRS 108 ms · HVD légère</div></div>
+    <div class="drow"><div class="dl">Rx thorax</div><div class="dv warn">Cardiomégalie légère ICT 0.52 · VD légèrement saillant · AP légèrement proéminentes · Pas d'épanchement · Pas de redistribution</div></div>
+  </div>
+
+  <div class="sh">🔬 Bilan biologique</div>
+  <div class="card">
+    <div class="drow"><div class="dl">BNP</div><div class="dv warn">142 pg/mL — modérément élevé · surcharge VD chronique</div></div>
+    <div class="drow"><div class="dl">NT-proBNP</div><div class="dv warn">486 pg/mL — modérément élevé (N &lt;300) · Stade B confirmé</div></div>
+    <div class="drow"><div class="dl">Troponine hs</div><div class="dv ok">8 ng/L — normale</div></div>
+    <div class="drow"><div class="dl">Créatinine / DFG</div><div class="dv ok">88 μmol/L · DFG 82 mL/min — normal</div></div>
+    <div class="drow"><div class="dl">Bilan hépatique</div><div class="dv ok">Normal — pas de congestion</div></div>
+    <div class="drow"><div class="dl">NFS</div><div class="dv ok">Hb 14.8 g/dL · Plaquettes 224 G/L — normal</div></div>
+    <div class="drow"><div class="dl">TM6M</div><div class="dv warn">420 m — légèrement réduit (N &gt;500 m pour l'âge)</div></div>
+  </div>
+</div>
+
+<!-- SLIDE 1 ICONOGRAPHIE -->
+<div class="slide" id="slide-1">
+  <div class="canva-wrap">
+    <div class="canva-label">🎞 Iconographie · ETT + ETO + Scanner · CIA Sinus Veineux Sup. + RVPPA VPDS→VCS</div>
+    <iframe src="https://www.canva.com/design/DAHGG4nLoR8/bRjqTShsn1uybzFZS_U4hQ/view?embed" height="420" allow="fullscreen" allowfullscreen scrolling="no" loading="lazy"></iframe>
+  </div>
+  <div class="ib ib-lime">
+    <strong>🎓 Ce que vous devez observer :</strong><br>
+    CIA à la jonction OD-VCS (non au centre du septum). Pas de berge supérieure nette. VD dilaté modérément. Step-up en satimétrie OD→VCS (sang oxygéné de la VPDS qui rejoint la VCS). VPDS visible se drainant en VCS (ETO ou scanner thoracique). PAPS 45 mmHg — modérément élevée. Strain VD normal. Pas de D-sign franc.
+  </div>
+
+  <div class="sh">📡 ETT — Données quantitatives</div>
+  <div class="card">
+    <div class="drow"><div class="dl">FEVG (Simpson)</div><div class="dv ok">62% — conservée</div></div>
+    <div class="drow"><div class="dl">DTDVG / DTSVG</div><div class="dv ok">50 mm / 33 mm — VG normal</div></div>
+    <div class="drow"><div class="dl">VD — dimensions</div><div class="dv warn">DTDVD = 40 mm ⚠️ (N &lt;35) · Dilatation modérée</div></div>
+    <div class="drow"><div class="dl">TAPSE</div><div class="dv ok">20 mm ✅ (N ≥18) — fonction VD préservée</div></div>
+    <div class="drow"><div class="dl">S' TDI tricuspide</div><div class="dv ok">12 cm/s (N &gt;10) — normal</div></div>
+    <div class="drow"><div class="dl">Strain VD (GLS)</div><div class="dv ok">-22% ✅ (N &lt;-20%) — normal · Fonction VD bien conservée</div></div>
+    <div class="drow"><div class="dl">Vmax IT (peak)</div><div class="dv warn">3.2 m/s ⚠️ — modérément élevée</div></div>
+    <div class="drow"><div class="dl">PAPS estimée</div><div class="dv warn">45 mmHg — modérément élevée (hypercinétique probable)</div></div>
+    <div class="drow"><div class="dl">Acc. RVOT</div><div class="dv warn">96 ms ⚠️ (N &gt;105 ms) — légèrement abaissé</div></div>
+    <div class="drow"><div class="dl">IVS aplati (D-sign)</div><div class="dv ok">ABSENT — surcharge volumique modérée uniquement</div></div>
+    <div class="drow"><div class="dl">Qp/Qs ETT estimé</div><div class="dv warn">2.1 — shunt significatif (CIA + RVPPA combinés)</div></div>
+    <div class="drow"><div class="dl">IT</div><div class="dv ok">IT minime-légère fonctionnelle · Anneau 32 mm — normal</div></div>
+    <div class="drow"><div class="dl">OD / OG</div><div class="dv warn">OD 28 cm² (N &lt;20) · OG 32 mL/m² — OD légèrement dilatée</div></div>
+    <div class="drow"><div class="dl">VCI</div><div class="dv ok">18 mm — collapsus normal — POD 5 mmHg</div></div>
+    <div class="drow"><div class="dl">CIA visible ETT</div><div class="dv lime">Défect à la JONCTION VCS-OD (pas au centre de la FO). Berge sup. absente à l'ETT. Shunt G→D confirmé Doppler couleur.</div></div>
+    <div class="drow"><div class="dl">VPDS en VCS</div><div class="dv lime">Pas visualisable à l'ETT standard. ETO + scanner obligatoires pour confirmer RVPPA.</div></div>
+  </div>
+</div>
+
+<!-- SLIDE 2 VOLET 1 ANATOMIQUE -->
+<div class="slide" id="slide-2">
+  <div class="sh">🫀 Volet 1 — Évaluation Anatomique · ETO + Scanner · Spécificités Sinus Veineux</div>
+
+  <div class="ib ib-lime">
+    <span class="cor cor1">COR I B-NR</span> ETO et/ou scanner thoracique obligatoires pour la CIA sinus veineux supérieur. L'ETT est insuffisante. L'ETO confirme : localisation exacte du défect, présence RVPPA, anatomie VCS, berges disponibles. Le scanner délinéa le trajet exact de la VPDS.
+  </div>
+
+  <div class="anatomy-schema">
+    <div class="as-title">🔬 Anatomie CIA Sinus Veineux Supérieur — Caractéristiques</div>
+    <div class="svg-wrap">
+      <svg viewBox="0 0 340 220" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-height:200px">
+        <!-- OD -->
+        <ellipse cx="230" cy="130" rx="80" ry="70" fill="rgba(224,48,80,.15)" stroke="rgba(224,48,80,.5)" stroke-width="2"/>
+        <text x="230" y="135" text-anchor="middle" fill="#FFB3B3" font-size="12" font-family="Syne" font-weight="700">OD</text>
+        <!-- OG -->
+        <ellipse cx="95" cy="140" rx="70" ry="60" fill="rgba(56,189,248,.12)" stroke="rgba(56,189,248,.4)" stroke-width="2"/>
+        <text x="95" y="145" text-anchor="middle" fill="#38BDF8" font-size="12" font-family="Syne" font-weight="700">OG</text>
+        <!-- VCS -->
+        <rect x="190" y="10" width="40" height="60" rx="8" fill="rgba(224,48,80,.2)" stroke="rgba(224,48,80,.5)" stroke-width="2"/>
+        <text x="210" y="45" text-anchor="middle" fill="#FFB3B3" font-size="11" font-family="Syne" font-weight="700">VCS</text>
+        <!-- DEFECT CIA sinus veineux -->
+        <ellipse cx="185" cy="68" rx="18" ry="12" fill="rgba(132,204,22,.35)" stroke="#84CC16" stroke-width="2.5"/>
+        <text x="185" y="52" text-anchor="middle" fill="#84CC16" font-size="9" font-family="Syne" font-weight="700">CIA</text>
+        <text x="185" y="62" text-anchor="middle" fill="#84CC16" font-size="8" font-weight="700">SV Sup</text>
+        <!-- VPDS aberrante -->
+        <path d="M 60 20 Q 80 35 120 50 Q 150 60 175 62" stroke="#F0A030" stroke-width="2.5" fill="none" stroke-dasharray="5,3"/>
+        <text x="30" y="18" fill="#F0A030" font-size="10" font-family="Syne" font-weight="700">VPDS</text>
+        <text x="25" y="30" fill="#F0A030" font-size="9">→ VCS !</text>
+        <!-- Flèche shunt CIA -->
+        <path d="M 115 110 Q 145 88 165 72" stroke="#84CC16" stroke-width="2" fill="none" marker-end="url(#arr)"/>
+        <defs><marker id="arr" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#84CC16"/></marker></defs>
+        <text x="118" y="108" fill="#84CC16" font-size="9">G→D</text>
+        <!-- Step-up -->
+        <text x="192" y="85" fill="rgba(240,160,48,.9)" font-size="9" font-family="JetBrains Mono">step-up</text>
+        <!-- Septum interauriculaire -->
+        <line x1="163" y1="78" x2="162" y2="195" stroke="rgba(255,255,255,.3)" stroke-width="2" stroke-dasharray="3,3"/>
+        <!-- Label FO normale -->
+        <text x="160" y="165" text-anchor="middle" fill="rgba(255,255,255,.3)" font-size="9">FO normale</text>
+        <!-- VCI -->
+        <rect x="190" y="192" width="40" height="28" rx="6" fill="rgba(224,48,80,.15)" stroke="rgba(224,48,80,.35)" stroke-width="1.5"/>
+        <text x="210" y="210" text-anchor="middle" fill="#FFB3B3" font-size="10" font-family="Syne" font-weight="700">VCI</text>
+        <!-- Légende -->
+        <rect x="4" y="180" width="105" height="35" rx="5" fill="rgba(6,16,30,.7)" stroke="rgba(255,255,255,.1)" stroke-width="1"/>
+        <circle cx="16" cy="191" r="4" fill="#84CC16"/>
+        <text x="25" y="194" fill="#84CC16" font-size="9">CIA sinus veineux</text>
+        <line x1="10" y1="205" x2="24" y2="205" stroke="#F0A030" stroke-width="2" stroke-dasharray="4,2"/>
+        <text x="28" y="208" fill="#F0A030" font-size="9">VPDS aberrante</text>
+      </svg>
+    </div>
+    <div class="ib ib-gold" style="margin-bottom:0">
+      <strong>Anatomie du sinus veineux supérieur :</strong><br>
+      Le défect est à la JONCTION VCS-OD (pas au centre de la FO). La berge supérieure (entre CIA et VCS) est quasi absente. La VPDS (veine pulm. droite supérieure) se draine dans la VCS. Step-up en satimétrie à la jonction VCS → OD confirme le retour anormal.
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🎯 ETO — CIA Sinus Veineux : caractérisation</div>
+    <div class="drow"><div class="dl">Type anatomique</div><div class="dv lime">SINUS VEINEUX SUPÉRIEUR — jonction VCS-OD · Fossette ovale NORMALE (septum primum intact)</div></div>
+    <div class="drow"><div class="dl">Taille défect ETO</div><div class="dv warn">22 × 18 mm — taille modérée mais anatomie critique</div></div>
+    <div class="drow"><div class="dl">Berge supérieure</div><div class="dv alert">ABSENTE ou &lt;3 mm — AMPLATZER IMPOSSIBLE (device tomberait en VCS)</div></div>
+    <div class="drow"><div class="dl">Berge inférieure</div><div class="dv ok">12 mm — suffisante ✅</div></div>
+    <div class="drow"><div class="dl">Berge postérieure</div><div class="dv ok">8 mm — suffisante ✅</div></div>
+    <div class="drow"><div class="dl">Berge antérieure</div><div class="dv warn">Pas de berge aortique (défect distant de l'aorte) — caractéristique sinus veineux</div></div>
+    <div class="drow"><div class="dl">RVPPA</div><div class="dv alert">VPDS (veine pulm. droite sup.) → VCS ⚠️ — RETOUR VEINEUX PARTIELLEMENT ANORMAL</div></div>
+    <div class="drow"><div class="dl">Ostium VPDS</div><div class="dv warn">Ostium VPDS dans VCS à 2.5 cm de la jonction VCS-OD — distance critique pour décision technique</div></div>
+    <div class="drow"><div class="dl">VCS diamètre</div><div class="dv warn">VCS 24 mm (N 15-20 mm) — légèrement dilatée (sang VPDS + retour systémique)</div></div>
+    <div class="drow"><div class="dl">FOP / CIA OS</div><div class="dv ok">FOP minime (patent mais non significatif) · Pas de CIA OS vraie</div></div>
+    <div class="drow"><div class="dl">Thrombus</div><div class="dv ok">Absent · OG, OD, VCS examinées</div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🩻 Scanner thoracique — Confirme RVPPA + planification</div>
+    <div class="drow"><div class="dl">VPDS trajet</div><div class="dv lime">VPDS suit un trajet anormal : lobe sup. droit → VCS à 2.5 cm de la jonction VCS-OD · Longueur segment aberrant 4.2 cm</div></div>
+    <div class="drow"><div class="dl">VPDI</div><div class="dv ok">Veine pulm. droite inférieure → OG normalement ✅</div></div>
+    <div class="drow"><div class="dl">Veines gauches</div><div class="dv ok">VPG sup. et inf. → OG normalement ✅ (4 veines)</div></div>
+    <div class="drow"><div class="dl">VCS longueur</div><div class="dv warn">VCS mesurée : longueur 6.8 cm · Distance CIA-ostium VPDS 2.5 cm</div></div>
+    <div class="drow"><div class="dl">Possibilité stent</div><div class="dv warn">Test ballon ETO guide : si CIA peut être couverte par stent sans obstruer ostium VPDS → stent couvert envisageable</div></div>
+    <div class="drow"><div class="dl">IRM cardiaque</div><div class="dv ok">FEVG 62% · FEVD 54% · Qp/Qs 2.1 · VD légèrement dilaté · Pas de LGE · Confirme RVPPA VPDS</div></div>
+  </div>
+
+  <div class="ib ib-red">
+    <strong>🚫 Pourquoi Amplatzer OS impossible ici ?</strong><br>
+    Le défect sinus veineux supérieur est situé à la jonction VCS-OD — la berge supérieure (entre CIA et VCS) est absente ou &lt;3 mm. Un device Amplatzer nécessite au minimum 5 mm de berge dans chaque direction pour s'ancrer. Sans berge supérieure, le disque gauche du device migrerait dans la VCS → risque de migration + obstruction VCS + non-couverture du défect. Les stents dédiés CIA OS (Amplatzer ASD Occluder) ne sont pas adaptés à cette anatomie.
+  </div>
+</div>
+
+<!-- SLIDE 3 VOLET 2 HTAP -->
+<div class="slide" id="slide-3">
+  <div class="sh">🫁 Volet 2 — Évaluation HTAP · Table 13 · 3-Strata ACC 2025</div>
+
+  <div class="ib ib-mint">
+    <strong>Situation HTAP favorable :</strong> RVP 2.2 WU (zone 2–5 WU = COR 2a). PAPM 27 mmHg. PAPS 45 mmHg = hypercinétique probable (Qp/Qs 2.1 + RVPPA = hyperdébit double). Strain VD -22% normal. 3-Strata : risque faible. Pas de vasculopathie pulmonaire significative → correction urgente avant progression.
+  </div>
+
+  <div class="card">
+    <div class="card-title">🩺 Clinique — Table 13</div>
+    <div class="drow"><div class="dl">Classe WHO</div><div class="dv warn">WHO II — limitation effort soutenu (42 min TM6M 420 m)</div></div>
+    <div class="drow"><div class="dl">TM6M</div><div class="dv warn">420 m — modérément réduit pour l'âge (seuil N &gt;500 m)</div></div>
+    <div class="drow"><div class="dl">SpO₂ repos</div><div class="dv ok">97% — normale ✅</div></div>
+    <div class="drow"><div class="dl">SpO₂ effort</div><div class="dv warn">93% — légère désaturation (surcharge débit + RVPPA)</div></div>
+    <div class="drow"><div class="dl">IC droite</div><div class="dv ok">ABSENTE — clinique IC droite négative</div></div>
+    <div class="drow"><div class="dl">B2 accentué</div><div class="dv warn">Modérément (PAPS 45 mmHg)</div></div>
+    <div class="drow"><div class="dl">Cyanose</div><div class="dv ok">Absente — shunt G→D exclusif</div></div>
+    <div class="drow"><div class="dl">Épanch. péricardique</div><div class="dv ok">Absent ✅</div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📡 Signes ETT — Table 13</div>
+    <div class="gauge-row"><div class="gauge-label">Vmax IT (m/s)</div><div class="gauge-bar"><div class="gauge-fill" style="width:73%;background:var(--gold)"></div></div><div class="gauge-val" style="color:var(--gold)">3.2 ⚠️</div></div>
+    <div class="gauge-row"><div class="gauge-label">TAPSE (mm)</div><div class="gauge-bar"><div class="gauge-fill" style="width:68%;background:var(--mint)"></div></div><div class="gauge-val" style="color:var(--mint)">20 ✅</div></div>
+    <div class="gauge-row"><div class="gauge-label">Acc. RVOT (ms)</div><div class="gauge-bar"><div class="gauge-fill" style="width:51%;background:var(--gold)"></div></div><div class="gauge-val" style="color:var(--gold)">96 ⚠️</div></div>
+    <div class="gauge-row"><div class="gauge-label">Strain VD (%)</div><div class="gauge-bar"><div class="gauge-fill" style="width:82%;background:var(--mint)"></div></div><div class="gauge-val" style="color:var(--mint)">-22% ✅</div></div>
+    <div class="gauge-row"><div class="gauge-label">IVS aplati</div><div class="gauge-bar"><div class="gauge-fill" style="width:10%;background:var(--mint)"></div></div><div class="gauge-val" style="color:var(--mint)">Absent ✅</div></div>
+    <div class="gauge-row"><div class="gauge-label">Dilatation VD</div><div class="gauge-bar"><div class="gauge-fill" style="width:40%;background:var(--gold)"></div></div><div class="gauge-val" style="color:var(--gold)">Modérée ⚠️</div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">💉 Cathétérisme Droit — Complet</div>
+    <div class="drow"><div class="dl">Pressions AP</div><div class="dv warn">42 / 18 / 27 mmHg — HTAP modérée</div></div>
+    <div class="drow"><div class="dl">mPAP (PAPM)</div><div class="dv warn">27 mmHg — modérément élevée (HTAP probable hypercinétique)</div></div>
+    <div class="drow"><div class="dl">PVR (RVP)</div><div class="dv ok">2.2 Wood Units ✅ — zone 2-5 WU → COR 2a</div></div>
+    <div class="drow"><div class="dl">PCWP</div><div class="dv ok">12 mmHg ✅ — précapillaire confirmé</div></div>
+    <div class="drow"><div class="dl">DC (Fick)</div><div class="dv ok">5.8 L/min — normal (hyperdébit par shunt)</div></div>
+    <div class="drow"><div class="dl">Qp/Qs cathé</div><div class="dv warn">2.1 — shunt significatif (CIA + RVPPA cumulés)</div></div>
+    <div class="drow"><div class="dl">POD</div><div class="dv ok">6 mmHg — normale</div></div>
+    <div class="drow"><div class="dl">Satimétries clés</div><div class="dv lime">OD basse 68% → VCS haute 76% → AP 82% → STEP-UP VCS confirme VPDS dans VCS · Sang oxygéné (VPDS) rejoint VCS</div></div>
+    <div class="drow"><div class="dl">Conclusion cathé</div><div class="dv ok">HTAP hypercinétique (PVR 2.2 WU faible) · Step-up VCS confirme RVPPA · Correction indiquée COR 2a (ou COR I si VD dilaté)</div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📊 Stratification 3-Strata</div>
+    <div class="strata-table">
+      <div class="st-head"><div>Paramètre</div><div style="color:var(--mint)">Faible ← CE CAS</div><div style="color:var(--gold)">Intermédiaire</div><div style="color:var(--red)">Élevé</div></div>
+      <div class="st-row"><div>WHO</div><div class="st-low">I–II ✓</div><div>III</div><div>III–IV</div></div>
+      <div class="st-row"><div>TM6M</div><div class="st-low">420 m ✓ (N&gt;440 intermed.)</div><div>165–440</div><div>&lt;165 m</div></div>
+      <div class="st-row"><div>NT-proBNP</div><div class="st-low">486 (300–1400) → Intermédiaire</div><div>→ interméd.</div><div>&gt;1400</div></div>
+      <div class="st-row"><div>TAPSE</div><div class="st-low">20 mm ✓</div><div>—</div><div>&lt;18 mm</div></div>
+      <div class="st-row"><div>Épanch. péricardique</div><div class="st-low">Absent ✓</div><div>—</div><div>Présent</div></div>
+      <div class="st-row"><div>PVR</div><div class="st-low">2.2 WU ✓</div><div>5–15</div><div>&gt;15</div></div>
+    </div>
+    <div class="ib ib-mint" style="margin-bottom:0">
+      <strong>3-Strata : RISQUE FAIBLE — Majoritairement faible</strong><br>
+      NT-proBNP 486 en zone intermédiaire basse MAIS tous les autres paramètres = risque faible. 3-Strata faible–intermédiaire bas. Pas d'urgence thérapeutique médicale. L'urgence est anatomique : corriger avant progression vers HTAP vraie.
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 4 VOLET 3 STADE B -->
+<div class="slide" id="slide-4">
+  <div class="sh">📊 Volet 3 — Stade B · Table 4 ACC/AHA 2025</div>
+
+  <div class="ib ib-lime">
+    <strong>Stade B bien défini pour ce cas :</strong> CIA sinus veineux + RVPPA → hyperdébit chronique + VD dilaté modérément. Mais pas d'IC décompensée, pas d'hospitalisation, NYHA II, Strain VD normal, pas de FA, NT-proBNP modérément élevé. → Stade B selon Table 4 ACC 2025.
+  </div>
+
+  <div class="card">
+    <div class="card-title">Critères Table 4 ACC 2025 — Stade B</div>
+    <div class="strata-table" style="grid-template-columns:none">
+      <div class="st-head" style="grid-template-columns:1.8fr 1fr 1fr"><div>Critère</div><div>Présent ?</div><div>Valeur</div></div>
+      <div class="st-row" style="grid-template-columns:1.8fr 1fr 1fr"><div>Shunt hémody. significatif</div><div class="st-low">✅ OUI</div><div>Qp/Qs 2.1</div></div>
+      <div class="st-row" style="grid-template-columns:1.8fr 1fr 1fr"><div>VD dilaté</div><div class="st-low">✅ OUI</div><div>DTDVD 40 mm</div></div>
+      <div class="st-row" style="grid-template-columns:1.8fr 1fr 1fr"><div>RVPPA associé</div><div class="st-low">✅ OUI</div><div>VPDS → VCS</div></div>
+      <div class="st-row" style="grid-template-columns:1.8fr 1fr 1fr"><div>NYHA II</div><div class="st-low">✅ OUI</div><div>Effort soutenu</div></div>
+      <div class="st-row" style="grid-template-columns:1.8fr 1fr 1fr"><div>HTAP légère</div><div class="st-low">✅ OUI</div><div>RVP 2.2 WU</div></div>
+      <div class="st-row" style="grid-template-columns:1.8fr 1fr 1fr"><div>Hospitalisation IC</div><div style="color:var(--w3)">✗ Non</div><div>Jamais</div></div>
+      <div class="st-row" style="grid-template-columns:1.8fr 1fr 1fr"><div>FA permanente</div><div style="color:var(--w3)">✗ Non</div><div>RS maintenu</div></div>
+      <div class="st-row" style="grid-template-columns:1.8fr 1fr 1fr"><div>Dysfonction VD sévère</div><div style="color:var(--w3)">✗ Non</div><div>Strain -22% ✅</div></div>
+    </div>
+    <div class="ib ib-teal" style="margin-bottom:0">
+      <strong>Stade B confirmé.</strong> Ce cas illustre qu'un Stade B peut être complexe anatomiquement tout en étant hémodynamiquement peu avancé. La complexité ici est chirurgicale/interventionnelle — pas la gravité hémodynamique. Indication de correction est COR 2a (RVP 2.2 WU, zone 2–5 WU) voire COR I si on retient la dilatation VD significative + Qp/Qs 2.1.
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">⏰ Urgence de la correction — Avant progression</div>
+    <div class="drow"><div class="dl">Risque immédiat</div><div class="dv ok">Faible — patient stable · Pas d'IC · Strain VD préservé</div></div>
+    <div class="drow"><div class="dl">Risque à 5–10 ans</div><div class="dv warn">Progression HTAP (RVP augmente avec le temps) · FA possible (OD dilatée) · Dysfonction VD progressive</div></div>
+    <div class="drow"><div class="dl">Indication correction</div><div class="dv lime">COR 2a voire COR I — Qp/Qs 2.1 + VD dilaté + RVPPA (indication propre, indépendante) · Corriger maintenant pendant que Stade B</div></div>
+    <div class="drow"><div class="dl">Délai optimal</div><div class="dv ok">Dans les 3–6 mois · Pas d'urgence immédiate · Planification RCP chirurgie-interventionnel</div></div>
+  </div>
+</div>
+
+<!-- SLIDE 5 TECHNIQUE FERMETURE -->
+<div class="slide" id="slide-5">
+  <div class="sh">🔧 Stratégie de Fermeture — Warden vs Stent Couvert VCS</div>
+
+  <div class="ib ib-red">
+    <strong>🚫 Amplatzer ASD Occluder standard = IMPOSSIBLE</strong><br>
+    Berge supérieure absente (&lt;3 mm). Device ne peut s'ancrer sans risquer de migrer en VCS ou d'obstruer partiellement la jonction VCS-OD. C'est la règle pour TOUTE CIA sinus veineux supérieur.
+  </div>
+
+  <div class="comp-table">
+    <div class="ct-head"><div>Critère comparatif</div><div style="color:var(--sky)">🏥 Warden (Chirurgie)</div><div style="color:var(--lime)">🩺 Stent Couvert (Percutané)</div></div>
+    <div class="ct-row"><div>Invasivité</div><div class="ct-bad">Chirurgie ouverte · CEC · AG</div><div class="ct-good">Cathétérisme · Sédation</div></div>
+    <div class="ct-row"><div>Traitement RVPPA</div><div class="ct-good">Réimplantation VPDS dans OG (correction définitive)</div><div class="ct-warn">VPDS réorientée vers OG via stent (indirect)</div></div>
+    <div class="ct-row"><div>Fermeture CIA</div><div class="ct-good">Patch péricardique direct · Hermétique</div><div class="ct-warn">Stent couvert exclut le défect</div></div>
+    <div class="ct-row"><div>Mortalité procédure</div><div class="ct-warn">1–3% (chirurgie CIA complexe)</div><div class="ct-good">&lt;1%</div></div>
+    <div class="ct-row"><div>Résultat anatomique</div><div class="ct-good">Optimal — correction bidirectionnelle</div><div class="ct-warn">Dépend de l'anatomie VCS</div></div>
+    <div class="ct-row"><div>Conditions anatomiques</div><div class="ct-good">Toujours applicable</div><div class="ct-warn">Nécessite distance VCS-VPDS &gt;15 mm</div></div>
+    <div class="ct-row"><div>Durée hospitalisation</div><div class="ct-bad">7–10 jours</div><div class="ct-good">24–48 heures</div></div>
+    <div class="ct-row"><div>Risque complications</div><div class="ct-warn">CEC + ischémie nœud sinusal</div><div class="ct-warn">Obstruction VCS · Thrombose stent</div></div>
+    <div class="ct-row"><div>Recommandation ACC 2025</div><div class="ct-good">Standard recommandé COR I</div><div class="ct-lime">COR 2b si éligible anatomiquement</div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🏥 Procédure Warden — Technique chirurgicale en 6 étapes</div>
+    <div class="tech-steps">
+      <div class="ts-item" style="border-color:var(--sky)">
+        <div class="ts-num" style="background:var(--sky);color:#06101E">1</div>
+        <div class="ts-body"><div class="ts-title" style="color:var(--sky)">CEC + Canulation</div>Sternotomie médiane · Canulation VCS haute (au-dessus de l'ostium VPDS) + aorte · Cardioplégie froide · Clampage aortique</div>
+      </div>
+      <div class="ts-item" style="border-color:var(--lime)">
+        <div class="ts-num" style="background:var(--lime);color:#06101E">2</div>
+        <div class="ts-body"><div class="ts-title" style="color:var(--lime)">Section de la VCS</div>Section de la VCS au-dessus de l'ostium VPDS · La VCS est coupée en 2 segments · Ligature du segment supérieur temporaire</div>
+      </div>
+      <div class="ts-item" style="border-color:var(--teal)">
+        <div class="ts-num" style="background:var(--teal);color:#06101E">3</div>
+        <div class="ts-body"><div class="ts-title" style="color:var(--teal)">Fermeture CIA par patch</div>Fermeture CIA sinus veineux par patch péricardique autologue · Le patch couvre le défect en redirigant le retour de la VPDS vers l'OG (tunnel intra-auriculaire)</div>
+      </div>
+      <div class="ts-item" style="border-color:var(--gold)">
+        <div class="ts-num" style="background:var(--gold);color:#06101E">4</div>
+        <div class="ts-body"><div class="ts-title" style="color:var(--gold)">Réimplantation VCS → OD</div>Le segment inférieur VCS (avec ostium VPDS) est anastomosé à l'appendice auriculaire droit (AAD) · La VPDS est ainsi réorientée vers l'OD puis OG via le patch</div>
+      </div>
+      <div class="ts-item" style="border-color:var(--orange)">
+        <div class="ts-num" style="background:var(--orange);color:#06101E">5</div>
+        <div class="ts-body"><div class="ts-title" style="color:var(--orange)">Anastomose VCS supérieure → AAD</div>Le segment supérieur VCS est anastomosé à l'OD · Reconstitution du flux veineux systémique · Vérification hémostase</div>
+      </div>
+      <div class="ts-item" style="border-color:var(--mint)">
+        <div class="ts-num" style="background:var(--mint);color:#06101E">6</div>
+        <div class="ts-body"><div class="ts-title" style="color:var(--mint)">Contrôle per-opératoire</div>ETO per-opératoire : absence de shunt résiduel · Flux VPDS vers OG confirmé · Gradient VCS &lt;5 mmHg · Bonne fonction VD · Déclampage · Sevrage CEC</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🩺 Stent Couvert VCS-OD — Technique percutanée (COR 2b)</div>
+    <div class="ib ib-lime" style="margin-bottom:10px">
+      <strong>Principe :</strong> Déploiement d'un stent couvert dans la VCS-OD bridgeant le défect sinus veineux. Le stent exclut le défect de la circulation systémique et réoriente indirectement le flux VPDS vers l'OG via la CIA couverte. Technique possible uniquement si la distance VPDS-CIA est suffisante (&gt;15 mm).
+    </div>
+    <div class="drow"><div class="dl">Éligibilité</div><div class="dv">Distance ostium VPDS – CIA ≥ 15 mm (ici 2.5 cm ≥ 15 mm ✅) · Diamètre VCS 24 mm (stent 26–28 mm disponible)</div></div>
+    <div class="drow"><div class="dl">Test ballon ETO</div><div class="dv warn">Test balloon occlusion dans CIA via cathé transseptal + ETO : si flux VPDS redirigé vers OG = stent réalisable. Si flux reste dans VCS = chirurgie obligatoire.</div></div>
+    <div class="drow"><div class="dl">Device</div><div class="dv">Stent couvert 26 mm (Andrastent, BeGraft, ou équivalent) · Déployé de la VCS inférieure à l'OD · Exclut le défect latéralement</div></div>
+    <div class="drow"><div class="dl">Avantage décisif</div><div class="dv ok">Évite la CEC · Hospitalisation 24–48h · Option privilégiée si anatomie favorable + centre expert disponible</div></div>
+    <div class="drow"><div class="dl">Décision pour ce cas</div><div class="dv lime">Test ballon ETO réalisé → flux VPDS bien redirigé vers OG → Stent couvert COR 2b envisagé EN PRIORITÉ · Si échec ou doute : Warden COR I</div></div>
+  </div>
+</div>
+
+<!-- SLIDE 6 QCM -->
+<div class="slide" id="slide-6">
+  <div class="sh">❓ QCM — 6 questions · Cas CIA 09 · Sinus Veineux + RVPPA</div>
+  <div id="qcm-area"></div>
+  <div id="score-area" style="display:none"></div>
+</div>
+
+<!-- SLIDE 7 DÉCISION & SUIVI -->
+<div class="slide" id="slide-7">
+  <div class="sh">⚕️ Décision finale & Plan de prise en charge</div>
+  <div class="card">
+    <div class="card-title">🎯 Récapitulatif décisionnel</div>
+    <div class="drow"><div class="dl">CIA</div><div class="dv lime">Sinus veineux supérieur 22×18 mm + RVPPA (VPDS→VCS)</div></div>
+    <div class="drow"><div class="dl">Amplatzer</div><div class="dv alert">IMPOSSIBLE — berge supérieure absente</div></div>
+    <div class="drow"><div class="dl">Option 1 (préférée)</div><div class="dv ok">Stent couvert VCS-OD — COR 2b (test ballon favorable · Distance VPDS-CIA 2.5 cm) · Centre expert</div></div>
+    <div class="drow"><div class="dl">Option 2 (alternative)</div><div class="dv sky">Chirurgie Warden — COR I · Si stent impossible ou test ballon défavorable</div></div>
+    <div class="drow"><div class="dl">RCP décisionnelle</div><div class="dv alert">ACHD + Chirurgie cardiaque + Cathétérisme interventionnel · Décision multidisciplinaire obligatoire</div></div>
+    <div class="drow"><div class="dl">Traitement PAH</div><div class="dv ok">Non indiqué — RVP 2.2 WU + 3-Strata faible · Corriger l'anomalie anatomique directement</div></div>
+    <div class="drow"><div class="dl">Post-procédure</div><div class="dv">Aspirine 100 mg × 6 mois (stent) ou surveillance simple (Warden) · ETT J7 + M1 + M6 · IRM M6</div></div>
+    <div class="drow"><div class="dl">FA prévention</div><div class="dv warn">Surveillance Holter post-procédure (risque dysfonction nœud sinusal post-Warden) · OD légèrement dilatée = substrat potentiel</div></div>
+  </div>
+
+  <div class="sh">📅 Suivi Table 12 ACC 2025 · Stade B · Post-correction sinus veineux</div>
+  <div class="suivi-table">
+    <div class="suiv-head"><div>Examen</div><div>Délai</div><div>Objectif</div></div>
+    <div class="suiv-row hl"><div>ETT + SpO₂ + BNP</div><div class="suiv-val">J7</div><div>Shunt résiduel ? Flux VPDS dans OG ?</div></div>
+    <div class="suiv-row"><div>Holter ECG</div><div class="suiv-val">M1</div><div>Dysfonction nœud sinusal ? FA paroxystique ?</div></div>
+    <div class="suiv-row hl"><div>ETT + TM6M + Strain VD</div><div class="suiv-val">M3</div><div>Régression VD · Amélioration TM6M ?</div></div>
+    <div class="suiv-row"><div>IRM cardiaque + Angiosc.</div><div class="suiv-val">M6</div><div>FEVD · Qp/Qs résiduel · Perméabilité stent · VPDS → OG confirmé</div></div>
+    <div class="suiv-row hl"><div>Consultation ACHD</div><div class="suiv-val">M6, M12</div><div>Puis annuel (Stade B post-correction)</div></div>
+  </div>
+</div>
+
+<!-- SLIDE 8 MESSAGES CLÉS -->
+<div class="slide" id="slide-8">
+  <div class="val-banner">
+    <div style="font-size:18px">✅</div>
+    <div class="vb-t"><strong>CORE-TEAM ACHD-Algérie · CSC · ACC/AHA 2025</strong>Messages clés — Cas CIA 09 · Sinus Veineux Supérieur + RVPPA · Le cas anatomiquement le plus complexe</div>
+  </div>
+
+  <div class="sh">💡 8 Messages clés — Cas CIA 09</div>
+
+  <div class="kmsg"><div class="km-num" style="background:var(--lime)">1</div><div class="km-body"><strong>CIA sinus veineux ≠ CIA ostium secundum — anatomie fondamentalement différente.</strong> Localisation à la jonction VCS-OD (pas au centre de la FO). Berge supérieure absente. Le septum primum est intact. Représente 5–10% des CIA de l'adulte. ETT insuffisante — ETO + scanner obligatoires.</div></div>
+
+  <div class="kmsg"><div class="km-num" style="background:var(--red)">2</div><div class="km-body"><strong>Amplatzer ASD Occluder impossible dans le sinus veineux supérieur.</strong> La berge supérieure absente ne permet pas l'ancrage du device. Une tentative de placement = risque de migration en VCS + obstruction. Ne jamais tenter Amplatzer OS dans le sinus veineux supérieur.</div></div>
+
+  <div class="kmsg"><div class="km-num" style="background:var(--sky)">3</div><div class="km-body"><strong>RVPPA = anomalie associée quasi-constante du sinus veineux supérieur.</strong> La VPDS se draine dans la VCS dans 80-90% des sinus veineux supérieurs. Le step-up en satimétrie VCS confirme le retour anormal. Le RVPPA doit être corrigé en même temps que la CIA (réimplantation Warden ou réorientation par stent).</div></div>
+
+  <div class="kmsg"><div class="km-num" style="background:var(--gold)">4</div><div class="km-body"><strong>Warden = gold standard chirurgical pour sinus veineux + RVPPA.</strong> Correction bidirectionnelle en un temps (CIA + RVPPA). COR I ACC 2025. Taux de succès &gt;95%. Risque principal : dysfonction nœud sinusal (5-10%) — préserver les nerfs autonomes péri-VCS.</div></div>
+
+  <div class="kmsg"><div class="km-num" style="background:var(--lime)">5</div><div class="km-body"><strong>Stent couvert VCS-OD = alternative percutanée si anatomie favorable.</strong> COR 2b ACC 2025. Distance VPDS-CIA &gt;15 mm obligatoire. Test ballon ETO préalable confirme la redirection du flux VPDS vers OG. Centre expert ACHD requis. Avantage : évite la CEC.</div></div>
+
+  <div class="kmsg"><div class="km-num" style="background:var(--cyan)">6</div><div class="km-body"><strong>Step-up en satimétrie VCS-OD = signe diagnostique du RVPPA.</strong> OD basse 68% → VCS haute 76% → AP 82% = le sang oxygéné (VPDS) rejoint la VCS et crée un step-up de satimétrie avant l'OD. Ce signe au cathétérisme doit systématiquement faire rechercher une VPDS dans la VCS.</div></div>
+
+  <div class="kmsg"><div class="km-num" style="background:var(--teal)">7</div><div class="km-body"><strong>Qp/Qs 2.1 = shunt combiné CIA + RVPPA.</strong> Dans la CIA sinus veineux, le shunt total inclut : le shunt direct par le défect (G→D) + le retour anormal VPDS dans la VCS (sang oxygéné court-circuitant l'OG). Les deux s'additionnent pour donner un Qp/Qs plus élevé que la seule taille de la CIA ne le suggèrerait.</div></div>
+
+  <div class="kmsg"><div class="km-num" style="background:var(--pur)">8</div><div class="km-body"><strong>La complexité anatomique n'implique pas la gravité hémodynamique.</strong> Ce cas est le plus complexe anatomiquement de la série (sinus veineux + RVPPA + Warden/stent) mais le moins grave hémodynamiquement (Stade B, Strain VD normal, RVP 2.2 WU). Complexité anatomique et gravité clinique sont deux dimensions indépendantes à évaluer séparément.</div></div>
+
+  <div class="sh">📚 Référence & Contact</div>
+  <div class="card">
+    <div class="drow"><div class="dl">Guideline</div><div class="dv">Gurvitz et al. 2025 ACC/AHA/HRS/ISACHD/SCAI · JACC 2025</div></div>
+    <div class="drow"><div class="dl">Section</div><div class="dv">4.1.2 CIA Sinus Veineux · Stent couvert COR 2b · Table 4 (stade) · Table 12 (suivi)</div></div>
+    <div class="drow"><div class="dl">Evidence</div><div class="dv">Vida et al. JTCVS 2006 (Warden) · Wan et al. JACC CI 2015 (stent couvert SV) · Roubertie et al. 2020</div></div>
+    <div class="drow"><div class="dl">ACHD CORE-Team</div><div class="dv">CSC Algeria · contact@csc-cardio.com · WhatsApp +213 540 910 869</div></div>
+  </div>
+</div>
+
+</div>
+
+<div id="botnav">
+  <button class="bnav-btn bnav-prev" id="btn-prev" disabled>← Précédent</button>
+  <button class="bnav-btn bnav-next" id="btn-next">Suivant →</button>
+</div>
+
+<script>
+var cur=0,total=9,qIdx=0,qScore=0,qAnswered=[];
+var snavs=document.querySelectorAll('.snav');
+snavs.forEach(function(b){b.addEventListener('click',function(){goTo(parseInt(this.getAttribute('data-slide')));});});
+function goTo(n){
+  if(n<0||n>=total)return;
+  document.querySelectorAll('.slide').forEach(function(s){s.classList.remove('active');});
+  document.getElementById('slide-'+n).classList.add('active');
+  snavs.forEach(function(b){b.classList.remove('active');});
+  snavs[n].classList.add('active');
+  if(n>0)snavs[n-1].classList.add('done');
+  cur=n;
+  document.getElementById('btn-prev').disabled=(n===0);
+  document.getElementById('btn-next').disabled=(n===total-1);
+  document.getElementById('btn-next').textContent=n===total-2?'Terminer ✓':'Suivant →';
+  window.scrollTo(0,0);
+  if(n===6&&qIdx===0)renderQ(0);
+}
+document.getElementById('btn-prev').addEventListener('click',function(){goTo(cur-1);});
+document.getElementById('btn-next').addEventListener('click',function(){goTo(cur+1);});
+
+var QCM=[
+  {q:"CIA sinus veineux supérieur 22 mm, berge supérieure absente, RVPPA (VPDS→VCS), RVP 2.2 WU, Stade B. Pourquoi l'Amplatzer ASD Occluder est-il impossible ?",
+   opts:["Le diamètre 22 mm est trop petit pour tout Amplatzer","La berge supérieure absente (< 3–5 mm) empêche l'ancrage du device : le disque gauche migrerait en VCS risquant une obstruction veineuse systémique. L'Amplatzer nécessite une berge ≥5 mm dans toutes les directions pour s'ancrer.","La CIA sinus veineux est trop proche de l'aorte pour tout device","Le RVPPA associé contre-indique tout device percutané"],
+   ans:1,
+   fb:"La règle anatomique fondamentale : l'Amplatzer ASD Occluder requiert une berge ≥5 mm dans toutes les directions. Dans le sinus veineux supérieur, la berge supérieure (entre le défect et la VCS) est absente car le défect est à la jonction VCS-OD elle-même. Sans ancrage supérieur, le disque gauche de l'Amplatzer migrerait dans la VCS → risque obstruction VCS + migration du device. C'est une CI anatomique absolue au device Amplatzer OS standard pour TOUT sinus veineux supérieur."},
+  {q:"Le step-up en satimétrie montre : OD basse 68% → VCS haute 76% → AP 82%. Comment interpréter ce step-up VCS ?",
+   opts:["Step-up VCS → OD = normal — la VCS est toujours plus saturée que l'OD","Step-up VCS (76%) > OD basse (68%) = sang oxygéné arrive dans la VCS avant l'OD. C'est la veine pulmonaire droite supérieure (VPDS) qui se draine dans la VCS et crée cette élévation de saturation. Confirme le RVPPA VPDS→VCS.","Step-up impossible par définition dans la VCS — ce résultat est une erreur de mesure","Le step-up VCS signifie un shunt D→G — Eisenmenger débutant"],
+   ans:1,
+   fb:"Physiopathologie du step-up RVPPA : La VPDS ramène du sang OXYGÉNÉ (provenant du lobe pulmonaire supérieur droit, SaO₂ ~97%) qui se déverse dans la VCS. Le sang systémique de la VCS seul aurait une SaO₂ ~65-70%. Le mélange VPDS + VCS systémique → SaO₂ VCS 76% > SaO₂ OD basse 68%. Ce step-up positif (VCS > OD basse) est la signature hémodynamique du RVPPA avec VPDS dans la VCS. Il faut toujours mesurer les satimétries en « étagé » (OD basse, OD haute, VCS basse, VCS haute) pour détecter ce pattern."},
+  {q:"Quelle est la technique chirurgicale de référence pour la CIA sinus veineux supérieur + RVPPA (VPDS→VCS) selon ACC 2025 ?",
+   opts:["Fermeture simple par patch de la CIA uniquement — le RVPPA se corrige spontanément","Procédure de Warden : section VCS au-dessus de l'ostium VPDS + fermeture CIA par patch + réimplantation VCS inférieure (avec VPDS) sur l'appendice auriculaire droit → correction bidirectionnelle CIA et RVPPA en un temps.","Transplantation cœur-poumon uniquement","Ligature de la VPDS aberrante + fermeture CIA percutanée secondaire"],
+   ans:1,
+   fb:"Procédure de Warden (Warden et al. 1984) : Gold standard COR I pour CIA sinus veineux supérieur + RVPPA. En 6 étapes : (1) CEC + canulation haute (au-dessus de VPDS) (2) Section VCS (3) Fermeture CIA par patch péricardique en tunnelisant le retour VPDS vers OG (4) Anastomose VCS inférieure (avec VPDS) sur appendice auriculaire droit (5) Anastomose VCS supérieure sur OD (6) ETO de contrôle. Résultat : CIA fermée + VPDS réorientée vers OG. Taux succès > 95%. Principal risque : dysfonction nœud sinusal (5-10%)."},
+  {q:"Le test ballon ETO est réalisé : la CIA est occluse temporairement et on observe que le flux VPDS est bien redirigé vers l'OG. Quelle conclusion et décision ?",
+   opts:["Test ballon positif = CI à la fermeture (comme dans le cas de dysfonction VG)","Test ballon favorable = anatomie compatible avec stent couvert VCS-OD (COR 2b). La redirection du flux VPDS vers OG sous occlusion confirme que le stent, en couvrant la CIA latéralement, permettra un retour VPDS fonctionnel vers l'OG sans nouvelle chirurgie.","Le test ballon n'a aucune valeur dans la CIA sinus veineux","Test ballon positif = procédure de Warden obligatoire"],
+   ans:1,
+   fb:"Le test ballon dans la CIA sinus veineux a un rôle DIFFÉRENT de celui dans la dysfonction VG (Cas 07). Ici il évalue la faisabilité du stent couvert : si l'occlusion temporaire de la CIA montre que le flux VPDS se redirige vers l'OG (pas vers la VCS restante) → le stent couvert peut faire la même chose de manière permanente. Si le flux VPDS reste dans la VCS → la redirection ne se fait pas → stent insuffisant → chirurgie Warden obligatoire. Ce test est la clé de la décision percutanée vs chirurgicale dans ce cas."},
+  {q:"Qp/Qs = 2.1 dans ce cas. La CIA sinus veineux ne mesure que 22 mm. Comment expliquer un Qp/Qs aussi élevé ?",
+   opts:["Erreur de mesure — Qp/Qs 2.1 est impossible avec CIA 22 mm","Le Qp/Qs est la somme du shunt CIA direct (G→D) + du retour veineux anormal VPDS dans la VCS (sang oxygéné court-circuitant l'OG). Les deux s'additionnent : même sans CIA très large, le RVPPA seul peut générer un shunt significatif.","Qp/Qs 2.1 signifie Eisenmenger débutant","CIA 22 mm génère toujours Qp/Qs 2.1 — taille corrèle parfaitement"],
+   ans:1,
+   fb:"Le Qp/Qs dans la CIA sinus veineux est la somme de DEUX sources de shunt G→D : (1) Shunt direct par le défect CIA sinus veineux (sang OG → OD via le défect, comme dans tout CIA G→D) (2) RVPPA : la VPDS, qui aurait dû se drainer dans l'OG, se draine dans la VCS → ce volume de sang oxygéné 'manque' à l'OG et 'surcharge' le circuit pulmonaire (Qp augmenté). Les deux phénomènes s'additionnent pour donner un Qp/Qs 2.1 disproportionné par rapport à la taille du défect seul."},
+  {q:"Concernant la surveillance post-procédure de Warden, quel risque spécifique doit être recherché en priorité ?",
+   opts:["Risque de thrombose coronarienne — surveillance troponine quotidienne","Risque de dysfonction du nœud sinusal (5-10%) : lié à la manipulation chirurgicale de la région péri-VCS et des nerfs autonomes adjacents. Holter ECG obligatoire à M1 pour détecter : bradycardie sinusale, pauses, incompétence chronotrope, bloc SA.","Risque d'HTAP postopératoire — cathétérisme systématique J7","Risque de récidive CIA — pas de surveillance spécifique nécessaire"],
+   ans:1,
+   fb:"La procédure de Warden implique des manipulations chirurgicales à la jonction VCS-OD, région anatomiquement proche du nœud sinusal (nœud SA) situé dans la crête terminale (crista terminalis) à la jonction VCS-OD. Les manœuvres de section-anastomose VCS peuvent léser directement le nœud SA ou ses artères nourricières (artère du nœud sinusal, branche de la coronaire droite dans 55-60% ou circonflexe dans 40-45%). Risque : dysfonction sinusale dans 5-10% des cas → bradycardie chronique → risque PM temporaire ou définitif. Holter ECG à M1 et M6 est recommandé dans le suivi post-Warden."}
+];
+
+function renderQ(idx){
+  if(idx>=QCM.length){showScore();return;}
+  var q=QCM[idx],letters=['A','B','C','D'];
+  var prog='';
+  for(var k=0;k<QCM.length;k++) prog+='<div class="qpd'+(k<idx?' done':k===idx?' active':'')+'"></div>';
+  var html='<div class="qprog">'+prog+'</div>';
+  html+='<div class="qnum">Question '+(idx+1)+' / '+QCM.length+' · Cas CIA 09 · Sinus Veineux + RVPPA</div>';
+  html+='<div class="card"><div class="qcm-q">'+q.q+'</div>';
+  for(var j=0;j<4;j++) html+='<button class="qopt" data-qi="'+idx+'" data-j="'+j+'"><div class="ql">'+letters[j]+'</div><div class="qt">'+q.opts[j]+'</div></button>';
+  html+='<div class="qfb" id="qfb-'+idx+'"></div></div>';
+  document.getElementById('qcm-area').innerHTML=html;
+  document.querySelectorAll('.qopt').forEach(function(b){b.addEventListener('click',function(){ansQ(parseInt(this.getAttribute('data-qi')),parseInt(this.getAttribute('data-j')));});});
+  qIdx=idx;
+}
+function ansQ(qi,chosen){
+  if(qAnswered.indexOf(qi)>=0)return;
+  qAnswered.push(qi);
+  var q=QCM[qi],correct=chosen===q.ans,letters=['A','B','C','D'];
+  if(correct)qScore++;
+  document.querySelectorAll('.qopt').forEach(function(b){
+    b.style.pointerEvents='none';
+    var j=parseInt(b.getAttribute('data-j'));
+    if(j===q.ans)b.classList.add('reveal');
+    if(j===chosen&&!correct)b.classList.add('wrong');
+    if(j===chosen&&correct)b.classList.add('correct');
+  });
+  var fb=document.getElementById('qfb-'+qi);
+  if(fb){fb.innerHTML='<strong style="color:'+(correct?'var(--mint)':'var(--red)')+'">'+( correct?'✅ Correct !':'❌ Incorrect — Réponse : '+letters[q.ans])+'</strong><br><span style="color:var(--w2)">'+q.fb+'</span>';fb.className='qfb show '+(correct?'ok':'err');}
+  setTimeout(function(){renderQ(qi+1);},3400);
+}
+function showScore(){
+  var pct=Math.round(qScore/QCM.length*100);
+  var sc=pct>=80?'var(--mint)':pct>=60?'var(--gold)':'var(--red)';
+  var lbl=pct>=80?'Excellent !':pct>=60?'Bien !':pct>=40?'À revoir':'Recommencer';
+  var circ=2*Math.PI*48,dash=(pct/100)*circ;
+  document.getElementById('qcm-area').innerHTML='';
+  document.getElementById('score-area').style.display='block';
+  document.getElementById('score-area').innerHTML=
+    '<div class="score-wrap"><div class="score-ring"><svg width="110" height="110" viewBox="0 0 110 110"><circle cx="55" cy="55" r="48" fill="none" stroke="rgba(255,255,255,.08)" stroke-width="9"/><circle cx="55" cy="55" r="48" fill="none" stroke="'+sc+'" stroke-width="9" stroke-linecap="round" stroke-dasharray="'+circ.toFixed(1)+'" stroke-dashoffset="'+(circ-dash).toFixed(1)+'" transform="rotate(-90 55 55)"/></svg><div class="sr-center"><div class="sr-num" style="color:'+sc+'">'+qScore+'</div><div class="sr-den">/ '+QCM.length+'</div></div></div><div class="score-label" style="color:'+sc+'">'+pct+'% — '+lbl+'</div><div style="font-size:12px;color:var(--w3)">Cas CIA 09 · Sinus Veineux · CSC Algeria</div></div>'+
+    '<div class="ib ib-lime" style="margin-top:12px"><strong>→ Consultez la slide Technique Fermeture</strong> pour le détail des 6 étapes Warden et la décision stent couvert.</div>';
+}
+goTo(0);
+</script>
+</body>
+</html>
