@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<title>CIA · Récapitulatif Série · 8 Cas · CSC Algeria ACHD</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#06101E;--bg2:#0B1928;--bg3:#0F2035;
+  --teal:#00C4AE;--t2:rgba(0,196,174,.13);
+  --sky:#38BDF8;--s2:rgba(56,189,248,.12);
+  --mint:#34D399;--m2:rgba(52,211,153,.12);
+  --gold:#F0A030;--g2:rgba(240,160,48,.12);
+  --red:#E03050;--r2:rgba(224,48,80,.12);
+  --pur:#A78BFA;--p2:rgba(167,139,250,.12);
+  --orange:#FB923C;--or2:rgba(251,146,60,.12);
+  --cyan:#22D3EE;--cy2:rgba(34,211,238,.12);
+  --rose:#FB7185;--ro2:rgba(251,113,133,.1);
+  --w1:#EEF5FF;--w2:rgba(238,245,255,.65);--w3:rgba(238,245,255,.32);
+  --brd:rgba(255,255,255,.08);--brd2:rgba(255,255,255,.15);
+  --r:14px;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{min-height:100%;background:var(--bg);color:var(--w1);font-family:"DM Sans",sans-serif;font-size:14px;overflow-x:hidden}
+
+#topbar{background:rgba(6,16,30,.97);backdrop-filter:blur(16px);border-bottom:1px solid var(--brd);padding:10px 16px;display:flex;align-items:center;gap:10px;position:sticky;top:0;z-index:100}
+.tb-logo{width:34px;height:34px;border-radius:9px;background:#fff;padding:2px;flex-shrink:0}
+.tb-logo img{width:100%;height:100%;object-fit:contain}
+.tb-t{font-family:"Syne",sans-serif;font-size:14px;font-weight:700;color:var(--teal)}
+.tb-s{font-size:10px;color:var(--w3)}
+.tb-badge{background:var(--t2);border:1px solid rgba(0,196,174,.3);border-radius:8px;padding:3px 9px;font-size:9px;font-weight:700;color:var(--teal)}
+
+#stepnav{background:rgba(6,16,30,.95);border-bottom:1px solid var(--brd);padding:10px 14px;display:flex;gap:6px;overflow-x:auto;-webkit-overflow-scrolling:touch;position:sticky;top:54px;z-index:90}
+#stepnav::-webkit-scrollbar{display:none}
+.snav{padding:7px 12px;border-radius:20px;font-family:"Syne",sans-serif;font-size:10px;font-weight:700;cursor:pointer;border:1px solid var(--brd2);background:transparent;color:var(--w3);white-space:nowrap;transition:all .15s}
+.snav.active{background:var(--teal);color:#06101E;border-color:var(--teal)}
+.snav.done{background:rgba(52,211,153,.12);border-color:rgba(52,211,153,.3);color:var(--mint)}
+
+#content{padding:14px 14px 100px}
+.slide{display:none;animation:fadeUp .3s ease}
+.slide.active{display:block}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+.card{background:var(--bg2);border-radius:var(--r);padding:14px;border:1px solid var(--brd);margin-bottom:12px}
+.card-title{font-family:"Syne",sans-serif;font-size:13px;font-weight:700;margin-bottom:10px;display:flex;align-items:center;gap:7px}
+.sh{font-family:"Syne",sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.9px;color:var(--w3);margin:16px 0 8px;padding-bottom:6px;border-bottom:1px solid var(--brd)}
+
+.drow{display:flex;padding:8px 0;border-bottom:1px solid var(--brd);align-items:flex-start;gap:8px}
+.drow:last-child{border-bottom:none}
+.dl{width:140px;flex-shrink:0;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:var(--w3);line-height:1.4;padding-top:1px}
+.dv{flex:1;font-size:13px;color:var(--w1);line-height:1.5}
+
+.cor{display:inline-flex;align-items:center;justify-content:center;padding:2px 8px;border-radius:5px;font-family:"JetBrains Mono",monospace;font-size:9px;font-weight:700;margin-right:4px}
+.cor1{background:rgba(52,211,153,.2);color:var(--mint)}
+.cor2a{background:rgba(56,189,248,.2);color:var(--sky)}
+.cor2b{background:rgba(240,160,48,.2);color:var(--gold)}
+.cor3{background:rgba(224,48,80,.15);color:var(--red)}
+
+.ib{border-radius:10px;padding:10px 13px;font-size:12px;line-height:1.65;border-left:3px solid;margin-bottom:10px}
+.ib-teal{background:var(--t2);border-color:var(--teal)}
+.ib-sky{background:var(--s2);border-color:var(--sky)}
+.ib-gold{background:var(--g2);border-color:var(--gold)}
+.ib-red{background:var(--r2);border-color:var(--red)}
+.ib-mint{background:var(--m2);border-color:var(--mint)}
+.ib-pur{background:var(--p2);border-color:var(--pur)}
+
+.val-banner{background:linear-gradient(90deg,rgba(0,196,174,.1),rgba(52,211,153,.06));border:1px solid rgba(0,196,174,.25);border-radius:10px;padding:10px 13px;display:flex;gap:9px;align-items:flex-start;margin-bottom:14px}
+.vb-t{font-size:11px;color:var(--w2);line-height:1.55}
+.vb-t strong{color:var(--teal);display:block;font-size:12px}
+
+/* CASE CARDS */
+.case-card{border-radius:14px;padding:14px;border:2px solid;margin-bottom:10px;position:relative;overflow:hidden}
+.cc-header{display:flex;align-items:flex-start;gap:12px;margin-bottom:10px}
+.cc-num{font-family:"Syne",sans-serif;font-size:28px;font-weight:800;line-height:1;flex-shrink:0;width:44px}
+.cc-info{flex:1}
+.cc-title{font-family:"Syne",sans-serif;font-size:14px;font-weight:700;margin-bottom:3px}
+.cc-sub{font-size:11px;color:var(--w2);line-height:1.4}
+.cc-cor{font-family:"JetBrains Mono",monospace;font-size:11px;font-weight:700;padding:3px 10px;border-radius:6px;display:inline-flex;align-items:center}
+.cc-tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px}
+.tag{display:inline-flex;align-items:center;padding:2px 8px;border-radius:20px;font-size:10px;font-weight:700;border:1px solid}
+.t-teal{background:var(--t2);border-color:rgba(0,196,174,.3);color:var(--teal)}
+.t-sky{background:var(--s2);border-color:rgba(56,189,248,.3);color:var(--sky)}
+.t-mint{background:var(--m2);border-color:rgba(52,211,153,.3);color:var(--mint)}
+.t-gold{background:var(--g2);border-color:rgba(240,160,48,.3);color:var(--gold)}
+.t-red{background:var(--r2);border-color:rgba(224,48,80,.3);color:var(--red)}
+.t-pur{background:var(--p2);border-color:rgba(167,139,250,.3);color:var(--pur)}
+.t-orange{background:var(--or2);border-color:rgba(251,146,60,.3);color:var(--orange)}
+.t-cyan{background:var(--cy2);border-color:rgba(34,211,238,.3);color:var(--cyan)}
+.t-rose{background:var(--ro2);border-color:rgba(251,113,133,.3);color:var(--rose)}
+
+.cc-pvr{display:flex;align-items:center;gap:8px;margin-top:8px}
+.pvr-bar{flex:1;height:6px;background:var(--bg3);border-radius:3px;overflow:hidden}
+.pvr-fill{height:100%;border-radius:3px}
+.pvr-label{font-family:"JetBrains Mono",monospace;font-size:11px;font-weight:700;width:55px;text-align:right;flex-shrink:0}
+.pvr-text{font-size:10px;color:var(--w3);width:55px;flex-shrink:0}
+
+/* DECISION TREE SUMMARY */
+.dt-row{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:10px;border:1px solid var(--brd);margin-bottom:6px;background:var(--bg2)}
+.dt-pvr{font-family:"JetBrains Mono",monospace;font-size:12px;font-weight:700;width:90px;flex-shrink:0}
+.dt-cor-badge{padding:3px 10px;border-radius:6px;font-family:"JetBrains Mono",monospace;font-size:10px;font-weight:700;flex-shrink:0;width:65px;text-align:center}
+.dt-decision{flex:1;font-size:12px;color:var(--w2);line-height:1.4}
+.dt-arrow-txt{font-size:10px;color:var(--w3);width:40px;text-align:center;flex-shrink:0}
+
+/* KEY POINTS */
+.kp-item{display:flex;gap:10px;align-items:flex-start;padding:10px 12px;background:var(--bg2);border-radius:10px;border:1px solid var(--brd);margin-bottom:7px}
+.kp-icon{font-size:18px;flex-shrink:0;width:28px;text-align:center}
+.kp-body{font-size:12px;color:var(--w2);line-height:1.55;flex:1}
+.kp-title{font-family:"Syne",sans-serif;font-size:12px;font-weight:700;margin-bottom:3px}
+
+/* TRAPS */
+.trap-card{border-radius:12px;padding:13px;border:2px solid var(--gold);background:rgba(240,160,48,.06);margin-bottom:8px}
+.trap-title{font-family:"Syne",sans-serif;font-size:12px;font-weight:700;color:var(--gold);margin-bottom:6px;display:flex;align-items:center;gap:6px}
+.trap-body{font-size:12px;color:var(--w2);line-height:1.6}
+
+/* PROGRESSION */
+.prog-timeline{display:flex;flex-direction:column;gap:0}
+.pt-item{display:flex;gap:12px;padding:10px 0;border-bottom:1px solid var(--brd)}
+.pt-item:last-child{border-bottom:none}
+.pt-pvr{font-family:"JetBrains Mono",monospace;font-size:12px;font-weight:700;width:70px;flex-shrink:0;padding-top:2px}
+.pt-dot{width:12px;height:12px;border-radius:50%;flex-shrink:0;margin-top:4px}
+.pt-body{flex:1}
+.pt-title{font-family:"Syne",sans-serif;font-size:12px;font-weight:700;margin-bottom:3px}
+.pt-desc{font-size:11px;color:var(--w2);line-height:1.5}
+
+/* QCM FINAL */
+.qcm-q{font-family:"Syne",sans-serif;font-size:15px;font-weight:700;margin-bottom:16px;line-height:1.45}
+.qopt{width:100%;padding:12px 14px;border-radius:11px;border:2px solid var(--brd2);background:var(--bg2);color:var(--w1);font-family:"DM Sans",sans-serif;font-size:13px;text-align:left;cursor:pointer;margin-bottom:8px;transition:all .18s;display:flex;align-items:flex-start;gap:10px}
+.qopt:active{transform:scale(.98)}
+.qopt.correct{border-color:var(--mint)!important;background:rgba(52,211,153,.1)!important}
+.qopt.wrong{border-color:var(--red)!important;background:rgba(224,48,80,.08)!important}
+.qopt.reveal{border-color:var(--mint)!important;background:rgba(52,211,153,.05)!important}
+.ql{width:28px;height:28px;border-radius:7px;background:var(--bg3);border:1px solid var(--brd2);display:flex;align-items:center;justify-content:center;font-family:"Syne",sans-serif;font-size:12px;font-weight:700;flex-shrink:0;transition:all .2s}
+.qopt.correct .ql,.qopt.reveal .ql{background:var(--mint);border-color:var(--mint);color:#06101E}
+.qopt.wrong .ql{background:var(--red);border-color:var(--red);color:#fff}
+.qt{font-size:13px;color:var(--w2);line-height:1.5;flex:1}
+.qfb{margin-top:12px;padding:12px 14px;border-radius:11px;font-size:12px;line-height:1.65;display:none;border:1px solid}
+.qfb.show{display:block}
+.qfb.ok{background:rgba(52,211,153,.08);border-color:rgba(52,211,153,.3)}
+.qfb.err{background:rgba(224,48,80,.08);border-color:rgba(224,48,80,.25)}
+.qprog{display:flex;gap:5px;margin-bottom:14px}
+.qpd{flex:1;height:4px;border-radius:2px;background:var(--brd2)}
+.qpd.done{background:var(--teal)}.qpd.active{background:var(--gold)}
+.qnum{font-size:10px;color:var(--w3);font-weight:700;text-transform:uppercase;letter-spacing:.8px;margin-bottom:10px}
+
+/* SCORE */
+.score-wrap{text-align:center;padding:20px 0 10px}
+.score-ring{position:relative;width:120px;height:120px;margin:0 auto 12px}
+.score-ring svg{transform:rotate(-90deg)}
+.sr-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.sr-num{font-family:"Syne",sans-serif;font-size:36px;font-weight:800;line-height:1}
+.sr-den{font-size:12px;color:var(--w3)}
+.score-label{font-family:"Syne",sans-serif;font-size:20px;font-weight:700;margin-bottom:6px}
+
+/* BOTTOM NAV */
+#botnav{position:fixed;bottom:0;left:0;right:0;background:rgba(6,16,30,.97);backdrop-filter:blur(14px);border-top:1px solid var(--brd);padding:10px 14px;display:flex;gap:8px;z-index:100}
+.bnav-btn{flex:1;padding:12px;border-radius:11px;border:none;cursor:pointer;font-family:"Syne",sans-serif;font-size:13px;font-weight:700;transition:all .15s}
+.bnav-btn:active{transform:scale(.97)}
+.bnav-prev{background:var(--bg3);border:1px solid var(--brd2);color:var(--w2)}
+.bnav-next{background:var(--teal);color:#06101E}
+.bnav-btn:disabled{opacity:.3;cursor:not-allowed}
+
+/* FINISH SCREEN */
+.finish-wrap{text-align:center;padding:30px 0 20px}
+.fin-logo{width:80px;height:80px;border-radius:18px;background:#fff;padding:6px;object-fit:contain;margin:0 auto 18px;display:block}
+.fin-title{font-family:"Syne",sans-serif;font-size:26px;font-weight:800;color:var(--teal);margin-bottom:8px}
+.fin-sub{font-size:14px;color:var(--w2);line-height:1.6;margin-bottom:20px}
+.fin-stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px}
+.fs-item{background:var(--bg2);border-radius:12px;padding:12px;border:1px solid var(--brd);text-align:center}
+.fs-num{font-family:"Syne",sans-serif;font-size:24px;font-weight:800;color:var(--teal);margin-bottom:4px}
+.fs-label{font-size:11px;color:var(--w3)}
+</style>
+</head>
+<body>
+
+<div id="topbar">
+  <div class="tb-logo"><img src="data:image/png;base64,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" alt="CSC"></div>
+  <div style="flex:1">
+    <div class="tb-t">CIA · Récapitulatif Série · 8 Cas</div>
+    <div class="tb-s">CSC Algeria · ACHD CORE-Team · ACC/AHA 2025</div>
+  </div>
+  <div class="tb-badge">Synthèse</div>
+</div>
+
+<div id="stepnav">
+  <button class="snav active" data-slide="0">📚 Les 8 Cas</button>
+  <button class="snav" data-slide="1">🗺️ Arbre PVR→COR</button>
+  <button class="snav" data-slide="2">⚡ Pièges Classiques</button>
+  <button class="snav" data-slide="3">📈 Progression VD</button>
+  <button class="snav" data-slide="4">❓ QCM Final</button>
+  <button class="snav" data-slide="5">🏆 Certification</button>
+</div>
+
+<div id="content">
+
+<!-- SLIDE 0 : LES 8 CAS -->
+<div class="slide active" id="slide-0">
+  <div class="val-banner">
+    <div style="font-size:18px">✅</div>
+    <div class="vb-t"><strong>Série CIA complète · CORE-TEAM ACHD-Algérie · CSC · ACC/AHA 2025</strong>8 cas couvrant l'intégralité du spectre CIA — de COR I à COR 3 Eisenmenger</div>
+  </div>
+
+  <!-- CAS 01 -->
+  <div class="case-card" style="border-color:rgba(0,196,174,.4);background:rgba(0,196,174,.04)">
+    <div class="cc-header">
+      <div class="cc-num" style="color:var(--teal)">01</div>
+      <div class="cc-info">
+        <div class="cc-title">CIA OS 26 mm · F42 ans · Stade B</div>
+        <div class="cc-sub">Dyspnée NYHA II · BNP 95 · TAPSE 24 mm · Strain VD -21%</div>
+        <div class="cc-cor" style="background:rgba(52,211,153,.2);color:var(--mint)">COR I B-R · Percutanée</div>
+      </div>
+    </div>
+    <div class="cc-tags">
+      <span class="tag t-teal">RVP 1.6 WU</span>
+      <span class="tag t-mint">Berges ≥5 mm</span>
+      <span class="tag t-sky">HTAP hypercinétique (piège)</span>
+    </div>
+    <div class="cc-pvr">
+      <div class="pvr-text" style="color:var(--teal)">1.6 WU</div>
+      <div class="pvr-bar"><div class="pvr-fill" style="width:18%;background:var(--teal)"></div></div>
+      <div class="pvr-label" style="color:var(--teal)">COR I ✅</div>
+    </div>
+    <div class="ib ib-teal" style="margin-top:8px;margin-bottom:0;font-size:11px"><strong>💡 Leçon :</strong> PAPM 45 mmHg mais PVR 1.6 WU = PAS d'HTAP. Fermeture immédiate COR I. Piège PAPM élevée.</div>
+  </div>
+
+  <!-- CAS 02 -->
+  <div class="case-card" style="border-color:rgba(224,48,80,.4);background:rgba(224,48,80,.04)">
+    <div class="cc-header">
+      <div class="cc-num" style="color:var(--red)">02</div>
+      <div class="cc-info">
+        <div class="cc-title">CIA OS 28 mm · H57 ans · Stade D</div>
+        <div class="cc-sub">NYHA III · FA · FEVD 25% · Strain VD -8% · TAPSE 10 mm</div>
+        <div class="cc-cor" style="background:rgba(56,189,248,.2);color:var(--sky)">COR 2a · Optimisation médicale</div>
+      </div>
+    </div>
+    <div class="cc-tags">
+      <span class="tag t-red">RVP 4.1 WU</span>
+      <span class="tag t-red">FEVD 25%</span>
+      <span class="tag t-orange">FA permanente</span>
+    </div>
+    <div class="cc-pvr">
+      <div class="pvr-text" style="color:var(--orange)">4.1 WU</div>
+      <div class="pvr-bar"><div class="pvr-fill" style="width:46%;background:var(--orange)"></div></div>
+      <div class="pvr-label" style="color:var(--sky)">COR 2a</div>
+    </div>
+    <div class="ib ib-red" style="margin-top:8px;margin-bottom:0;font-size:11px"><strong>💡 Leçon :</strong> PVR 2-5 WU = COR 2a MAIS FEVD 25% = risque décompensation VD post-fermeture. Optimisation ERA+iPDE5 + RS avant décision.</div>
+  </div>
+
+  <!-- CAS 03 -->
+  <div class="case-card" style="border-color:rgba(167,139,250,.4);background:rgba(167,139,250,.04)">
+    <div class="cc-header">
+      <div class="cc-num" style="color:var(--pur)">03</div>
+      <div class="cc-info">
+        <div class="cc-title">CIA OS 30 mm + IT Sévère · F62 ans · Stade D</div>
+        <div class="cc-sub">NYHA III · FA · IC droite · Anneau TV 48 mm · EROA 0.48 cm²</div>
+        <div class="cc-cor" style="background:rgba(56,189,248,.2);color:var(--sky)">COR 2a · Chirurgie CIA + Annuloplastie TV</div>
+      </div>
+    </div>
+    <div class="cc-tags">
+      <span class="tag t-pur">RVP 3.1 WU</span>
+      <span class="tag t-red">IT sévère</span>
+      <span class="tag t-red">Anneau 48 mm</span>
+    </div>
+    <div class="cc-pvr">
+      <div class="pvr-text" style="color:var(--pur)">3.1 WU</div>
+      <div class="pvr-bar"><div class="pvr-fill" style="width:35%;background:var(--pur)"></div></div>
+      <div class="pvr-label" style="color:var(--sky)">COR 2a</div>
+    </div>
+    <div class="ib ib-pur" style="margin-top:8px;margin-bottom:0;font-size:11px"><strong>💡 Leçon :</strong> Anneau TV ≥40 mm = annuloplastie concomitante. Vmax IT sous-estime PAPS si IT sévère. Stade D sans HTAP sévère (IT+IC dominent).</div>
+  </div>
+
+  <!-- CAS 04 -->
+  <div class="case-card" style="border-color:rgba(251,146,60,.4);background:rgba(251,146,60,.04)">
+    <div class="cc-header">
+      <div class="cc-num" style="color:var(--orange)">04</div>
+      <div class="cc-info">
+        <div class="cc-title">CIA OS 29 mm · H57 ans · Stade C</div>
+        <div class="cc-sub">NYHA III · 3-Strata élevé · NT-proBNP 1980 · PAPS 75 mmHg</div>
+        <div class="cc-cor" style="background:rgba(56,189,248,.2);color:var(--sky)">COR 2a · Treat-to-Close</div>
+      </div>
+    </div>
+    <div class="cc-tags">
+      <span class="tag t-orange">RVP 6.2 WU</span>
+      <span class="tag t-red">3-Strata élevé</span>
+      <span class="tag t-sky">Test NO partiel</span>
+    </div>
+    <div class="cc-pvr">
+      <div class="pvr-text" style="color:var(--orange)">6.2 WU</div>
+      <div class="pvr-bar"><div class="pvr-fill" style="width:70%;background:var(--orange)"></div></div>
+      <div class="pvr-label" style="color:var(--sky)">COR 2a</div>
+    </div>
+    <div class="ib ib-orange" style="margin-top:8px;margin-bottom:0;font-size:11px"><strong>💡 Leçon :</strong> Zone 5-8 WU = Treat-to-Close ERA+iPDE5 avant fermeture. 3-Strata élevé = bithérapie d'emblée. Stade C ≠ Stade D (pas d'IC hospitalisée).</div>
+  </div>
+
+  <!-- CAS 06 -->
+  <div class="case-card" style="border-color:rgba(34,211,238,.4);background:rgba(34,211,238,.04)">
+    <div class="cc-header">
+      <div class="cc-num" style="color:var(--cyan)">06</div>
+      <div class="cc-info">
+        <div class="cc-title">CIA OS 22 mm · F52 ans · Stade B</div>
+        <div class="cc-sub">NYHA II-III · FA paroxystique · Strain VD -20% préservé · Treat-to-Close insuffisant</div>
+        <div class="cc-cor" style="background:rgba(240,160,48,.2);color:var(--gold)">COR 2b · Fermeture Fenêtrée</div>
+      </div>
+    </div>
+    <div class="cc-tags">
+      <span class="tag t-cyan">RVP 7.0 WU</span>
+      <span class="tag t-gold">Fenêtrée 5-8 mm</span>
+      <span class="tag t-mint">Strain -20% ✅</span>
+    </div>
+    <div class="cc-pvr">
+      <div class="pvr-text" style="color:var(--cyan)">7.0 WU</div>
+      <div class="pvr-bar"><div class="pvr-fill" style="width:79%;background:var(--cyan)"></div></div>
+      <div class="pvr-label" style="color:var(--gold)">COR 2b</div>
+    </div>
+    <div class="ib ib-sky" style="margin-top:8px;margin-bottom:0;font-size:11px"><strong>💡 Leçon :</strong> Treat-to-Close échoué (PVR reste >5 WU) + Strain -20% préservé → fenêtrée d'urgence. Valve de sécurité VD. PAH maintenu après fenêtrée.</div>
+  </div>
+
+  <!-- CAS 07 -->
+  <div class="case-card" style="border-color:rgba(251,113,133,.4);background:rgba(251,113,133,.04)">
+    <div class="cc-header">
+      <div class="cc-num" style="color:var(--rose)">07</div>
+      <div class="cc-info">
+        <div class="cc-title">CIA OS 22 mm + Dysfonction VG · H70 ans · Stade D</div>
+        <div class="cc-sub">NYHA III · PTDVG 20 mmHg · E/e' 18 · FEVG 44% · OAP × 2</div>
+        <div class="cc-cor" style="background:rgba(224,48,80,.15);color:var(--red)">COR 3 · CI (Dysfonction VG)</div>
+      </div>
+    </div>
+    <div class="cc-tags">
+      <span class="tag t-rose">RVP 1.5 WU</span>
+      <span class="tag t-red">Test ballon positif</span>
+      <span class="tag t-red">PTDVG 20 mmHg</span>
+    </div>
+    <div class="cc-pvr">
+      <div class="pvr-text" style="color:var(--rose)">1.5 WU</div>
+      <div class="pvr-bar"><div class="pvr-fill" style="width:17%;background:var(--rose)"></div></div>
+      <div class="pvr-label" style="color:var(--red)">COR 3 !</div>
+    </div>
+    <div class="ib ib-red" style="margin-top:8px;margin-bottom:0;font-size:11px"><strong>💡 Leçon :</strong> PVR basse ≠ fermeture toujours possible. HTAP postcapillaire (VG) = CI si test ballon positif. CIA = soupape bénéfique. Traiter l'IC gauche.</div>
+  </div>
+
+  <!-- CAS 08 -->
+  <div class="case-card" style="border-color:rgba(224,48,80,.7);background:rgba(155,28,28,.12);border-width:3px">
+    <div class="cc-header">
+      <div class="cc-num" style="color:#FFB3B3">08</div>
+      <div class="cc-info">
+        <div class="cc-title" style="color:#FFB3B3">CIA OS 18 mm · H42 ans · Eisenmenger · Stade D</div>
+        <div class="cc-sub">NYHA III-IV · Cyanose SpO₂ 82% · Hb 19.2 g/dL · Hémoptysies</div>
+        <div class="cc-cor" style="background:rgba(224,48,80,.25);color:var(--red)">🔴 COR 3 HARM · CI ABSOLUE DÉFINITIVE</div>
+      </div>
+    </div>
+    <div class="cc-tags">
+      <span class="tag t-red">RVP 8.8 WU</span>
+      <span class="tag t-red">Shunt D→G</span>
+      <span class="tag t-red">PAPM 70 mmHg</span>
+      <span class="tag t-red">Eisenmenger</span>
+    </div>
+    <div class="cc-pvr">
+      <div class="pvr-text" style="color:var(--red)">8.8 WU</div>
+      <div class="pvr-bar"><div class="pvr-fill" style="width:99%;background:var(--red)"></div></div>
+      <div class="pvr-label" style="color:var(--red)">COR 3 🔴</div>
+    </div>
+    <div class="ib ib-red" style="margin-top:8px;margin-bottom:0;font-size:11px"><strong>💡 Leçon :</strong> CIA négligée 42 ans → vasculopathie irréversible. ERA+iPDE5 COR I. Greffe cœur-poumon à discuter. Grossesse CI absolue.</div>
+  </div>
+</div>
+
+<!-- SLIDE 1 : ARBRE PVR→COR -->
+<div class="slide" id="slide-1">
+  <div class="sh">🗺️ Arbre décisionnel CIA — PVR → COR · ACC/AHA 2025 Section 4.1.1</div>
+
+  <div class="dt-row" style="border-color:rgba(52,211,153,.4);background:rgba(52,211,153,.06)">
+    <div class="dt-pvr" style="color:var(--mint)">PVR ≤ 2 WU</div>
+    <div class="dt-cor-badge" style="background:rgba(52,211,153,.2);color:var(--mint)">COR I B-R</div>
+    <div class="dt-arrow-txt">→</div>
+    <div class="dt-decision"><strong style="color:var(--mint)">Fermeture indiquée</strong> · Percutanée préférée si secundum isolé (COR I B-NR) · Berges ≥5 mm · Diamètre ≤38 mm · ETO obligatoire</div>
+  </div>
+
+  <div class="dt-row" style="border-color:rgba(56,189,248,.3);background:rgba(56,189,248,.04)">
+    <div class="dt-pvr" style="color:var(--sky)">PVR 2–5 WU</div>
+    <div class="dt-cor-badge" style="background:rgba(56,189,248,.2);color:var(--sky)">COR 2a B-R</div>
+    <div class="dt-arrow-txt">→</div>
+    <div class="dt-decision"><strong style="color:var(--sky)">Fermeture raisonnable</strong> · Sans dysfonction VG significative · Avis spécialiste HTAP · Améliore classe fonctionnelle</div>
+  </div>
+
+  <div class="dt-row" style="border-color:rgba(240,160,48,.35);background:rgba(240,160,48,.05)">
+    <div class="dt-pvr" style="color:var(--gold)">PVR 5–8 WU<br>(TtC échoué)</div>
+    <div class="dt-cor-badge" style="background:rgba(240,160,48,.2);color:var(--gold)">COR 2a B-NR</div>
+    <div class="dt-arrow-txt">→</div>
+    <div class="dt-decision"><strong style="color:var(--gold)">Treat-to-Close</strong> · ERA + iPDE5 d'abord · Objectif PVR &lt;5 WU · Cathé rééval M3-6 · Si échec → fenêtrée COR 2b</div>
+  </div>
+
+  <div class="dt-row" style="border-color:rgba(251,146,60,.35);background:rgba(251,146,60,.04)">
+    <div class="dt-pvr" style="color:var(--orange)">PVR 5–8 WU<br>(fenêtrée)</div>
+    <div class="dt-cor-badge" style="background:rgba(251,146,60,.2);color:var(--orange)">COR 2b B-NR</div>
+    <div class="dt-arrow-txt">→</div>
+    <div class="dt-decision"><strong style="color:var(--orange)">Fermeture fenêtrée</strong> · Occlusion partielle · Fenestration 5-8 mm · Valve de sécurité VD · PAH maintenu · 2e procédure si PVR &lt;5 WU</div>
+  </div>
+
+  <div class="dt-row" style="border-color:rgba(167,139,250,.35);background:rgba(167,139,250,.04)">
+    <div class="dt-pvr" style="color:var(--pur)">PVR faible<br>PTDVG &gt;15</div>
+    <div class="dt-cor-badge" style="background:rgba(224,48,80,.15);color:var(--red)">COR 3</div>
+    <div class="dt-arrow-txt">→</div>
+    <div class="dt-decision"><strong style="color:var(--red)">CI — Dysfonction VG</strong> · Test ballon positif · CIA = soupape bénéfique OG · Traiter IC gauche · Rééval si PTDVG &lt;15 mmHg</div>
+  </div>
+
+  <div class="dt-row" style="border-color:rgba(224,48,80,.7);background:rgba(155,28,28,.12);border-width:2px">
+    <div class="dt-pvr" style="color:var(--red)">PVR &gt;8 WU<br>Eisenmenger</div>
+    <div class="dt-cor-badge" style="background:rgba(224,48,80,.25);color:var(--red)">COR 3 🔴</div>
+    <div class="dt-arrow-txt">→</div>
+    <div class="dt-decision"><strong style="color:var(--red)">CI ABSOLUE</strong> · Eisenmenger · Vasculopathie irréversible · ERA+iPDE5 COR I · Greffe cœur-poumon · CI grossesse COR 3 HARM</div>
+  </div>
+
+  <div class="sh" style="margin-top:18px">📌 Cas spéciaux</div>
+  <div class="dt-row" style="border-color:rgba(0,196,174,.3);background:rgba(0,196,174,.04)">
+    <div class="dt-pvr" style="color:var(--teal)">FOP + AVC</div>
+    <div class="dt-cor-badge" style="background:rgba(52,211,153,.2);color:var(--mint)">COR I C-EO</div>
+    <div class="dt-arrow-txt">→</div>
+    <div class="dt-decision">Fermeture percutanée FOP · Prévention AVC récidivant · Score RoPE · Quelle que soit la taille ou le Qp/Qs</div>
+  </div>
+  <div class="dt-row" style="border-color:rgba(56,189,248,.3);background:rgba(56,189,248,.04)">
+    <div class="dt-pvr" style="color:var(--sky)">Sinus veineux sup.</div>
+    <div class="dt-cor-badge" style="background:rgba(240,160,48,.2);color:var(--gold)">COR 2b B-NR</div>
+    <div class="dt-arrow-txt">→</div>
+    <div class="dt-decision">Stent couvert transcathéter si techniquement faisable · Alternative chirurgie · Succès &gt;95%</div>
+  </div>
+  <div class="dt-row" style="border-color:rgba(167,139,250,.3);background:rgba(167,139,250,.04)">
+    <div class="dt-pvr" style="color:var(--pur)">CIA + Embolie paradoxale</div>
+    <div class="dt-cor-badge" style="background:rgba(52,211,153,.2);color:var(--mint)">COR I C-EO</div>
+    <div class="dt-arrow-txt">→</div>
+    <div class="dt-decision">Fermeture CIA recommandée · Prévention récidive embolique · Indépendamment de la taille CIA</div>
+  </div>
+
+  <div class="ib ib-teal" style="margin-top:12px">
+    <strong>Règle d'or ACC 2025 :</strong> La décision de fermeture CIA repose sur 3 piliers : ① PVR au cathétérisme ② Fonction VG (PTDVG + test ballon) ③ Réversibilité (test NO + réponse PAH). L'anatomie seule (berges, diamètre) ne suffit JAMAIS à décider.
+  </div>
+</div>
+
+<!-- SLIDE 2 : PIÈGES CLASSIQUES -->
+<div class="slide" id="slide-2">
+  <div class="sh">⚡ 10 Pièges Classiques CIA — ACC/AHA 2025</div>
+
+  <div class="trap-card">
+    <div class="trap-title">⚠️ Piège 1 — PAPM élevée ≠ HTAP précapillaire (Cas 01)</div>
+    <div class="trap-body">PAPM 45 mmHg MAIS PVR 1.6 WU = HTAP hypercinétique par débit (Qp/Qs 2.3). Définition HTAP précapillaire = mPAP &gt;20 + PVR ≥2 WU + PCWP ≤15 mmHg. Fermeture COR I — ne pas attendre.</div>
+  </div>
+  <div class="trap-card">
+    <div class="trap-title">⚠️ Piège 2 — PVR faible ≠ fermeture toujours possible (Cas 07)</div>
+    <div class="trap-body">PVR 1.5 WU = zone COR I habituelle MAIS PTDVG 20 mmHg + test ballon positif = COR 3. La dysfonction VG sévère contre-indique la fermeture même si PVR est normale.</div>
+  </div>
+  <div class="trap-card">
+    <div class="trap-title">⚠️ Piège 3 — Vmax IT sous-estime PAPS si IT massive (Cas 03)</div>
+    <div class="trap-body">IT sévère → pression OD s'élève → égalise pression VD → jet IT moins rapide → Vmax IT 3 m/s mais PAPM réelle 28 mmHg. Le cathétérisme reste gold standard.</div>
+  </div>
+  <div class="trap-card">
+    <div class="trap-title">⚠️ Piège 4 — Stade D ≠ HTAP élevée obligatoirement (Cas 03, 07)</div>
+    <div class="trap-body">IT sévère (Cas 03) ou IC gauche sévère (Cas 07) peuvent faire Stade D avec PVR normale ou modérée. La classification Stade (Table 4) évalue l'état GLOBAL du patient.</div>
+  </div>
+  <div class="trap-card">
+    <div class="trap-title">⚠️ Piège 5 — Stade B + HTAP élevée possible (Cas 06)</div>
+    <div class="trap-body">PVR 7 WU + 3-Strata élevé MAIS Stade B car Strain VD -20% préservé, pas d'IC décompensée, FA paroxystique. Ne pas extrapoler Stade depuis le seul niveau de PVR.</div>
+  </div>
+  <div class="trap-card">
+    <div class="trap-title">⚠️ Piège 6 — 3-Strata non applicable en HTAP postcapillaire (Cas 07)</div>
+    <div class="trap-body">3-Strata évalue l'HTAP précapillaire (groupe 1 OMS). Si HTAP postcapillaire (IC gauche, PCWP &gt;15 mmHg), le 3-Strata n'est pas pertinent pour la décision CIA.</div>
+  </div>
+  <div class="trap-card">
+    <div class="trap-title">⚠️ Piège 7 — ETT seule insuffisante pour décider (ALL CASES)</div>
+    <div class="trap-body">COR I B-NR : ETO ou IRM ou scanner obligatoires avant fermeture pour définir taille exacte, berges, RVPPA, thrombus. Jamais de décision sur ETT seule chez l'adulte.</div>
+  </div>
+  <div class="trap-card">
+    <div class="trap-title">⚠️ Piège 8 — Anatom. éligible ≠ biologiquement faisable (Cas 07, 08)</div>
+    <div class="trap-body">Berges parfaites dans les cas 07 et 08 MAIS CI formelle. La faisabilité anatomique percutanée ne donne PAS le feu vert à la fermeture. La physiopathologie prime toujours.</div>
+  </div>
+  <div class="trap-card">
+    <div class="trap-title">⚠️ Piège 9 — Fenêtrée ≠ fermeture partielle suffisante si VG défaillant (Cas 07)</div>
+    <div class="trap-body">La fenêtrée a été discutée dans le Cas 07 (VG dysfonctionnel) mais rejetée car test ballon montrait OAP + chute DC 32% sous occlusion. Fenêtrée CI si dysfonction VG trop sévère.</div>
+  </div>
+  <div class="trap-card">
+    <div class="trap-title">⚠️ Piège 10 — Anticoagulation systématique Eisenmenger COR 3 No Benefit (Cas 08)</div>
+    <div class="trap-body">Pas d'anticoagulation systématique dans l'Eisenmenger. Risque hémorragique (hémoptysies) &gt; bénéfice. Polyglobulie = adaptation — phlébotomie uniquement si Ht ≥65% + symptômes. Fer IV = toujours.</div>
+  </div>
+</div>
+
+<!-- SLIDE 3 : PROGRESSION VD -->
+<div class="slide" id="slide-3">
+  <div class="sh">📈 Progression de la dysfonction VD selon la PVR — Les 7 cas CIA</div>
+
+  <div class="prog-timeline">
+    <div class="pt-item">
+      <div class="pt-pvr" style="color:var(--mint)">PVR 1.5–1.6 WU</div>
+      <div class="pt-dot" style="background:var(--mint)"></div>
+      <div class="pt-body">
+        <div class="pt-title" style="color:var(--mint)">VD dilaté · Fonction PRÉSERVÉE</div>
+        <div class="pt-desc">Cas 01 (F42) · Cas 07 (H70 — VG dysf.)<br>TAPSE 24 mm · Strain VD -21% · FEVD 54% · Dilatation modérée uniquement<br>→ COR I si VG OK · COR 3 si VG défaillant</div>
+      </div>
+    </div>
+    <div class="pt-item">
+      <div class="pt-pvr" style="color:var(--sky)">PVR 3–4 WU</div>
+      <div class="pt-dot" style="background:var(--sky)"></div>
+      <div class="pt-body">
+        <div class="pt-title" style="color:var(--sky)">VD dilaté · Dysfonction légère-modérée</div>
+        <div class="pt-desc">Cas 02 (H57) · Cas 03 (F62)<br>TAPSE 10-12 mm · Strain VD -5% à -8% · FEVD 25-36% · LGE VD insertion points<br>→ Décision complexe — optimisation obligatoire</div>
+      </div>
+    </div>
+    <div class="pt-item">
+      <div class="pt-pvr" style="color:var(--gold)">PVR 6–7 WU</div>
+      <div class="pt-dot" style="background:var(--gold)"></div>
+      <div class="pt-body">
+        <div class="pt-title" style="color:var(--gold)">VD dilaté · Dysfonction modérée · Hypertrophie débutante</div>
+        <div class="pt-desc">Cas 04 (H57) · Cas 06 (F52)<br>TAPSE 14-16 mm · Strain VD -12% à -15% · FEVD 42-50%<br>→ Treat-to-Close (Cas 04) ou Fenêtrée (Cas 06)</div>
+      </div>
+    </div>
+    <div class="pt-item" style="border-bottom:none">
+      <div class="pt-pvr" style="color:var(--red)">PVR 8.8 WU<br>Eisenmenger</div>
+      <div class="pt-dot" style="background:var(--red)"></div>
+      <div class="pt-body">
+        <div class="pt-title" style="color:var(--red)">VD hypertrophié massif · Dysfonction critique · Fibrose étendue</div>
+        <div class="pt-desc">Cas 08 (H42 Eisenmenger)<br>TAPSE 8 mm · Strain VD -5% · FEVD 22% · LGE massif · Paroi VD 14 mm · Masse VD 98 g/m²<br>→ COR 3 CI absolue · PAH + Greffe</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sh" style="margin-top:16px">📊 Paramètres VD selon PVR — Valeurs des 8 cas</div>
+  <div class="card">
+    <div class="card-title">Évolution des marqueurs VD</div>
+    <div style="font-size:11px;margin-bottom:10px">
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr 1fr;gap:0;border:1px solid var(--brd);border-radius:8px;overflow:hidden">
+        <div style="background:var(--bg3);padding:7px 6px;font-family:Syne,sans-serif;font-size:10px;font-weight:700;color:var(--w3)">Cas</div>
+        <div style="background:var(--bg3);padding:7px 6px;font-family:Syne,sans-serif;font-size:10px;font-weight:700;color:var(--w3);text-align:center">TAPSE</div>
+        <div style="background:var(--bg3);padding:7px 6px;font-family:Syne,sans-serif;font-size:10px;font-weight:700;color:var(--w3);text-align:center">Strain VD</div>
+        <div style="background:var(--bg3);padding:7px 6px;font-family:Syne,sans-serif;font-size:10px;font-weight:700;color:var(--w3);text-align:center">FEVD IRM</div>
+        <div style="background:var(--bg3);padding:7px 6px;font-family:Syne,sans-serif;font-size:10px;font-weight:700;color:var(--w3);text-align:center">PVR WU</div>
+        <div style="padding:6px;border-top:1px solid var(--brd);color:var(--teal);font-weight:700">C01</div><div style="padding:6px;border-top:1px solid var(--brd);color:var(--mint);text-align:center">24 mm ✅</div><div style="padding:6px;border-top:1px solid var(--brd);color:var(--mint);text-align:center">-21% ✅</div><div style="padding:6px;border-top:1px solid var(--brd);color:var(--mint);text-align:center">54%</div><div style="padding:6px;border-top:1px solid var(--brd);color:var(--mint);text-align:center">1.6</div>
+        <div style="padding:6px;border-top:1px solid var(--brd);color:var(--red);font-weight:700">C02</div><div style="padding:6px;border-top:1px solid var(--brd);color:var(--red);text-align:center">10 mm 🔴</div><div style="padding:6px;border-top:1px solid var(--brd);color:var(--red);text-align:center">-8% 🔴</div><div style="padding:6px;border-top:1px solid var(--brd);color:var(--red);text-align:center">25% 🔴</div><div style="padding:6px;border-top:1px solid var(--brd);color:var(--orange);text-align:center">4.1</div>
+        <div style="padding:6px;border-top:1px solid var(--brd);color:var(--pur);font-weight:700">C03</div><div style="padding:6px;border-top:1px solid var(--brd);color:var(--gold);text-align:center">12 mm ⚠️</div><div style="padding:6px;border-top:1px solid var(--brd);color:var(--gold);text-align:center">-12% ⚠️</div><div style="padding:6px;border-top:1px solid var(--brd);color:var(--gold);text-align:center">36%</div><div style="padding:6px;border-top:1px solid var(--brd);color:var(--pur);text-align:center">3.1</div>
+        <div style="padding:6px;border-top:1px solid var(--brd);color:var(--orange);font-weight:700">C04</div><div style="padding:6px;border-top:1px solid var(--brd);color:var(--gold);text-align:center">14 mm ⚠️</div><div style="padding:6px;border-top:1px solid var(--brd);color:var(--gold);text-align:center">-15% ⚠️</div><div style="padding:6px;border-top:1px solid var(--brd);color:var(--gold);text-align:center">42%</div><div style="padding:6px;border-top:1px solid var(--brd);color:var(--orange);text-align:center">6.2</div>
+        <div style="padding:6px;border-top:1px solid var(--brd);color:var(--cyan);font-weight:700">C06</div><div style="padding:6px;border-top:1px solid var(--brd);color:var(--gold);text-align:center">16 mm ⚠️</div><div style="padding:6px;border-top:1px solid var(--brd);color:var(--mint);text-align:center">-20% ✅</div><div style="padding:6px;border-top:1px solid var(--brd);color:var(--mint);text-align:center">50%</div><div style="padding:6px;border-top:1px solid var(--brd);color:var(--cyan);text-align:center">7.0</div>
+        <div style="padding:6px;border-top:1px solid var(--brd);color:var(--rose);font-weight:700">C07</div><div style="padding:6px;border-top:1px solid var(--brd);color:var(--gold);text-align:center">17 mm ⚠️</div><div style="padding:6px;border-top:1px solid var(--brd);color:var(--red);text-align:center">-5% 🔴</div><div style="padding:6px;border-top:1px solid var(--brd);color:var(--gold);text-align:center">46%</div><div style="padding:6px;border-top:1px solid var(--brd);color:var(--mint);text-align:center">1.5</div>
+        <div style="padding:6px;border-top:1px solid var(--brd);color:#FFB3B3;font-weight:700">C08</div><div style="padding:6px;border-top:1px solid var(--brd);color:var(--red);text-align:center">8 mm 🔴🔴</div><div style="padding:6px;border-top:1px solid var(--brd);color:var(--red);text-align:center">-5% 🔴🔴</div><div style="padding:6px;border-top:1px solid var(--brd);color:var(--red);text-align:center">22% 🔴🔴</div><div style="padding:6px;border-top:1px solid var(--brd);color:var(--red);text-align:center">8.8</div>
+      </div>
+    </div>
+    <div class="ib ib-gold" style="margin-bottom:0">
+      <strong>Note Cas 06 :</strong> Strain VD -20% préservé malgré PVR 7.0 WU → argument principal pour la fenêtrée urgente. Cas 07 : Strain VD -5% malgré PVR 1.5 WU → dysfonction VD sévère liée à l'IC gauche chronique.
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 4 QCM FINAL -->
+<div class="slide" id="slide-4">
+  <div class="sh">❓ QCM Final — 8 questions intégratives · Série CIA complète</div>
+  <div id="qcm-area"></div>
+  <div id="score-area" style="display:none"></div>
+</div>
+
+<!-- SLIDE 5 : CERTIFICATION -->
+<div class="slide" id="slide-5">
+  <div class="finish-wrap">
+    <img src="data:image/png;base64,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" class="fin-logo" alt="CSC Algeria">
+    <div class="fin-title">Série CIA Complète</div>
+    <div class="fin-sub">Vous avez parcouru les 8 cas cliniques CIA<br>ACC/AHA 2025 — Section 4.1.1<br>CORE-TEAM ACHD-Algérie · CSC Algeria</div>
+    <div class="fin-stats">
+      <div class="fs-item"><div class="fs-num">8</div><div class="fs-label">Cas cliniques CIA</div></div>
+      <div class="fs-item"><div class="fs-num">COR I→III</div><div class="fs-label">Toutes recommandations</div></div>
+      <div class="fs-item"><div class="fs-num">48</div><div class="fs-label">Questions QCM</div></div>
+      <div class="fs-item"><div class="fs-num">13</div><div class="fs-label">Recs. ACC 2025</div></div>
+    </div>
+  </div>
+
+  <div class="sh">📋 Récapitulatif des décisions — Série CIA</div>
+  <div class="card">
+    <div class="drow"><div class="dl">COR I B-R</div><div class="dv">Cas 01 — PVR ≤2 WU + Qp/Qs ≥1.5 + VD dilaté + pas dysfonction VG</div></div>
+    <div class="drow"><div class="dl">COR I B-NR</div><div class="dv">Tous les cas secundum : percutanée PRÉFÉRÉE à chirurgie (berges ≥5 mm, diamètre ≤38 mm)</div></div>
+    <div class="drow"><div class="dl">COR I C-EO</div><div class="dv">FOP + AVC cryptogénique → fermeture. CIA + embolie paradoxale → fermeture</div></div>
+    <div class="drow"><div class="dl">COR 2a B-R</div><div class="dv">Cas 02, 03 — PVR 2-5 WU (fermeture raisonnable si pas dysfonction VG)</div></div>
+    <div class="drow"><div class="dl">COR 2a B-NR</div><div class="dv">Cas 04 — Treat-to-Close PVR 5-8 WU · Cas 06 avant fenêtrée</div></div>
+    <div class="drow"><div class="dl">COR 2b B-NR</div><div class="dv">Cas 06 — Fermeture fenêtrée · PVR 5-8 WU résiduel · Sinus veineux stent couvert</div></div>
+    <div class="drow"><div class="dl">COR 2b C-LD</div><div class="dv">Test ballon occlusif (Cas 07) si suspicion dysfonction diastolique VG</div></div>
+    <div class="drow"><div class="dl">COR 3 HARM</div><div class="dv">Cas 07 — Dysfonction VG + test ballon positif · Cas 08 — Eisenmenger · Grossesse Eisenmenger</div></div>
+    <div class="drow"><div class="dl">COR 3 No Benefit</div><div class="dv">Anticoagulation systématique Eisenmenger</div></div>
+  </div>
+
+  <div class="sh">🏛️ ACHD CORE-Team Algérie · CSC</div>
+  <div class="card">
+    <div class="drow"><div class="dl">Institution</div><div class="dv">Cardiologie · Cardiopathies Congénitales Adulte · CSC Algeria</div></div>
+    <div class="drow"><div class="dl">Contact</div><div class="dv">contact@csc-cardio.com · WhatsApp +213 540 910 869</div></div>
+    <div class="drow"><div class="dl">Guideline</div><div class="dv">Gurvitz et al. 2025 ACC/AHA/HRS/ISACHD/SCAI ACHD Guideline · JACC 2025</div></div>
+    <div class="drow"><div class="dl">Application</div><div class="dv">CIA Clinical App · CIA Case Builder · CIA Datashow ACC2025</div></div>
+    <div class="drow"><div class="dl">Déploiement</div><div class="dv">GitHub Pages : amine1515-pixel.github.io/tof-app/</div></div>
+  </div>
+
+  <div class="ib ib-teal" style="margin-top:4px">
+    <strong>🎓 Message final du CORE-Team :</strong><br>
+    La CIA est une cardiopathie simple anatomiquement mais complexe décisionnellement. La maîtrise de l'ACC/AHA 2025 — PVR, 3-Strata, test ballon, Treat-to-Close, fermeture fenêtrée, Eisenmenger — est indispensable pour tout cardiologue ACHD. Ces 8 cas couvrent l'intégralité du spectre décisionnel. Utilisez ces outils pour former vos équipes et améliorer la prise en charge des adultes CIA en Algérie.
+  </div>
+</div>
+
+</div>
+
+<div id="botnav">
+  <button class="bnav-btn bnav-prev" id="btn-prev" disabled>← Précédent</button>
+  <button class="bnav-btn bnav-next" id="btn-next">Suivant →</button>
+</div>
+
+<script>
+var cur=0,total=6,qIdx=0,qScore=0,qAnswered=[];
+var snavs=document.querySelectorAll('.snav');
+snavs.forEach(function(b){b.addEventListener('click',function(){goTo(parseInt(this.getAttribute('data-slide')));});});
+function goTo(n){
+  if(n<0||n>=total)return;
+  document.querySelectorAll('.slide').forEach(function(s){s.classList.remove('active');});
+  document.getElementById('slide-'+n).classList.add('active');
+  snavs.forEach(function(b){b.classList.remove('active');});
+  snavs[n].classList.add('active');
+  if(n>0)snavs[n-1].classList.add('done');
+  cur=n;
+  document.getElementById('btn-prev').disabled=(n===0);
+  document.getElementById('btn-next').disabled=(n===total-1);
+  document.getElementById('btn-next').textContent=n===total-2?'Terminer ✓':'Suivant →';
+  window.scrollTo(0,0);
+  if(n===4&&qIdx===0)renderQ(0);
+}
+document.getElementById('btn-prev').addEventListener('click',function(){goTo(cur-1);});
+document.getElementById('btn-next').addEventListener('click',function(){goTo(cur+1);});
+
+var QCM=[
+  {q:"Un patient CIA OS 25 mm, PVR = 1.8 WU, Qp/Qs = 2.1, VD dilaté, PAPM = 40 mmHg, pas de dysfonction VG. Quelle recommandation ACC 2025 ?",
+   opts:["COR 2a — PAPM 40 mmHg > 20 mmHg = HTAP → fermeture seulement raisonnable","COR I B-R — PVR 1.8 WU ≤ 2 WU + Qp/Qs ≥1.5 + VD dilaté + pas dysfonction VG = fermeture indiquée. Percutanée préférée (COR I B-NR).","COR 3 — PAPM 40 mmHg interdit la fermeture","COR 2b — Test ballon obligatoire avant décision"],
+   ans:1,
+   fb:"COR I B-R Recommandation #5 + COR I B-NR Recommandation #6 ACC 2025 : PVR 1.8 WU ≤ 2 WU (zone COR I) + Qp/Qs 2.1 ≥ 1.5 + VD dilaté + sans dysfonction VG. La PAPM 40 mmHg est hypercinétique (débit) — PAS d'HTAP précapillaire car PVR < 2 WU. Fermeture COR I indiquée. Percutanée préférée si berges ≥5 mm et diamètre ≤38 mm."},
+  {q:"Résultats cathétérisme CIA : PAPM 35 mmHg · PVR 6.8 WU · PCWP 11 mmHg · Qp/Qs 1.7 · Test NO : PVR 6.8 → 5.9 WU. Quelle stratégie ACC 2025 ?",
+   opts:["COR I — fermeture percutanée immédiate","COR 3 — PVR > 5 WU = Eisenmenger = CI absolue","COR 2a B-NR — Treat-to-Close : ERA + iPDE5, objectif PVR < 5 WU, cathé contrôle M3-6. Réponse partielle au NO confirme la réversibilité partielle.","COR 2b — Fenêtrée immédiate sans traitement PAH préalable"],
+   ans:2,
+   fb:"COR 2a B-NR Recommandation #9 ACC 2025 : PVR 6.8 WU zone 5-8 WU = Treat-to-Close. HTAP précapillaire confirmée (PVR 6.8 > 2 + PCWP 11 ≤ 15). Shunt G→D significatif (Qp/Qs 1.7). Test NO réponse partielle (-13%) = réversibilité confirmée → bon pronostic traitement PAH. Initier ERA + iPDE5 (bithérapie si 3-Strata élevé). Cathé de contrôle M3-6. Si PVR < 5 WU → fermeture COR 2a. Si PVR reste 5-8 WU → fenêtrée COR 2b."},
+  {q:"Femme 55 ans CIA 24 mm. PVR 3.2 WU. PTDVG au cathé = 18 mmHg. E/e' ETT = 16. Antécédent OAP. Test ballon : PCWP 18 → 26 mmHg + dyspnée aiguë. Quelle décision ?",
+   opts:["COR 2a — PVR 3.2 WU zone 2-5 WU → fermeture immédiate raisonnable","COR I — PVR < 5 WU = fermeture indiquée","COR 3 — Test ballon positif (PTDVG +8 mmHg + symptômes) → CI fermeture. Dysfonction diastolique VG sévère. CIA = soupape décompression OG.","COR 2b — Fenêtrée possible malgré test ballon positif"],
+   ans:2,
+   fb:"COR 3 — Test ballon positif confirmé par critères ACC 2025 : PCWP augmente +8 mmHg (≥5 = positif) + symptômes cliniques OAP. PTDVG 18 mmHg (> 15 mmHg) = dysfonction diastolique sévère. La CIA décompresse l'OG hypertensive — la fermer provoquerait OAP. Recommandation #4 ACC 2025 (COR 2b) justifie le test ballon. Résultat positif = CI fermeture CIA. Traiter la cardiopathie gauche. Réévaluation possible si PTDVG < 15 mmHg après traitement IC optimal."},
+  {q:"Homme 48 ans CIA OS 20 mm, PVR 8.5 WU, SpO₂ 85% repos, Qp/Qs 0.75, cyanose centrale. Selon ACC 2025, quelle recommandation ?",
+   opts:["COR 2b — Fermeture fenêtrée COR 2b car berges belles et PVR < 10 WU","COR 2a B-NR — Treat-to-Close intensif avant décision fenêtrée","COR 3 HARM Recommandation #13 — Eisenmenger : shunt D→G + cyanose + PVR > 8 WU. CI absolue fermeture. Initier ERA + iPDE5 COR I. Greffe cœur-poumon si NYHA IV.","COR I — fermeture percutanée urgente car SpO₂ basse"],
+   ans:2,
+   fb:"COR 3 HARM Recommandation #13 Section 4.1.1 ACC 2025 : Eisenmenger confirmé = PVR 8.5 WU > 8 WU + Qp/Qs 0.75 < 1 (shunt D→G net) + cyanose centrale SpO₂ 85%. La fermeture CIA augmenterait la morbimortalité en supprimant la soupape de décompression VD. Traitement : ERA + iPDE5 (COR I FEVG > 40% + symptômes) + prise en charge complications Eisenmenger (polyglobulie, hémoptysies). Greffe cœur-poumon à discuter si NYHA III-IV sous traitement maximal."},
+  {q:"CIA 22 mm. PVR 7.0 WU après 4 mois ERA+iPDE5. Objectif < 5 WU non atteint. Strain VD = -19%. PCWP 10 mmHg. Test ballon : PCWP 10 → 15 mmHg, pas de symptômes. Quelle décision COR ?",
+   opts:["COR I — fermeture percutanée standard car berges OK et PVR améliorée","COR 2b — Fermeture fenêtrée : PVR 7 WU zone 5-8 WU + Treat-to-Close insuffisant + Strain -19% préservé + test ballon négatif (PCWP < 5 mmHg d'augmentation, pas de symptômes).","COR 3 — PVR > 5 WU = CI absolue","COR 2a — Treat-to-Close 6 mois supplémentaires avant toute décision"],
+   ans:1,
+   fb:"COR 2b B-NR Recommandation #10 ACC 2025 : Fermeture fenêtrée indiquée car : (1) PVR 7 WU zone 5-8 WU = fenêtrée selon COR 2b (2) Treat-to-Close insuffisant après 4 mois ERA+iPDE5 (3) Strain VD -19% quasi-préservé = fenêtrée urgente avant dégradation (4) Test ballon NÉGATIF (PCWP +5 mmHg = exactement au seuil, pas de symptômes) = tolérance acceptable. La fenêtrée décomprime le VD tout en maintenant une issue de sécurité si PVR progresse. PAH maintenu après fenêtrée."},
+  {q:"Quelle est la SEULE situation où la fermeture CIA peut être recommandée COR I indépendamment du Qp/Qs et de la taille du défect ?",
+   opts:["CIA avec dilatation VD modérée et NYHA II","CIA avec PVR 2 WU exactement","CIA avec embolie paradoxale documentée ou forte suspicion (Recommandation #7 COR I C-EO ACC 2025)","CIA avec PAPM > 30 mmHg"],
+   ans:2,
+   fb:"COR I C-EO Recommandation #7 Section 4.1.1 ACC 2025 : 'In adults with an unrepaired ASD and evidence of (or strong suspicion for) paradoxical embolism, ASD closure is recommended to prevent recurrent embolism.' Cette recommandation est indépendante du Qp/Qs, de la taille CIA, de la PVR ou de la dilatation VD. Elle concerne tout AVC cryptogénique avec CIA/FOP prouvé, y compris les petits défects. C'est aussi la base de la fermeture FOP (COR I C-EO selon contexte)."},
+  {q:"Un étudiant vous demande : 'La fermeture CIA est contre-indiquée si HTAP, n'est-ce pas ?' Quelle réponse COMPLÈTE et CORRECTE donnez-vous ?",
+   opts:["Oui — toute HTAP est une CI à la fermeture CIA","Non — la CI fermeture concerne seulement l'Eisenmenger (PVR > 8 WU + shunt D→G). La fermeture reste possible dans l'HTAP si PVR 2-5 WU (COR 2a) ou même 5-8 WU après Treat-to-Close (COR 2a/2b fenêtrée). Ce n'est que PVR > 8 WU + Eisenmenger = COR 3 CI.","Oui — si PAPM > 25 mmHg la fermeture est CI","Non — l'HTAP n'est jamais une CI à la fermeture"],
+   ans:1,
+   fb:"Réponse correcte et complète : L'HTAP n'est PAS une CI systématique à la fermeture CIA. La décision dépend du niveau de PVR et de la réponse au traitement : PVR ≤ 2 WU = COR I fermeture, PVR 2-5 WU = COR 2a fermeture raisonnable, PVR 5-8 WU = Treat-to-Close puis rééval (COR 2a) ou fenêtrée (COR 2b), PVR > 8 WU + Eisenmenger = COR 3 CI absolue. La contre-indication porte sur l'Eisenmenger (shunt D→G + cyanose) et sur la dysfonction VG sévère avec test ballon positif — PAS sur l'HTAP seule."},
+  {q:"Résumez la progression décisionnelle CIA selon la PVR (de COR I à COR 3).",
+   opts:["PVR ≤2 = COR I · PVR 2-5 = COR 2a · PVR 5-8 = Treat-to-Close COR 2a + fenêtrée COR 2b si échec · PVR >8 = COR 3 Eisenmenger · Dysfonction VG test ballon + = COR 3","PVR ≤5 = COR I · PVR 5-10 = COR 2a · PVR >10 = COR 3","PVR ≤2 = COR I · PVR >2 = COR 3","Toutes les CIA avec Qp/Qs ≥1.5 = COR I sans tenir compte de la PVR"],
+   ans:0,
+   fb:"SYNTHÈSE COMPLÈTE ACC 2025 : PVR ≤2 WU + Qp/Qs ≥1.5 + VD dilaté + pas dysfonction VG → COR I B-R (fermeture). PVR 2-5 WU → COR 2a B-R (raisonnable). PVR 5-8 WU → COR 2a B-NR Treat-to-Close (ERA+iPDE5) → si PVR <5 WU: fermeture COR 2a → si PVR reste 5-8 WU: fenêtrée COR 2b. PVR >8 WU + Eisenmenger → COR 3 HARM (CI absolue). Exception: PVR faible MAIS PTDVG >15 + test ballon positif → COR 3 (dysfonction VG). C'est la matrice complète de la CIA selon ACC 2025."}
+];
+
+function renderQ(idx){
+  if(idx>=QCM.length){showScore();return;}
+  var q=QCM[idx],letters=['A','B','C','D'];
+  var prog='';
+  for(var k=0;k<QCM.length;k++) prog+='<div class="qpd'+(k<idx?' done':k===idx?' active':'')+'"></div>';
+  var html='<div class="qprog">'+prog+'</div>';
+  html+='<div class="qnum">Question finale '+(idx+1)+' / '+QCM.length+' · Série CIA complète</div>';
+  html+='<div class="card"><div class="qcm-q">'+q.q+'</div>';
+  for(var j=0;j<4;j++) html+='<button class="qopt" data-qi="'+idx+'" data-j="'+j+'"><div class="ql">'+letters[j]+'</div><div class="qt">'+q.opts[j]+'</div></button>';
+  html+='<div class="qfb" id="qfb-'+idx+'"></div></div>';
+  document.getElementById('qcm-area').innerHTML=html;
+  document.querySelectorAll('.qopt').forEach(function(b){b.addEventListener('click',function(){ansQ(parseInt(this.getAttribute('data-qi')),parseInt(this.getAttribute('data-j')));});});
+  qIdx=idx;
+}
+function ansQ(qi,chosen){
+  if(qAnswered.indexOf(qi)>=0)return;
+  qAnswered.push(qi);
+  var q=QCM[qi],correct=chosen===q.ans,letters=['A','B','C','D'];
+  if(correct)qScore++;
+  document.querySelectorAll('.qopt').forEach(function(b){
+    b.style.pointerEvents='none';
+    var j=parseInt(b.getAttribute('data-j'));
+    if(j===q.ans)b.classList.add('reveal');
+    if(j===chosen&&!correct)b.classList.add('wrong');
+    if(j===chosen&&correct)b.classList.add('correct');
+  });
+  var fb=document.getElementById('qfb-'+qi);
+  if(fb){fb.innerHTML='<strong style="color:'+(correct?'var(--mint)':'var(--red)')+'">'+( correct?'✅ Correct !':'❌ Incorrect — Réponse : '+letters[q.ans])+'</strong><br><span style="color:var(--w2)">'+q.fb+'</span>';fb.className='qfb show '+(correct?'ok':'err');}
+  setTimeout(function(){renderQ(qi+1);},3600);
+}
+function showScore(){
+  var pct=Math.round(qScore/QCM.length*100);
+  var sc=pct>=80?'var(--mint)':pct>=60?'var(--gold)':'var(--red)';
+  var lbl=pct>=80?'Expert CIA ACC 2025 !':pct>=60?'Très bien !':pct>=40?'À revoir':'Recommencer la série';
+  var circ=2*Math.PI*54,dash=(pct/100)*circ;
+  document.getElementById('qcm-area').innerHTML='';
+  document.getElementById('score-area').style.display='block';
+  document.getElementById('score-area').innerHTML=
+    '<div class="score-wrap"><div class="score-ring"><svg width="120" height="120" viewBox="0 0 120 120"><circle cx="60" cy="60" r="54" fill="none" stroke="rgba(255,255,255,.08)" stroke-width="10"/><circle cx="60" cy="60" r="54" fill="none" stroke="'+sc+'" stroke-width="10" stroke-linecap="round" stroke-dasharray="'+circ.toFixed(1)+'" stroke-dashoffset="'+(circ-dash).toFixed(1)+'" transform="rotate(-90 60 60)"/></svg><div class="sr-center"><div class="sr-num" style="color:'+sc+'">'+qScore+'</div><div class="sr-den">/ '+QCM.length+'</div></div></div><div class="score-label" style="color:'+sc+'">'+pct+'% — '+lbl+'</div></div>'+
+    '<div class="ib ib-teal" style="margin-top:12px"><strong>🎓 Série CIA terminée !</strong> Consultez la slide Certification pour le récapitulatif complet et le message du CORE-Team ACHD-Algérie.</div>'+
+    '<button onclick="goTo(5)" style="width:100%;padding:13px;border-radius:12px;border:none;cursor:pointer;font-family:Syne,sans-serif;font-size:14px;font-weight:700;background:var(--teal);color:#06101E;margin-top:10px">→ Voir la Certification</button>';
+}
+goTo(0);
+</script>
+</body>
+</html>
